@@ -36,3 +36,8 @@ mat-stepper {
     height: 100%;
   }
 }
+
+.mat-stepper-next {
+  display: flex;
+  justify-self: end;
+}

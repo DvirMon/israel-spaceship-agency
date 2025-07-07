@@ -5,9 +5,21 @@
         [linear]="true"
         #stepper
         [orientation]="stepperOrientation()">
-        <mat-step label="Fill Personal Details"> </mat-step>
+        <mat-step
+          label="Fill Personal Details"
+          [stepControl]="personalInfoForm">
+          <app-personal-info [form]="personalInfoForm" />
+          <button
+            matButton
+            color="primary"
+            matStepperNext
+            [disabled]="personalInfoForm.invalid">
+            Next
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-step>
         <mat-step label="Fill out your address"> </mat-step>
-        <mat-step>
+        <mat-step label="Review and Submit">
           <ng-template matStepLabel>Done</ng-template>
           <div>
             <button matButton matStepperPrevious>Back</button>
