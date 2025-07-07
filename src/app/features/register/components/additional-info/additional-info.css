@@ -1,0 +1,13 @@
+.step-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 50vh;
+
+  /* this is required for the mat-horizontal-content-container */
+  padding-top: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+}
