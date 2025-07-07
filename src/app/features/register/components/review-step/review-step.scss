@@ -1,0 +1,42 @@
+@use "@angular/material" as mat;
+
+:host {
+  @include mat.card-overrides(
+    (
+      elevated-container-color: #6c4fbb,
+    )
+  );
+}
+
+.step-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 50vh;
+
+  /* this is required for the mat-horizontal-content-container */
+  padding-top: 24px;
+  color: white;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px; // Add more gutter between lines
+  padding: 1rem 0;
+}
+
+.review-item {
+  display: flex;
+}
+
+.review-label {
+  width: 7rem;
+}
+.review-image-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+}
+
