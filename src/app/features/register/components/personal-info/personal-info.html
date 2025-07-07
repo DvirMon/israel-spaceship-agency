@@ -3,9 +3,13 @@
     <mat-label>Full Name</mat-label>
     <input matInput formControlName="fullName" />
     @if (form().get('fullName')?.hasError('required')) {
-    <mat-error> Full name is required </mat-error>
-    } @if (form().get('fullName')?.hasError('minlength')) {
-    <mat-error> Full name must be at least 2 characters </mat-error>
+    <mat-error>Full name is required</mat-error>
+    } @else if (form().get('fullName')?.hasError('minlength')) {
+    <mat-error>Full name must be at least 2 characters</mat-error>
+    } @else if (form().get('fullName')?.hasError('pattern')) {
+    <mat-error
+      >Only letters, spaces, apostrophes, and hyphens are allowed</mat-error
+    >
     }
   </mat-form-field>
 
