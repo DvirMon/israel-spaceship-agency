@@ -1,27 +1,25 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
-  linkedSignal,
-  signal,
+  linkedSignal
 } from "@angular/core";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { CITY_OPTIONS } from "./mock";
-import { PersonalInputFormGroup } from "../../models/register.model";
+import { PersonalInfoForm } from "../../models/register.model";
 
 const coreImports = [ReactiveFormsModule];
 
 const importMaterial = [
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule,
   MatAutocompleteModule,
 ];
+
+
 @Component({
   selector: "app-personal-info",
   imports: [coreImports, importMaterial],
@@ -30,7 +28,7 @@ const importMaterial = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalInfo {
-  readonly form = input.required<PersonalInputFormGroup>();
+  readonly form = input.required<PersonalInfoForm>();
 
   readonly selectedCity = linkedSignal(() => this.form().controls.city.value);
 
