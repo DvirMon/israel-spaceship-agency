@@ -2,18 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'register',
+    path: '',
     loadComponent: () =>
-      import('./features/register/register').then(m => m.Register),
+      import('./features/landing/landing').then(m => m.Landing),
   },
   {
     path: 'admin',
     loadComponent: () =>
       import('./features/admin/admin').then(m => m.Admin),
-  },
-  {
-    path: '',
-    redirectTo: 'register',
-    pathMatch: 'full',
   },
 ];
