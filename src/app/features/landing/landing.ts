@@ -22,7 +22,7 @@ const importComponents = [Register];
 })
 export class Landing {
   registerComponent = viewChild("registerComponent", {
-    read: ElementRef,
+    read: ElementRef<Register>,
   });
 
   onScrollToRegistration() {
