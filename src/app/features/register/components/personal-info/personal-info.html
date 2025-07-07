@@ -32,6 +32,27 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <input
+      (input)="onCityInput($event)"
+      matInput
+      formControlName="city"
+      [matAutocomplete]="auto" />
+
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onCitySelect($event)">
+      @for(option of cityOptions(); track option) {
+
+      <mat-option [value]="option"> {{ option }} </mat-option>
+      }
+    </mat-autocomplete>
+    @if (form().get('city')?.hasError('required')) {
+    <mat-error> City is required </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
     <mat-label>Age</mat-label>
     <input matInput type="number" formControlName="age" />
     @if (form().get('age')?.hasError('required')) {
@@ -40,14 +61,6 @@
     <mat-error> Age must be at least 18 </mat-error>
     } @if (form().get('age')?.hasError('max')) {
     <mat-error> Age must be less than 100 </mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>City</mat-label>
-    <input matInput formControlName="city" />
-    @if (form().get('city')?.hasError('required')) {
-    <mat-error> City is required </mat-error>
     }
   </mat-form-field>
 </form>

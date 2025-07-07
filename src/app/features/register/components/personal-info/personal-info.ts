@@ -1,20 +1,26 @@
-import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  signal,
+} from "@angular/core";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
-import { MatStepper } from "@angular/material/stepper";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { CITY_OPTIONS } from "./mock";
+import { PersonalInputFormGroup } from "../../models/register.model";
 
 const coreImports = [ReactiveFormsModule];
 
 const importMaterial = [
   MatFormFieldModule,
   MatInputModule,
-  MatButtonModule,
-  MatIconModule,
   MatSelectModule,
+  MatAutocompleteModule,
 ];
 @Component({
   selector: "app-personal-info",
@@ -24,7 +30,28 @@ const importMaterial = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalInfo {
-  readonly form = input.required<FormGroup>();
+  readonly form = input.required<PersonalInputFormGroup>();
 
-  
+  readonly selectedCity = linkedSignal(() => this.form().controls.city.value);
+
+  readonly cityOptions = linkedSignal({
+    source: this.selectedCity,
+    computation: (city) => {
+      if (!city) return CITY_OPTIONS;
+      return CITY_OPTIONS.filter((option) =>
+        option.toLowerCase().includes(city.toLowerCase())
+      );
+    },
+  });
+
+  onCityInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedCity = inputElement?.value || "";
+    this.selectedCity.set(selectedCity);
+  }
+
+  onCitySelect(event: any) {
+    const selectedCity = event.option.value;
+    this.selectedCity.set(selectedCity);
+  }
 }
