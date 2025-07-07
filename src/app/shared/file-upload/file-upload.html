@@ -1,0 +1,48 @@
+<div class="image-upload-section">
+  <div
+    class="upload-area"
+    [class.has-file]="selectedFile()"
+    [class.disabled]="disabled()"
+    [class.error]="hasError()"
+    (click)="fileInput.click()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    <input
+      type="file"
+      #fileInput
+      [accept]="accept()"
+      [disabled]="disabled()"
+      (change)="onFileSelected($event)"
+      style="display: none" />
+
+    @if (!selectedFile() || hasError()) {
+    <div class="upload-content">
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      <p>Click to upload or drag and drop</p>
+      <p class="upload-hint">{{ uploadHintText() }}</p>
+    </div>
+    } @else {
+    <div class="file-preview">
+      @if (previewUrl()) {
+      <img [src]="previewUrl()" alt="Preview" class="preview-image" />
+      }
+      <div class="file-info">
+        <p class="file-name">{{ selectedFile()!.name }}</p>
+        <button
+          matIconButton
+          type="button"
+          color="warn"
+          [disabled]="disabled()"
+          (click)="removeFile($event)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+
+  @if (hasError()) {
+  <div class="error-message">{{ errorMessage() }}</div>
+  }
+</div>
