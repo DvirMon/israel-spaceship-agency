@@ -1,1 +1,19 @@
-<p>register works!</p>
+<div class="register-section">
+  <mat-card>
+    <mat-card-content>
+      <mat-stepper
+        [linear]="true"
+        #stepper
+        [orientation]="stepperOrientation()">
+        <mat-step label="Fill Personal Details"> </mat-step>
+        <mat-step label="Fill out your address"> </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <div>
+            <button matButton matStepperPrevious>Back</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
