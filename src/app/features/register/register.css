@@ -3,8 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem 1rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
 }
 
 mat-card {
@@ -18,6 +17,16 @@ mat-stepper {
   margin: 0 auto;
   width: 100%;
   background-color: inherit;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.mat-stepper-next {
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {
@@ -35,9 +44,4 @@ mat-stepper {
     width: 100%;
     height: 100%;
   }
-}
-
-.mat-stepper-next {
-  display: flex;
-  justify-self: end;
 }
