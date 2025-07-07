@@ -1,23 +1,36 @@
-import { ChangeDetectionStrategy, Component, computed } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed
+} from "@angular/core";
+import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatStep, MatStepper, MatStepperNext } from "@angular/material/stepper";
-import { isMobile } from "../../utils/utils";
-import { PersonalInfo } from "./components/personal-info/personal-info";
-import { createPersonalInfoForm } from "./utils/form";
 import { MatIcon } from "@angular/material/icon";
-import { MatButton } from "@angular/material/button";
+import {
+  MatStep,
+  MatStepper,
+  MatStepperNext,
+  MatStepperPrevious,
+} from "@angular/material/stepper";
+import { isMobile } from "../../utils/utils";
+import { AdditionalInfo } from "./components/additional-info/additional-info";
+import { PersonalInfo } from "./components/personal-info/personal-info";
+import { ReviewStep } from "./components/review-step/review-step";
+import { createAdditionalInfoForm, createPersonalInfoForm } from "./utils/form";
 
 const importMaterial = [
   MatStepper,
   MatStep,
   MatStepperNext,
+  MatStepperPrevious,
   MatCard,
   MatCardContent,
+  MatIconButton,
   MatButton,
   MatIcon,
 ];
 
-const importComponents = [PersonalInfo];
+const importComponents = [PersonalInfo, AdditionalInfo, ReviewStep];
 @Component({
   selector: "app-register",
   imports: [importMaterial, importComponents],
@@ -33,4 +46,11 @@ export class Register {
   );
 
   readonly personalInfoForm = createPersonalInfoForm();
+
+  readonly additionalInfoForm = createAdditionalInfoForm();
+
+
+  // TODO: Add effect to auto next when step is valid
+
+  onCandidateSubmit() {}
 }
