@@ -1,6 +1,6 @@
 import { FormGroup, FormControl } from "@angular/forms";
 
-export type CandidateRegistration = PersonalInfoModel & AdditionalInfoModel;
+export type CandidateForm = PersonalInfoModel & AdditionalInfoModel;
 
 export type PersonalInfoModel = {
   fullName: string;
@@ -30,3 +30,13 @@ export type AdditionalInfoForm = FormGroup<{
   motivation: FormControl<string>;
   profileImage: FormControl<File | undefined>;
 }>;
+
+type RegisterMetadata = {
+  geo: { latitude: number; longitude: number };
+  profileImageUrl: Date;
+  registeredAt: Date;
+};
+
+export type CandidateStore = PersonalInfoModel &
+  AdditionalInfoModel &
+  RegisterMetadata;
