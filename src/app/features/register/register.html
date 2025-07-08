@@ -1,57 +1,46 @@
 <div class="register-section">
-  <mat-card>
-    <mat-card-content>
-      <mat-stepper
-        #stepper
-        [orientation]="stepperOrientation()">
-        <mat-step label="FillPersonal Details" [stepControl]="personalInfoForm">
-          <app-personal-info [form]="personalInfoForm" />
-          <div class="step-actions">
-            <button
-              matIconButton
-              matStepperNext
-              [disabled]="!personalInfoForm.valid">
-              <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </mat-step>
-        <mat-step
-          label="Fill Additional Details"
-          [stepControl]="additionalInfoForm">
-          <app-additional-info [form]="additionalInfoForm" />
-          <div class="step-actions">
-            <button matIconButton matStepperPrevious>
-              <mat-icon>arrow_back</mat-icon>
-            </button>
-            <button
-              matIconButton
-              matStepperNext
-              [disabled]="!additionalInfoForm.valid">
-              <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </mat-step>
-        <mat-step label="Review & Submit">
-          <app-review-step
-            [additionalInfo]="additionalInfoForm.value"
-            [personalInfo]="personalInfoForm.value" />
-          <ng-template matStepLabel>Done</ng-template>
+  <mat-stepper #stepper [disableRipple]="true">
+    <mat-step label="Personal" [stepControl]="personalInfoForm">
+      <app-personal-info [form]="personalInfoForm" />
+      <div class="step-actions">
+        <button matIconButton matStepperNext>
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Additional" [stepControl]="additionalInfoForm">
+      <app-additional-info [form]="additionalInfoForm" />
+      <div class="step-actions">
+        <button matIconButton matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matStepperNext
+          [disabled]="!additionalInfoForm.valid">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Review">
+      <app-review-step
+        [additionalInfo]="additionalInfoForm.value"
+        [personalInfo]="personalInfoForm.value" />
+      <ng-template matStepLabel>Done</ng-template>
 
-          <div class="step-actions">
-            <button matIconButton matStepperPrevious>
-              <mat-icon>arrow_back</mat-icon>
-            </button>
+      <div class="step-actions">
+        <button matIconButton matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
 
-            <button
-              color="primary"
-              matButton
-              [disabled]="personalInfoForm.invalid || additionalInfoForm.invalid"
-              (click)="onCandidateSubmit()">
-              Submit Registration
-            </button>
-          </div>
-        </mat-step>
-      </mat-stepper>
-    </mat-card-content>
-  </mat-card>
+        <button
+          color="primary"
+          matButton
+          class="submit-button"
+          (click)="onCandidateSubmit()">
+          Save & Submit
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
 </div>

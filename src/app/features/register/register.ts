@@ -4,7 +4,6 @@ import {
   computed
 } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
 import {
   MatStep,
@@ -23,8 +22,6 @@ const importMaterial = [
   MatStep,
   MatStepperNext,
   MatStepperPrevious,
-  MatCard,
-  MatCardContent,
   MatIconButton,
   MatButton,
   MatIcon,
