@@ -1,41 +1,64 @@
-import { inject, Inject, Injectable, Optional } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import {
-  Firestore,
-  collectionData,
-  CollectionReference,
-  collection,
+    addDoc,
+    collection,
+    collectionData,
+    CollectionReference,
+    doc,
+    docData,
+    DocumentData,
+    Firestore,
+    getDocs,
+    updateDoc,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { COLLECTION_KEY } from "./tokens/collection.tokens";
 
 @Injectable()
 export class FirestoreService {
-    private firestore = inject(Firestore);
-    
-    private readonly collectionToken = inject(COLLECTION_KEY) 
+  private firestore = inject(Firestore);
 
+  private readonly collectionToken = inject(COLLECTION_KEY);
 
-  /**
-   * Get all documents from a collection as an Observable
-   * @param collectionPath Path to the Firestore collection (optional, defaults to injected token)
-   */
-  getCollection<T>(collectionPath?: string): Observable<T[]> {
+  loadCollection<T>(collectionPath?: string): Observable<T[]> {
     const path = collectionPath || this.collectionToken;
     if (!path) throw new Error("No collection path provided or injected");
     const colRef = collection(this.firestore, path) as CollectionReference<T>;
     return collectionData(colRef) as Observable<T[]>;
   }
 
-  /**
-   * Get all documents from a collection as a Promise
-   * @param collectionPath Path to the Firestore collection (optional, defaults to injected token)
-   */
-  async getCollectionOnce<T>(collectionPath?: string): Promise<T[]> {
-    const path = collectionPath || this.collectionToken;
+  async fetchCollection(): Promise<DocumentData[]> {
+    const snapshot = await getDocs(collection(this.firestore, "candidates"));
+    return snapshot.docs.map((doc) => doc.data());
+  }
 
-      console.log("Collection path:", path);
+  async addDocument<T>(data: T, collectionPath?: string): Promise<string> {
+    const path = collectionPath || this.collectionToken;
     if (!path) throw new Error("No collection path provided or injected");
     const colRef = collection(this.firestore, path) as CollectionReference<T>;
-    return (await collectionData(colRef).toPromise()) as T[];
+    const docRef = await addDoc(colRef, data);
+    return docRef.id;
+  }
+
+  async updateDocument<T>(
+    id: string,
+    data: Partial<T>,
+    collectionPath?: string
+  ): Promise<void> {
+    const path = collectionPath || this.collectionToken;
+    if (!path) throw new Error("No collection path provided or injected");
+    const docRef = doc(this.firestore, path, id);
+    await updateDoc(docRef, data);
+    return;
+  }
+
+  getDocumentById<T>(
+    id: string,
+    collectionPath?: string
+  ): Observable<T | undefined> {
+    const path = collectionPath || this.collectionToken;
+    if (!path) throw new Error("No collection path provided or injected");
+    const docRef = doc(this.firestore, path, id);
+    return docData(docRef) as Observable<T | undefined>;
   }
 }
