@@ -1,0 +1,208 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  forwardRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  NG_VALUE_ACCESSOR,
+  NgControl,
+} from "@angular/forms";
+import { MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { merge } from "rxjs";
+import { filter, map, tap } from "rxjs/operators";
+import {} from "../../features/register/utils/form";
+import {
+  formatFileSize,
+  getFileUploadErrorMessage,
+  imageFileValidator,
+  mapFileToDataUrl,
+} from "./file.upload.utils";
+
+@Component({
+  selector: "app-file-upload",
+  imports: [MatIcon, MatIconButton],
+  templateUrl: "./file-upload.html",
+  styleUrl: "./file-upload.css",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FileUpload),
+      multi: true,
+    },
+  ],
+})
+export class FileUpload implements ControlValueAccessor {
+  readonly fileInput = viewChild("fileInput", {
+    read: ElementRef<HTMLInputElement>,
+  });
+  readonly control = inject(FormBuilder).control<File | string | null>(null, {
+    validators: [imageFileValidator()],
+  });
+
+  // Optional configuration inputs
+  readonly label = input<string>("Upload Profile Image");
+  readonly accept = input<string>("image/*");
+  readonly maxSize = input<number>(5 * 1024 * 1024); // 5MB default
+  readonly allowedTypes = input<string[]>([
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+  ]);
+
+  readonly value = signal<File | string | null>(null);
+
+  readonly selectedFile = computed(() => {
+    const value = this.value();
+    return value instanceof File ? value : null;
+  });
+
+  readonly previewUrl = toSignal(
+    this.control.valueChanges.pipe(
+      filter((value) => value instanceof File),
+      // tap(() => console.log("Control value changed:", this.control.value)),
+      filter((file) => this.control.valid),
+      // tap(() => console.log("Control value valid:", this.control.value)),
+      mapFileToDataUrl()
+    ),
+    {
+      initialValue: null,
+    }
+  );
+
+  readonly uploadHintText = computed(() => {
+    const types = this.allowedTypes();
+    const size = this.maxSize();
+    const extensions = types
+      .map((type) => {
+        const parts = type.split("/");
+        return parts[1]?.toUpperCase() || "";
+      })
+      .filter((ext) => ext);
+    const sizeText = formatFileSize(size);
+    return `${extensions.join(", ")} up to ${sizeText}`;
+  });
+
+  // CVA callbacks
+  private onChange: (value: File | string | null) => void = () => {};
+  private onTouched: () => void = () => {};
+  disabled = signal(false);
+
+  private readonly errorTrigger$ = merge(
+    this.control?.statusChanges,
+    this.control?.valueChanges
+  );
+
+  readonly hasError = toSignal(
+    merge(this.control.statusChanges, this.control.valueChanges).pipe(
+      map(
+        () => this.control.invalid
+        // (this.control!.touched || this.control!.dirty)
+      )
+    ),
+    {
+      initialValue:
+        this.control.invalid && (this.control.touched || this.control.dirty),
+    }
+  );
+  readonly errorMessage = toSignal(
+    merge(this.control.statusChanges, this.control.valueChanges).pipe(
+      map(() => getFileUploadErrorMessage(this.control!.errors, this.maxSize()))
+    ),
+    {
+      initialValue: getFileUploadErrorMessage(
+        this.control.errors,
+        this.maxSize()
+      ),
+    }
+  );
+
+  constructor() {
+    effect(() => {
+      // Update disabled state based on control's disabled status
+      this.control.setValue(this.value());
+    });
+  }
+
+  // CVA methods
+  writeValue(value: File | string | null): void {
+    this.value.set(value);
+  }
+
+  registerOnChange(fn: (value: File | string | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled.set(isDisabled);
+  }
+
+  // UI event handlers
+  onFileSelected(event: Event): void {
+    console.log("File selected:", event);
+
+    if (this.disabled()) return;
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.processFile(input.files[0]);
+    }
+    this.onTouched();
+  }
+
+  onDragOver(event: DragEvent): void {
+    if (this.disabled()) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    if (this.disabled()) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDrop(event: DragEvent): void {
+    if (this.disabled()) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const files = event.dataTransfer?.files;
+    if (files && files[0]) {
+      this.processFile(files[0]);
+    }
+    this.onTouched();
+  }
+
+  private processFile(file: File): void {
+    this.value.set(file);
+    this.onChange(file);
+  }
+  removeFile(event: Event): void {
+    if (this.disabled()) return;
+    event.stopPropagation();
+
+    const fileInput = this.fileInput();
+
+    if (fileInput) {
+      fileInput.nativeElement.value = ""; // Clear file for to enable change
+    }
+
+    this.value.set(null);
+    this.onChange(null);
+    this.onTouched();
+  }
+}

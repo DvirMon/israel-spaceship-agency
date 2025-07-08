@@ -1,0 +1,20 @@
+<main class="container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to the IISa Program Registration</h1>
+      <p class="hero-subtitle">Your gateway to innovation begins here.</p>
+    </div>
+
+    <div class="scroll-indicator">
+      <mat-icon>expand_more</mat-icon>
+    </div>
+  </section>
+
+  @defer (on viewport;) {
+  <app-register />
+  } @placeholder {
+  <span class="registration-placeholder">
+    <p>Loading registration form...</p>
+  </span>
+  }
+</main>

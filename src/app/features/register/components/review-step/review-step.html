@@ -1,0 +1,56 @@
+<div class="step-form">
+  <!-- Personal Information Review -->
+  <mat-card class="review-card">
+    <mat-card-content>
+      <div class="review-grid">
+        <div class="review-item">
+          <span class="review-label">Full Name:</span>
+          <span class="review-value">{{ personalInfo().fullName }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Email:</span>
+          <span class="review-value">{{ personalInfo().email }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Phone:</span>
+          <span class="review-value">{{ personalInfo().phone }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Age:</span>
+          <span class="review-value">{{ personalInfo().age }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">City:</span>
+          <span class="review-value">{{ personalInfo().city }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Additional Information Review -->
+  <mat-card class="review-card">
+    <mat-card-content>
+      <div class="review-grid">
+        <div class="review-item">
+          <span class="review-label">Hobbies:</span>
+          <span class="review-value">{{ additionalInfo().hobbies }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Motivation:</span>
+          <span class="review-value">{{ additionalInfo().motivation }}</span>
+        </div>
+        <div class="review-item">
+          <span class="review-label">Profile Image:</span>
+          <div class="review-image-container">
+            @if(previewImage()) {
+            <img
+              [src]="previewImage()"
+              alt="Profile preview"
+              class="review-image" />
+            }
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,71 @@
+<form [formGroup]="form()" class="step-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="fullName" />
+    @if (form().get('fullName')?.hasError('required')) {
+    <mat-error>Full name is required</mat-error>
+    } @else if (form().get('fullName')?.hasError('minlength')) {
+    <mat-error>Full name must be at least 2 characters</mat-error>
+    } @else if (form().get('fullName')?.hasError('pattern')) {
+    <mat-error
+      >Only letters, spaces, apostrophes, and hyphens are allowed</mat-error
+    >
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" />
+    @if (form().get('email')?.hasError('required')) {
+    <mat-error> Email is required </mat-error>
+    } @if (form().get('email')?.hasError('email')) {
+    <mat-error> Please enter a valid email </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="phone" />
+    @if (form().get('phone')?.hasError('required')) {
+    <mat-error> Phone number is required </mat-error>
+    } @if (form().get('phone')?.hasError('pattern')) {
+    <mat-error>
+      Please enter a valid Israeli mobile number (05X-XXXXXXX or +9725X-XXXXXXX)
+    </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <input
+      (input)="onCityInput($event)"
+      matInput
+      formControlName="city"
+      [matAutocomplete]="auto" />
+
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onCitySelect($event)">
+      @for(option of cityOptions(); track option) {
+
+      <mat-option [value]="option"> {{ option }} </mat-option>
+      }
+    </mat-autocomplete>
+    @if (form().get('city')?.hasError('required')) {
+    <mat-error> City is required </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Age</mat-label>
+    <input matInput type="number" formControlName="age" />
+    @if (form().get('age')?.hasError('required')) {
+    <mat-error> Age is required </mat-error>
+    } @if (form().get('age')?.hasError('min')) {
+    <mat-error> Age must be at least 18 </mat-error>
+    } @if (form().get('age')?.hasError('max')) {
+    <mat-error> Age must be less than 100 </mat-error>
+    }
+  </mat-form-field>
+</form>
+
