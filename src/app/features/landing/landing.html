@@ -10,11 +10,12 @@
     </div>
   </section>
 
-  @defer (on viewport;) {
-  <app-register />
-  } @placeholder {
-  <span class="registration-placeholder">
-    <p>Loading registration form...</p>
-  </span>
-  }
+  <div class="register-container">
+    @defer (on viewport;) {
+    <app-register />
+    } @placeholder {
+    <span class="registration-placeholder">
+    </span>
+    }
+  </div>
 </main>
