@@ -20,30 +20,4 @@ const importComponents = [Register];
   styleUrl: "./landing.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Landing {
-  registerComponent = viewChild("registerComponent", {
-    read: ElementRef<Register>,
-  });
-
-  onScrollToRegistration() {
-    // Scroll to registration section
-    const regComponent = this.registerComponent();
-    if (regComponent) {
-      regComponent.nativeElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    } else {
-      // If component not loaded yet, scroll to where it will be
-      const placeholder = document.querySelector(
-        ".registration-placeholder, .registration-loading"
-      );
-      if (placeholder) {
-        placeholder.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }
-  }
-}
+export class Landing {}

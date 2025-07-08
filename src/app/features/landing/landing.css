@@ -1,5 +1,9 @@
+.container {
+  height: 200vh;
+}
+
 .hero-section {
-  min-height: 100%;
+  min-height: 110vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,27 +36,18 @@
   animation: fadeInUp 1s ease-out 0.4s both;
 }
 
-button.landing-button {
-  transition: all 0.3s ease;
-  animation: fadeInUp 1s ease-out 0.6s both;
-  cursor: pointer;
-}
-button.landing-button &:hover {
-  transform: translateY(-2px);
-}
-
 .scroll-indicator {
   position: absolute;
-  bottom: 2rem;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%);
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
 .scroll-indicator > mat-icon {
-  font-size: 2rem;
-  width: 2rem;
-  height: 2rem;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
   opacity: 0.7;
   animation: bounce 2s infinite 1s;
 }
