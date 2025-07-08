@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +6,7 @@ import {
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { take, timer } from "rxjs";
 import { Register } from "../register/register";
 
 const importMaterial = [MatIconModule, MatButtonModule];
@@ -20,4 +20,20 @@ const importComponents = [Register];
   styleUrl: "./landing.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Landing {}
+export class Landing {
+  registerComponent = viewChild("register", { read: ElementRef<Register> });
+
+  scrollToEffect = timer(2000).pipe(take(1));
+
+  constructor() {
+    this.scrollToEffect.subscribe(() => {
+      const register = this.registerComponent();
+
+      if (register) {
+        register.nativeElement.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    });
+  }
+}
