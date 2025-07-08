@@ -1,20 +1,15 @@
 import { FormGroup, FormControl } from "@angular/forms";
+import { CandidateStore } from "@core/models/candidate-store.model";
+export type PersonalInfoModel = Pick<
+  CandidateStore,
+  "fullName" | "email" | "phone" | "age" | "city"
+>;
 
+export type AdditionalInfoModel = Pick<
+  CandidateStore,
+  "hobbies" | "motivation" | "profileImage"
+>;
 export type CandidateForm = PersonalInfoModel & AdditionalInfoModel;
-
-export type PersonalInfoModel = {
-  fullName: string;
-  email: string;
-  phone: string;
-  age: number;
-  city: string;
-};
-
-export type AdditionalInfoModel = {
-  hobbies: string;
-  motivation: string; //
-  profileImage: File;
-};
 
 // Utility to create FormGroup type
 export type PersonalInfoForm = FormGroup<{
@@ -36,7 +31,3 @@ type RegisterMetadata = {
   profileImageUrl: Date;
   registeredAt: Date;
 };
-
-export type CandidateStore = PersonalInfoModel &
-  AdditionalInfoModel &
-  RegisterMetadata;
