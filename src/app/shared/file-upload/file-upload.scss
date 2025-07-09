@@ -62,12 +62,6 @@
     flex: 1;
     text-align: left;
   }
-  .file-info > .file-name {
-    font-weight: 500;
-    color: #333;
-    margin: 0 0 0.25rem 0;
-    word-break: break-all;
-  }
 
   .file-info > .file-size {
     color: #666;
@@ -86,8 +80,8 @@
 
 .error-message {
   color: #f44336;
+  height: 20px;
   font-size: 0.75rem;
-  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;

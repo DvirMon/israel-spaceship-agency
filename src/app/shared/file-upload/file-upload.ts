@@ -33,7 +33,7 @@ import {
   selector: "app-file-upload",
   imports: [MatIcon, MatIconButton],
   templateUrl: "./file-upload.html",
-  styleUrl: "./file-upload.css",
+  styleUrl: "./file-upload.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
