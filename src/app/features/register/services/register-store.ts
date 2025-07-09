@@ -1,9 +1,9 @@
 import {
   Injectable,
   computed,
-  effect,
   inject,
-  linkedSignal
+  linkedSignal,
+  signal
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { CandidateStore } from "@core/models/candidate-store.model";
@@ -20,7 +20,13 @@ export class RegisterStore {
 
   readonly storeCandidate = toSignal(this.initializeRegistrationFlow());
 
-  readonly candidate = linkedSignal(() => this.storeCandidate());
+  readonly candidate = linkedSignal(() => {
+    const candidate = this.storeCandidate();
+
+    if (!candidate) return null;
+
+    return candidate;
+  });
 
   readonly isUpdateFlow = computed(() => {
     const candidate = this.candidate();
@@ -28,7 +34,6 @@ export class RegisterStore {
 
     return Object(candidate).hasOwnProperty("id");
   });
-
 
   private initializeRegistrationFlow() {
 
