@@ -1,0 +1,32 @@
+<div class="success-dialog">
+  <div class="dialog-header">
+    <div class="success-icon">
+      <mat-icon>check_circle</mat-icon>
+    </div>
+    <h2 mat-dialog-title>Registration Successful!</h2>
+  </div>
+  
+  <div mat-dialog-content class="dialog-content">
+    <p class="thank-you-message">
+      Thank you <strong>{{ data.userName }}</strong> for registering to the IISa Program!
+    </p>
+    
+    <div class="info-section">
+      <div class="info-item">
+        <mat-icon class="info-icon">edit</mat-icon>
+        <p>Your registration will be <strong>editable for the next 3 days</strong></p>
+      </div>
+      
+      <div class="info-item">
+        <mat-icon class="info-icon">email</mat-icon>
+        <p>You will receive a confirmation email shortly with further details</p>
+      </div>
+      
+      <div class="info-item">
+        <mat-icon class="info-icon">schedule</mat-icon>
+        <p>Our team will review your application and contact you within 5 business days</p>
+      </div>
+    </div>
+  </div>
+  
+</div>
