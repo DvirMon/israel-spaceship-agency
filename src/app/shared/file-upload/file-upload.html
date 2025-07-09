@@ -28,7 +28,6 @@
       <img [src]="previewUrl()" alt="Preview" class="preview-image" />
       }
       <div class="file-info">
-        <p class="file-name">{{ selectedFile()!.name }}</p>
         <button
           matIconButton
           type="button"
@@ -42,7 +41,8 @@
     }
   </div>
 
-  @if (hasError()) {
-  <div class="error-message">{{ errorMessage() }}</div>
-  }
+  <div
+    class="error-message">
+    {{ errorMessage() }}
+  </div>
 </div>

@@ -35,3 +35,20 @@ export function createAdditionalInfoForm() {
     ]),
   });
 }
+
+export function createRegistrationForm() {
+  const nfb = inject(NonNullableFormBuilder);
+
+  return nfb.group({
+    // Personal Information fields
+    fullName: nfb.control(""),
+    email: nfb.control("", []),
+    phone: nfb.control("", []),
+    age: nfb.control("", []),
+    city: nfb.control("", []),
+    // Additional Information fields
+    hobbies: nfb.control("", []),
+    motivation: nfb.control("", []),
+    profileImage: nfb.control<File | string | undefined>(""),
+  });
+}

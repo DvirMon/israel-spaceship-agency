@@ -1,0 +1,134 @@
+/* Mobile-first responsive registration form styles */
+
+.registration-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; // Default for mobile
+}
+
+.registration-container {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: slideInUp 0.8s ease-out;
+  gap: 1rem;
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.375rem;
+  grid-template-columns: 1fr;
+}
+
+button.submit-button {
+  font-size: 1.5rem;
+  height: 3.5rem;
+  margin: auto;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ≥ 481px */
+@media (min-width: 481px) {
+  .registration-section {
+    align-items: center;
+  }
+
+  .registration-container {
+    max-width: 90vw;
+  }
+}
+
+/* ≥ 768px */
+@media (min-width: 768px) {
+  .registration-container {
+    max-width: 900px;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 1248px) {
+  .registration-container {
+    padding: 32px;
+  }
+}
+
+/* ≥ 1024px */
+@media (min-width: 1024px) {
+  .registration-container {
+    max-width: 1200px;
+    gap: 3rem;
+  }
+
+  .title {
+    font-size: 5rem;
+  }
+
+  .subtitle {
+    font-size: 3rem;
+  }
+
+  .form-row {
+    gap: 0.75rem;
+  }
+
+  .form-row:nth-child(1) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-row:nth-child(2),
+  .form-row:nth-child(3) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Mobile landscape: ≤ 500px height */
+@media (max-height: 500px) and (orientation: landscape) {
+  .registration-section {
+    align-items: flex-start;
+  }
+
+  .registration-form {
+    gap: 0.5rem;
+  }
+}
