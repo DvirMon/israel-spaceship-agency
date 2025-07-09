@@ -14,6 +14,10 @@ import { of } from "rxjs";
 export class RegisterStore {
   private readonly localStorage = inject(LocalStorage);
 
+  private readonly existingUuid = signal(
+    this.localStorage.getItem<string>("registration-uuid")
+  );
+
   readonly storeCandidate = toSignal(this.initializeRegistrationFlow());
 
   readonly candidate = linkedSignal(() => this.storeCandidate());
@@ -27,11 +31,8 @@ export class RegisterStore {
 
 
   private initializeRegistrationFlow() {
-    const existingUuid = this.localStorage.getItem<string>("registration-uuid");
 
-    if (existingUuid) {
-      console.log("Found existing registration UUID:", existingUuid);
-
+    if (this.existingUuid()) {
       // Create mock data for existing registration
       const mockData = {
         fullName: "John Doe",
