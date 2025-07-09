@@ -7,7 +7,7 @@ export type CandidateStore = {
   city: string;
   hobbies: string;
   motivation: string;
-  profileImage: File;
+  profileImage: File | null | string;
   geo: { latitude: number; longitude: number };
   profileImageUrl: string;
   registeredAt: Date;
