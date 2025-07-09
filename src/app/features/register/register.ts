@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   effect,
-  inject
+  inject,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -25,6 +25,7 @@ import { RegisterHttp } from "./services/register-http";
 import { RegisterStore } from "./services/register-store";
 import { RegisterService } from "./services/register.service";
 import { createRegistrationForm, formSubmitEffect } from "./utils/form";
+import { compareCandidates } from "./utils/utils";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -105,11 +106,16 @@ export class Register {
   readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => this.registerService.store.isUpdateFlow()),
     tap((val) => console.log("update", val)),
+    filter(
+      (value) =>
+        !compareCandidates(value, this.registerService.store.candidate())
+    ),
     switchMap((value) => this.registerService.http.updateCandidate(value))
   );
 
   readonly createCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => !this.registerService.store.isUpdateFlow()),
+
     tap(() => console.log("create")),
     switchMap((value) => this.registerService.http.createCandidate(value))
   );
