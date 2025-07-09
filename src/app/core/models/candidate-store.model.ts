@@ -1,5 +1,6 @@
 // The source of truth for candidate types
 export type CandidateStore = {
+  id : string
   fullName: string;
   email: string;
   phone: string;
