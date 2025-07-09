@@ -12,7 +12,7 @@ import {
     updateDoc,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { COLLECTION_KEY } from "./tokens/collection.tokens";
+import { COLLECTION_KEY } from "../tokens/collection.tokens";
 
 @Injectable()
 export class FirestoreService {
