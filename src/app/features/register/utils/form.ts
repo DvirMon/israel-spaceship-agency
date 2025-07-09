@@ -44,11 +44,13 @@ export function createRegistrationForm() {
     fullName: nfb.control(""),
     email: nfb.control("", []),
     phone: nfb.control("", []),
-    age: nfb.control("", []),
+    age: nfb.control<number | undefined>(undefined, [
+
+    ]),
     city: nfb.control("", []),
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | undefined>(""),
+    profileImage: nfb.control<File | string | null>(""),
   });
 }
