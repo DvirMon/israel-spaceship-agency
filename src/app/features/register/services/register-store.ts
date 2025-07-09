@@ -1,0 +1,55 @@
+import {
+  Injectable,
+  computed,
+  effect,
+  inject,
+  linkedSignal
+} from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { CandidateStore } from "@core/models/candidate-store.model";
+import { LocalStorage } from "@core/services/local-storage.service";
+import { of } from "rxjs";
+
+@Injectable()
+export class RegisterStore {
+  private readonly localStorage = inject(LocalStorage);
+
+  readonly storeCandidate = toSignal(this.initializeRegistrationFlow());
+
+  readonly candidate = linkedSignal(() => this.storeCandidate());
+
+  readonly isUpdateFlow = computed(() => {
+    const candidate = this.candidate();
+    if (candidate === null) return false;
+
+    return Object(candidate).hasOwnProperty("id");
+  });
+
+
+  private initializeRegistrationFlow() {
+    const existingUuid = this.localStorage.getItem<string>("registration-uuid");
+
+    if (existingUuid) {
+      console.log("Found existing registration UUID:", existingUuid);
+
+      // Create mock data for existing registration
+      const mockData = {
+        fullName: "John Doe",
+        email: "john.doe@example.com",
+        phone: "050-1234567",
+        age: 28,
+        city: "Tel Aviv",
+        hobbies:
+          "Reading, hiking, photography, and learning new technologies. I enjoy spending time outdoors and exploring different cultures.",
+        motivation:
+          "I am passionate about innovation and technology. The IISa Program represents an incredible opportunity to develop my skills, collaborate with like-minded individuals, and contribute to meaningful projects that can make a real impact on society.",
+        profileImage: null,
+        id: "text",
+      } as CandidateStore;
+
+      return of(mockData);
+    } else {
+      return of(null);
+    }
+  }
+}

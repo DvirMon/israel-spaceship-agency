@@ -1,5 +1,6 @@
 // The source of truth for candidate types
 export type CandidateStore = {
+  id : string
   fullName: string;
   email: string;
   phone: string;
@@ -7,7 +8,7 @@ export type CandidateStore = {
   city: string;
   hobbies: string;
   motivation: string;
-  profileImage: File;
+  profileImage: File | null | string;
   geo: { latitude: number; longitude: number };
   profileImageUrl: string;
   registeredAt: Date;

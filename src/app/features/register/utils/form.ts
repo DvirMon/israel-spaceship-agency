@@ -1,6 +1,18 @@
 import { inject } from "@angular/core";
-import { NonNullableFormBuilder, Validators } from "@angular/forms";
-import { imageFileValidator } from "../../../shared/file-upload/file.upload.utils";
+import {
+  FormGroup,
+  FormSubmittedEvent,
+  NonNullableFormBuilder,
+  Validators,
+} from "@angular/forms";
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  withLatestFrom
+} from "rxjs";
+import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
+import { compareCandidates } from "./utils";
 
 export function createPersonalInfoForm() {
   const nfb = inject(NonNullableFormBuilder);
@@ -44,11 +56,21 @@ export function createRegistrationForm() {
     fullName: nfb.control(""),
     email: nfb.control("", []),
     phone: nfb.control("", []),
-    age: nfb.control("", []),
+    age: nfb.control<number | undefined>(undefined, []),
     city: nfb.control("", []),
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | undefined>(""),
+    profileImage: nfb.control<File | string | null>(""),
   });
+}
+
+// TODO - fix first submit on update
+export function formSubmitEffect(form: FormGroup) {
+  return form.events.pipe(
+    filter((event) => event instanceof FormSubmittedEvent),
+    withLatestFrom(form.valueChanges),
+    map(([event, value]) => value),
+    distinctUntilChanged((a, b) => compareCandidates(a, b))
+  );
 }

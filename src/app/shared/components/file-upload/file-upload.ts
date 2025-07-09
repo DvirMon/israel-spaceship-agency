@@ -14,14 +14,13 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import {
   ControlValueAccessor,
   FormBuilder,
-  NG_VALUE_ACCESSOR,
-  NgControl,
+  NG_VALUE_ACCESSOR
 } from "@angular/forms";
 import { MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { merge } from "rxjs";
-import { filter, map, tap } from "rxjs/operators";
-import {} from "../../features/register/utils/form";
+import { filter, map } from "rxjs/operators";
+import { } from "../../../features/register/utils/form";
 import {
   formatFileSize,
   getFileUploadErrorMessage,

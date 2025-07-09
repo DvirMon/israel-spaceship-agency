@@ -4,112 +4,114 @@
       <span class="title">IISa Program Registration</span>
       <span class="subtitle">Complete your registration below</span>
     </div>
-
-    <form
-      [formGroup]="registrationForm"
-      class="registration-form"
-      (ngSubmit)="onCandidateSubmit()">
-      <!-- Row 1: Full Name and Email -->
-      <div class="form-row">
-        <mat-form-field appearance="fill">
-          <mat-label>Full Name</mat-label>
-          <input matInput formControlName="fullName" />
-          @if (registrationForm.get('fullName')?.hasError('required')) {
-          <mat-error> Full name is required </mat-error>
-          } @if (registrationForm.get('fullName')?.hasError('minlength')) {
-          <mat-error> Full name must be at least 2 characters </mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" />
-          @if (registrationForm.get('email')?.hasError('required')) {
-          <mat-error> Email is required </mat-error>
-          } @if (registrationForm.get('email')?.hasError('email')) {
-          <mat-error> Please enter a valid email </mat-error>
-          }
-        </mat-form-field>
-      </div>
-
-      <!-- Row 2: Phone, Age, and City -->
-      <div class="form-row">
-        <mat-form-field appearance="fill">
-          <mat-label>Phone Number</mat-label>
-          <input matInput formControlName="phone" />
-          @if (registrationForm.get('phone')?.hasError('required')) {
-          <mat-error> Phone number is required </mat-error>
-          } @if (registrationForm.get('phone')?.hasError('pattern')) {
-          <mat-error>
-            Please enter a valid Israeli mobile number (05X-XXXXXXX or
-            +9725X-XXXXXXX)
-          </mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Age</mat-label>
-          <input matInput type="number" formControlName="age" />
-          @if (registrationForm.get('age')?.hasError('required')) {
-          <mat-error> Age is required </mat-error>
-          } @if (registrationForm.get('age')?.hasError('min')) {
-          <mat-error> Age must be at least 18 </mat-error>
-          } @if (registrationForm.get('age')?.hasError('max')) {
-          <mat-error> Age must be less than 100 </mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>City</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="city"
-            [matAutocomplete]="cityAuto" />
-          <mat-autocomplete #cityAuto="matAutocomplete">
-            @for (city of cityOptions(); track city) {
-            <mat-option [value]="city"> {{ city }} </mat-option>
+    <app-loading-overlay [loading]="isLoading()">
+      <form [formGroup]="registerForm" class="registration-form">
+        <!-- Row 1: Full Name and Email -->
+        <div class="form-row">
+          <mat-form-field appearance="fill">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="fullName" />
+            @if (registerForm.get('fullName')?.hasError('required')) {
+            <mat-error> Full name is required </mat-error>
+            } @if (registerForm.get('fullName')?.hasError('minlength')) {
+            <mat-error> Full name must be at least 2 characters </mat-error>
             }
-          </mat-autocomplete>
-          @if (registrationForm.get('city')?.hasError('required')) {
-          <mat-error> City is required </mat-error>
-          }
-        </mat-form-field>
-      </div>
+          </mat-form-field>
 
-      <!-- Row 3: Hobbies, Motivation, and Image Upload -->
-      <div class="form-row">
-        <mat-form-field appearance="fill">
-          <mat-label>Hobbies</mat-label>
-          <textarea
-            matInput
-            formControlName="hobbies"
-            rows="4"
-            placeholder="Tell us about your hobbies and interests"></textarea>
-        </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error> Email is required </mat-error>
+            } @if (registerForm.get('email')?.hasError('email')) {
+            <mat-error> Please enter a valid email </mat-error>
+            }
+          </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Motivation for joining IISa Program</mat-label>
-          <textarea
-            matInput
-            formControlName="motivation"
-            rows="4"
-            placeholder="Tell us why you want to join the program "></textarea>
-        </mat-form-field>
+        <!-- Row 2: Phone, Age, and City -->
+        <div class="form-row">
+          <mat-form-field appearance="fill">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" />
+            @if (registerForm.get('phone')?.hasError('required')) {
+            <mat-error> Phone number is required </mat-error>
+            } @if (registerForm.get('phone')?.hasError('pattern')) {
+            <mat-error>
+              Please enter a valid Israeli mobile number (05X-XXXXXXX or
+              +9725X-XXXXXXX)
+            </mat-error>
+            }
+          </mat-form-field>
 
-        <app-file-upload formControlName="profileImage"></app-file-upload>
-      </div>
+          <mat-form-field appearance="fill">
+            <mat-label>Age</mat-label>
+            <input matInput type="number" formControlName="age" />
+            @if (registerForm.get('age')?.hasError('required')) {
+            <mat-error> Age is required </mat-error>
+            } @if (registerForm.get('age')?.hasError('min')) {
+            <mat-error> Age must be at least 18 </mat-error>
+            } @if (registerForm.get('age')?.hasError('max')) {
+            <mat-error> Age must be less than 100 </mat-error>
+            }
+          </mat-form-field>
 
-      <!-- Submit Button -->
-      <!-- <div class="form-actions"> -->
-      <button
-        matButton="filled"
-        color="primary"
-        type="submit"
-        class="submit-button">
-        {{ submitButtonLabel() }}
-      </button>
-      <!-- </div> -->
-    </form>
+          <mat-form-field appearance="fill">
+            <mat-label>City</mat-label>
+            <input
+              (input)="onCityInput($event)"
+              matInput
+              formControlName="city"
+              [matAutocomplete]="auto" />
+
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="onCitySelect($event)">
+              @for(option of cityOptions(); track option) {
+
+              <mat-option [value]="option"> {{ option }} </mat-option>
+              }
+            </mat-autocomplete>
+            @if (registerForm.get('city')?.hasError('required')) {
+            <mat-error> City is required </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Row 3: Hobbies, Motivation, and Image Upload -->
+        <div class="form-row">
+          <mat-form-field appearance="fill">
+            <mat-label>Hobbies</mat-label>
+            <textarea
+              matInput
+              formControlName="hobbies"
+              rows="4"
+              placeholder="Tell us about your hobbies and interests"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Motivation for joining IISa Program</mat-label>
+            <textarea
+              matInput
+              formControlName="motivation"
+              rows="4"
+              placeholder="Tell us why you want to join the program "></textarea>
+          </mat-form-field>
+
+          <app-file-upload formControlName="profileImage"></app-file-upload>
+        </div>
+
+        <!-- Submit Button -->
+        <!-- <div class="form-actions"> -->
+        <button
+          matButton="filled"
+          color="primary"
+          type="submit"
+          class="submit-button">
+          {{ submitButtonLabel() }}
+        </button>
+        <!-- </div> -->
+      </form>
+    </app-loading-overlay>
   </div>
 </section>

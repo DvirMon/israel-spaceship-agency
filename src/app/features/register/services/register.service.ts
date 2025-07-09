@@ -1,13 +1,19 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { timer, take } from "rxjs";
-import { RegisterDialog } from "./components/register-dialog/register-dialog";
+import { filter, of, switchMap, take, tap, timer } from "rxjs";
+import { RegisterDialog } from "../components/register-dialog/register-dialog";
+import { CandidateForm } from "../models/register.model";
+import { RegisterHttp } from "./register-http";
+import { RegisterStore } from "./register-store";
+import { CandidateStore } from "@core/models/candidate-store.model";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class RegisterService {
+  readonly store = inject(RegisterStore);
+  readonly http = inject(RegisterHttp);
+
   private readonly dialog = inject(MatDialog);
+
 
   openDialog(userName: string): void {
     const dialogRef = this.dialog.open(RegisterDialog, {
