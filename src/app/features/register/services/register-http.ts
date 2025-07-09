@@ -1,11 +1,20 @@
-import { Injectable } from "@angular/core";
+import {
+  inject,
+  Injectable
+} from "@angular/core";
+import { CandidateStore } from "@core/models/candidate-store.model";
+import { LocalStorage } from "@core/services/local-storage.service";
+import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
+import { withLoadingOverlay } from "app/shared/components/loading-overlay/operator";
+import { delay, map, Observable, of, tap, timer } from "rxjs";
 import { CandidateForm } from "../models/register.model";
-import { Observable, of, delay } from "rxjs";
 
 @Injectable()
 export class RegisterHttp {
-  submitRegistration(data: CandidateForm): Observable<void> {
-    console.log("Registration submitted:", data);
+  private readonly localStorage = inject(LocalStorage);
+
+  private readonly overlayService = inject(LoadingOverlayService);
+  createCandidate(data: Partial<CandidateForm>): Observable<CandidateStore> {
 
     // In a real application, you would:
     // 1. Create FormData for file upload
@@ -13,16 +22,17 @@ export class RegisterHttp {
     // 3. Handle response and errors
 
     // Mock observable with delay to simulate API call
-    return of(void 0).pipe(delay(1000));
+    return of(data as CandidateStore).pipe(
+      delay(1000),
+      withLoadingOverlay(this.overlayService),
+      map((data) => ({ ...data, id: "data.id" })),
+      tap((data) => {
+        this.localStorage.setItem("registration-uuid", data.id);
+      })
+    );
   }
 
-  /**
-   * Update existing candidate registration data
-   * @param data - Updated registration data
-   * @returns Observable<void> - Completes when update is successful
-   */
-  updateCandidate(data: CandidateForm): Observable<void> {
-    console.log("Candidate registration updated:", data);
+  updateCandidate(data: Partial<CandidateForm>) {
 
     // In a real application, you would:
     // 1. Create FormData for file upload
@@ -30,7 +40,10 @@ export class RegisterHttp {
     // 3. Handle response and errors
 
     // Mock observable with delay to simulate API call
-    return of(void 0).pipe(delay(1000));
+    return timer(1000).pipe(
+      map(() => null), // mock value
+      withLoadingOverlay(this.overlayService)
+    );
   }
 
   private createFormData(data: CandidateForm): FormData {
