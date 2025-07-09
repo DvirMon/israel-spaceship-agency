@@ -13,7 +13,7 @@ export class LocalStorage {
   setItem<T>(key: string, value: T): boolean {
     try {
       if (!this.isLocalStorageAvailable()) {
-        console.warn("localStorage is not available");
+        // console.warn("localStorage is not available");
         return false;
       }
 
@@ -34,12 +34,12 @@ export class LocalStorage {
   getItem<T>(key: string): T | null {
     try {
       if (!this.isLocalStorageAvailable()) {
-        console.warn("localStorage is not available");
+        // console.warn("localStorage is not available");
         return null;
       }
 
       const item = localStorage.getItem(key);
-      if (item === null) {
+      if (!item || item === 'undefined') {
         return null;
       }
 
@@ -58,7 +58,7 @@ export class LocalStorage {
   removeItem(key: string): boolean {
     try {
       if (!this.isLocalStorageAvailable()) {
-        console.warn("localStorage is not available");
+        // console.warn("localStorage is not available");
         return false;
       }
 
@@ -77,7 +77,7 @@ export class LocalStorage {
   clear(): boolean {
     try {
       if (!this.isLocalStorageAvailable()) {
-        console.warn("localStorage is not available");
+        // console.warn("localStorage is not available");
         return false;
       }
 
@@ -99,6 +99,8 @@ export class LocalStorage {
       if (!this.isLocalStorageAvailable()) {
         return false;
       }
+
+      console.log(localStorage.getItem(key));
 
       return localStorage.getItem(key) !== null;
     } catch (error) {
