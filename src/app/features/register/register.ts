@@ -19,7 +19,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { FileUpload } from "app/shared/file-upload/file-upload";
 import { CandidateForm } from "./models/register.model";
 import { createRegistrationForm } from "./utils/form";
-import { RegisterService } from "./register.service";
+import { RegisterService } from "./services/register.service";
+import { RegisterStore } from "./services/register-store";
+import { RegisterHttp } from "./services/register-http";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -73,6 +75,7 @@ const CITY_OPTIONS = [
   templateUrl: "./register.html",
   styleUrl: "./register.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RegisterService, RegisterStore, RegisterHttp],
 })
 export class Register {
   // Computed signal for dynamic button label
@@ -86,10 +89,10 @@ export class Register {
     return candidate === null ? "Save & Submit" : "Save & Update";
   });
 
-  readonly registrationForm = createRegistrationForm();
+  readonly registerForm = createRegistrationForm();
 
   readonly selectedCity = linkedSignal(
-    () => this.registrationForm.controls.city.value
+    () => this.registerForm.controls.city.value
   );
 
   readonly cityOptions = linkedSignal({
@@ -114,7 +117,25 @@ export class Register {
   }
 
   onCandidateSubmit() {
+    // if (!this.registerForm.valid) return;
 
-    this.registerService.openDialog('etxt')
+    const formValue = this.registerForm.getRawValue();
+
+    const registrationData = {
+      ...formValue,
+      age: Number(formValue.age),
+      profileImage: formValue.profileImage || null,
+    };
+
+    this.registerService.store.candidate.update((current) => {
+      if (!current) {
+        return registrationData;
+      }
+
+      return {
+        ...current,
+        ...registrationData,
+      };
+    });
   }
 }
