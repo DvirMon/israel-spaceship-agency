@@ -17,8 +17,6 @@ export function optionIncludedValidator<T>(validOptions: T[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     const isValid = validOptions.includes(value);
-
-    console.log("isValid", isValid);
     return isValid ? null : { optionNotIncluded: true };
   };
 }
