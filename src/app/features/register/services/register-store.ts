@@ -3,7 +3,7 @@ import {
   computed,
   inject,
   linkedSignal,
-  signal
+  signal,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { CandidateStore } from "@core/models/candidate-store.model";
@@ -36,7 +36,6 @@ export class RegisterStore {
   });
 
   private initializeRegistrationFlow() {
-
     if (this.existingUuid()) {
       // Create mock data for existing registration
       const mockData = {

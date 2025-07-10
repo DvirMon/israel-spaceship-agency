@@ -56,7 +56,7 @@ export class Candidates {
   readonly viewMode = linkedSignal({
     source: this.isMobile,
     computation: (isMobile) => (!isMobile ? "grid" : "table"),
-  })
+  });
 
   readonly totalCandidates = this.dashboardService.totalCandidates;
 
@@ -103,7 +103,6 @@ export class Candidates {
     dateFilter: () => this.dateFilter.set("all"),
     sortBy: () => this.sortBy.set("name"),
   };
-
 
   onRemoveFilter(key: keyof FilterState): void {
     this.filterResetMap[key]?.();

@@ -91,8 +91,11 @@ const CITY_OPTIONS = [
   styleUrl: "./register.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    provideCollectionToken('candidates'),
-    RegisterService, RegisterStore, RegisterHttp],
+    provideCollectionToken("candidates"),
+    RegisterService,
+    RegisterStore,
+    RegisterHttp,
+  ],
 })
 export class Register {
   // Computed signal for dynamic button label
