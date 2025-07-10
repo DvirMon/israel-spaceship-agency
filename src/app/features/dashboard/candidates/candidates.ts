@@ -8,21 +8,23 @@ import {
 import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
-import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
-import { FilterState } from "./components/candidate-filters/types";
+import { CandidateStore } from "@core/models/candidate-store.model";
 import { DashboardService } from "../dashboard-service";
 import {
-  matchesSearch,
-  matchesCity,
   matchesAgeFilter,
+  matchesCity,
   matchesDateFilter,
+  matchesSearch,
 } from "./candidates.utils";
+import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
+import { FilterState } from "./components/candidate-filters/types";
+import { CandidateTable } from "./components/candidate-table/candidate-table";
 
 export type ViewMode = "list" | "table";
 
 const materialImports = [MatCardModule, MatIconModule, MatDialogModule];
 
-const componentsImports = [CandidateFilters];
+const componentsImports = [CandidateFilters, CandidateTable];
 
 @Component({
   selector: "app-candidates",
@@ -44,7 +46,7 @@ export class Candidates {
   readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly viewMode = signal<ViewMode>("list");
+  readonly viewMode = signal<ViewMode>("table");
   readonly loading = signal(false);
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
@@ -112,11 +114,11 @@ export class Candidates {
     this.viewMode.set(mode);
   }
 
-  // viewCandidateDetail(candidate: C): void {
-  //   this.dialog.open(CandidateDetailDialog, {
-  //     data: { id: candidate.id },
-  //     width: "800px",
-  //     maxHeight: "90vh",
-  //   });
-  // }
+  viewCandidateDetail(candidate: CandidateStore): void {
+    // this.dialog.open(CandidateDetailDialog, {
+    //   data: { id: candidate.id },
+    //   width: "800px",
+    //   maxHeight: "90vh",
+    // });
+  }
 }
