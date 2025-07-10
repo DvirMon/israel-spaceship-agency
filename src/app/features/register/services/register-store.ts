@@ -49,7 +49,7 @@ export class RegisterStore {
           "Reading, hiking, photography, and learning new technologies. I enjoy spending time outdoors and exploring different cultures.",
         motivation:
           "I am passionate about innovation and technology. The IISa Program represents an incredible opportunity to develop my skills, collaborate with like-minded individuals, and contribute to meaningful projects that can make a real impact on society.",
-        profileImage: null,
+        profileImage: undefined,
         id: this.existingUuid(),
       } as CandidateStore;
 
