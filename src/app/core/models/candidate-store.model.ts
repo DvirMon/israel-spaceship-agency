@@ -12,7 +12,6 @@ export type CandidateStore = {
   motivation?: string;
   profileImage?: File | null | string;
   geo: { latitude: number; longitude: number };
-  // profileImageUrl: string;
   registeredAt: Date;
   expiresAt: Date;
 };
@@ -27,7 +26,6 @@ export type CandidateFireStore = {
   motivation: string;
   profileImage: File | null | string;
   geo: GeoPoint;
-  // profileImageUrl: string;
   registeredAt: Timestamp;
   expiresAt: Timestamp;
 };
