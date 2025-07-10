@@ -50,7 +50,7 @@ export class RegisterStore {
         motivation:
           "I am passionate about innovation and technology. The IISa Program represents an incredible opportunity to develop my skills, collaborate with like-minded individuals, and contribute to meaningful projects that can make a real impact on society.",
         profileImage: null,
-        id: "text",
+        id: this.existingUuid(),
       } as CandidateStore;
 
       return of(mockData);
