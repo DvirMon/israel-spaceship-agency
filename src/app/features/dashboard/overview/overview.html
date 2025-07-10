@@ -7,6 +7,22 @@
       </mat-card-header>
       <mat-card-content>
         <article>
+          @if(viewState.show()) {
+          <ngx-charts-bar-vertical
+            [view]="viewState.view()"
+            [results]="ageResults()"
+            [scheme]="colorScheme"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Ages"
+            yAxisLabel="Count"
+            [animations]="true"
+            [yAxisTickFormatting]="formatTicks">
+          </ngx-charts-bar-vertical>
+          } @else {
+
           <ngx-charts-bar-vertical
             [results]="ageResults()"
             [scheme]="colorScheme"
@@ -14,11 +30,12 @@
             [yAxis]="true"
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            xAxisLabel="Cities"
+            xAxisLabel="Ages"
             yAxisLabel="Count"
             [animations]="true"
             [yAxisTickFormatting]="formatTicks">
           </ngx-charts-bar-vertical>
+          }
         </article>
       </mat-card-content>
     </mat-card>
@@ -29,6 +46,21 @@
       </mat-card-header>
       <mat-card-content>
         <article>
+          @if(viewState.show()) {
+          <ngx-charts-bar-vertical
+            [view]="viewState.view()"
+            [results]="cityResults()"
+            [scheme]="colorScheme"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Cities"
+            yAxisLabel="Count"
+            [animations]="true"
+            [yAxisTickFormatting]="formatTicks">
+          </ngx-charts-bar-vertical>
+          } @else {
           <ngx-charts-bar-vertical
             [results]="cityResults()"
             [scheme]="colorScheme"
@@ -41,20 +73,20 @@
             [animations]="true"
             [yAxisTickFormatting]="formatTicks">
           </ngx-charts-bar-vertical>
+          }
+        </article>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title> Locations Distribution </mat-card-title>
+        <mat-card-subtitle>Number of users per city</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <article class="map-container">
+          <app-location-map></app-location-map>
         </article>
       </mat-card-content>
     </mat-card>
   </div>
-
-  <mat-card class="info-card">
-    <mat-card-header>
-      <mat-card-title> Locations Distribution </mat-card-title>
-      <mat-card-subtitle>Number of users per city</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <article class="map-container">
-        <app-location-map></app-location-map>
-      </article>
-    </mat-card-content>
-  </mat-card>
 </div>
