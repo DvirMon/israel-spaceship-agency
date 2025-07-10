@@ -44,14 +44,19 @@
         </article>
       </mat-card-content>
     </mat-card>
-
-    <!-- 
-    <app-chart-card
-      title="Popular Hobbies"
-      subtitle="Most common interests among candidates">
-      <app-hobbies-chart [data]="hobbiesData()"></app-hobbies-chart>
-    </app-chart-card> -->
   </div>
 
   <!-- <app-location-card></app-location-card> -->
+
+  <mat-card class="map-card">
+    <mat-card-header>
+      <mat-card-title> Locations Distribution </mat-card-title>
+      <mat-card-subtitle>Number of users per city</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <article class="map-container">
+        <app-location-map></app-location-map>
+      </article>
+    </mat-card-content>
+  </mat-card>
 </div>

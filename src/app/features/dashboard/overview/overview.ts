@@ -5,14 +5,15 @@ import {
   inject,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
+import { groupToChartData } from "@core/charts/utils";
 import { CandidateStore } from "@core/models/candidate-store.model";
 import { NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
-import { groupToChartData } from "@core/charts/utils";
 import { DashboardService } from "../dashboard.service";
+import { LocationMap } from "./location-map/location-map";
 
 @Component({
   selector: "app-overview",
-  imports: [MatCardModule, NgxChartsModule],
+  imports: [MatCardModule, NgxChartsModule, LocationMap],
   templateUrl: "./overview.html",
   styleUrl: "./overview.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
