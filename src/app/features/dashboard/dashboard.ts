@@ -4,6 +4,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Candidates } from "./candidates/candidates";
+import { DashboardService } from "./dashboard.service";
 import { Overview } from "./overview/overview";
 
 const materialImports = [
@@ -21,5 +22,6 @@ const componentImports = [Candidates, Overview];
   templateUrl: "./dashboard.html",
   styleUrl: "./dashboard.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DashboardService],
 })
 export class Dashboard {}
