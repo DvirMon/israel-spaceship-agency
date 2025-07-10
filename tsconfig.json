@@ -21,7 +21,7 @@
       "@tokens/*": ["app/core/tokens/*"],
       "@cards/*": ["app/shared/components/cards/*"],
       "@chards/*": ["app/shared/components/chards/*"],
-      "@pipes/*": ["app/shared/components/pipes/*"]
+      "@shared/pipes/*": ["app/shared/pipes/*"]
     }
   },
   "angularCompilerOptions": {
