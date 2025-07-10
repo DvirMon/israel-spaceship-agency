@@ -11,24 +11,23 @@
         </div>
       </div>
     </mat-card-header>
-    <!-- <app-candidate-filters
+    <app-candidate-filters
       [filters]="filters()"
       [viewMode]="viewMode()"
       [resultCount]="filteredCandidates().length"
       [totalCount]="totalCandidates()"
       [loading]="filtersLoading()"
-      (searchChange)="onSearchChange($event)"
-      (statusFilterChange)="onStatusFilterChange($event)"
-      (cityFilterChange)="onCityFilterChange($event)"
-      (ageFilterChange)="onAgeFilterChange($event)"
-      (dateFilterChange)="onDateFilterChange($event)"
-      (sortChange)="onSortChange($event)"
+      [(searchChange)]="searchTerm"
+      [(statusFilterChange)]="statusFilter"
+      [(cityFilterChange)]="cityFilter"
+      [(ageFilterChange)]="ageFilter"
+      [(dateFilterChange)]="dateFilter"
+      [(sortChange)]="sortBy"
+      (removeFilter)="onRemoveFilter($event)"
       (clearFilters)="clearFilters()"
-      (toggleView)="toggleViewMode($event)"
-      (exportFiltered)="onExportFiltered()"
-      (removeFilter)="onRemoveFilter($event)">
+      (toggleView)="toggleViewMode($event)">
       >
-    </app-candidate-filters> -->
+    </app-candidate-filters>
 
     <mat-card-content>
       @if (viewMode() === 'list') {
