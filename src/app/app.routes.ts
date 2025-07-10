@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'landing',
+    path: '',
     loadComponent: () =>
       import('./features/landing/landing').then(m => m.Landing),
   },
@@ -12,8 +12,8 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard').then(m => m.Dashboard),
   },
   {
-    path: '',
-    redirectTo: 'dashboard',
+    path: '**',
+    redirectTo: '/',
     pathMatch: 'full',
   }
 ];

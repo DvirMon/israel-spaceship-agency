@@ -6,6 +6,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { Candidates } from "./candidates/candidates";
 import { DashboardService } from "./dashboard.service";
 import { Overview } from "./overview/overview";
+import { Analytics } from "./analytics/analytics";
 
 const materialImports = [
   MatToolbarModule,
@@ -14,7 +15,7 @@ const materialImports = [
   MatChipsModule,
 ];
 
-const componentImports = [Candidates, Overview]; 
+const componentImports = [Candidates, Overview, Analytics]; 
 
 @Component({
   selector: "app-dashboard",
