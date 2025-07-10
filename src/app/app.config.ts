@@ -15,6 +15,7 @@ import {
 import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { environment } from "../environments/environment";
 import { provideHttpClient } from "@angular/common/http";
+import { getStorage, provideStorage } from "@angular/fire/storage";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
     provideFirestore(() => getFirestore()),
-    provideHttpClient()
+    provideStorage(() => getStorage()),
+    provideHttpClient(),
   ],
 };
