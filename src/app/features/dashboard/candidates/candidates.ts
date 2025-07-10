@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
@@ -49,10 +50,13 @@ export class Candidates {
   readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly viewMode = signal<ViewMode>("table");
   readonly loading = signal(false);
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
+  readonly viewMode = linkedSignal({
+    source: this.isMobile,
+    computation: (isMobile) => (isMobile ? "grid" : "table"),
+  })
 
   readonly totalCandidates = this.dashboardService.totalCandidates;
 
