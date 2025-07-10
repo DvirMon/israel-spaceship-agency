@@ -1,3 +1,12 @@
+@use "@angular/material" as mat;
+:host {
+  @include mat.tabs-overrides(
+    (
+      label-text-size: 32px,
+    )
+  );
+}
+
 .dashboard-container {
   height: 100vh;
   background-color: black;
