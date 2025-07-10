@@ -8,7 +8,7 @@
     )
   );
 
-  ::ng-deep .chart-card .mat-mdc-card-header-text {
+  ::ng-deep .info-card .mat-mdc-card-header-text {
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -26,7 +26,7 @@
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 }
 
-mat-card.chart-card {
+mat-card.info-card {
   color: white;
 }
 
