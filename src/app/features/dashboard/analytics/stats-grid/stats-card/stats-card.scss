@@ -1,0 +1,52 @@
+@use "@angular/material" as mat;
+
+:host {
+  @include mat.card-overrides(
+    (
+      title-text-size: 2rem,
+    )
+  );
+}
+
+.stat-card {
+  color: white;
+  padding: 8px;
+
+  &.blue-gradient {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+  }
+
+  &.green-gradient {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+  }
+
+  &.purple-gradient {
+    background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+  }
+
+  &.orange-gradient {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+  }
+}
+
+mat-card-title {
+  display: flex;
+  gap: 16px;
+}
+
+mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.stat-subtitle {
+  font-size: 1.4rem;
+  opacity: 0.8;
+}
