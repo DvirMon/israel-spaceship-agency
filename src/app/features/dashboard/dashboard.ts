@@ -3,6 +3,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { Candidates } from "./candidates/candidates";
 
 const materialImports = [
   MatToolbarModule,
@@ -11,11 +12,11 @@ const materialImports = [
   MatChipsModule,
 ];
 
-const componentImports = []; 
+const componentImports = [Candidates]; 
 
 @Component({
   selector: "app-dashboard",
-  imports: [materialImports],
+  imports: [materialImports, componentImports],
   templateUrl: "./dashboard.html",
   styleUrl: "./dashboard.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
