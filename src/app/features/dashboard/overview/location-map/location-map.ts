@@ -64,7 +64,10 @@ export class LocationMap {
         this.zoom()
       );
 
-      tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      // TODO - fix image error
+      const baseMapURl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+      tileLayer(baseMapURl, {
         attribution: "&copy; OpenStreetMap contributors",
       }).addTo(this.map);
 

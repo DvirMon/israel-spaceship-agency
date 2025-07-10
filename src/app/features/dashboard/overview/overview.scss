@@ -3,11 +3,18 @@
 :host {
   @include mat.card-overrides(
     (
-      title-text-size: 32px,
-      subtitle-text-size: 24px,
+      title-text-size: 2rem,
+      subtitle-text-size: 1.6rem,
     )
   );
+
+  ::ng-deep .chart-card .mat-mdc-card-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
 }
+
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -18,12 +25,6 @@
 .mat-mdc-card-header {
   color: white;
   padding: 32px;
-}
-
-::ng-deep .mat-mdc-card-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
 article.map-container {

@@ -1,11 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, of, switchMap, take, tap, timer } from "rxjs";
+import { take, timer } from "rxjs";
 import { RegisterDialog } from "../components/register-dialog/register-dialog";
-import { CandidateForm } from "../models/register.model";
 import { RegisterHttp } from "./register-http";
 import { RegisterStore } from "./register-store";
-import { CandidateStore } from "@core/models/candidate-store.model";
 
 @Injectable()
 export class RegisterService {
@@ -13,7 +11,6 @@ export class RegisterService {
   readonly http = inject(RegisterHttp);
 
   private readonly dialog = inject(MatDialog);
-
 
   openDialog(userName: string): void {
     const dialogRef = this.dialog.open(RegisterDialog, {
@@ -23,7 +20,6 @@ export class RegisterService {
       data: { userName },
     });
 
-    // Auto-close dialog after 3 seconds using RxJS timer
     timer(3000)
       .pipe(take(1))
       .subscribe(() => {
