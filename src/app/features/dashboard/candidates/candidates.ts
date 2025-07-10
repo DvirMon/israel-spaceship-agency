@@ -21,12 +21,13 @@ import { CandidateFilters } from "./components/candidate-filters/candidate-filte
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
 import { IS_MOBILE } from "@core/tokens/mobile";
+import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
 
 export type ViewMode = "grid" | "table";
 
 const materialImports = [MatCardModule, MatIconModule, MatDialogModule];
 
-const componentsImports = [CandidateFilters, CandidateTable];
+const componentsImports = [CandidateFilters, CandidateTable, CandidateGrid];
 
 @Component({
   selector: "app-candidates",
@@ -55,7 +56,7 @@ export class Candidates {
   readonly showAdvancedFilters = signal(false);
   readonly viewMode = linkedSignal({
     source: this.isMobile,
-    computation: (isMobile) => (isMobile ? "grid" : "table"),
+    computation: (isMobile) => (!isMobile ? "grid" : "table"),
   })
 
   readonly totalCandidates = this.dashboardService.totalCandidates;

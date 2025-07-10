@@ -32,12 +32,12 @@
     <mat-card-content>
       @if (viewMode() === 'grid') {
 
-      <!-- <app-candidate-'grid'
+      <app-candidate-grid
         [candidates]="filteredCandidates()"
         [loading]="loading()"
         (candidateClick)="viewCandidateDetail($event)"
         (clearFilters)="clearFilters()">
-      </app-candidate-'grid'> -->
+      </app-candidate-grid>
 
       } @else {
       <app-candidate-table
