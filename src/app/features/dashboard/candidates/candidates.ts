@@ -10,7 +10,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate-store.model";
-import { DashboardService } from "../dashboard-service";
+import { DashboardService } from "../dashboard.service";
 import {
   matchesAgeFilter,
   matchesCity,
