@@ -37,12 +37,10 @@ export class StatsGrid {
   readonly cardClick = output<StatCard>();
   readonly cardHover = output<StatCard>();
 
-  // TrackBy function for performance optimization
   trackByStatCard(index: number, card: StatCard): string {
     return `${card.title}-${card.value}`;
   }
 
-  // Handle card interactions
   onCardClick(card: StatCard): void {
     this.cardClick.emit(card);
   }
