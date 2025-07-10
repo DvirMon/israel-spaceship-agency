@@ -40,16 +40,15 @@
       </app-candidate-list> -->
 
       } @else {
-      <!-- <app-candidate-table
+      <app-candidate-table
         [candidates]="filteredCandidates()"
         [loading]="loading()"
         (candidateView)="viewCandidateDetail($event)"
-        (candidateEdit)="editCandidate($event)"
         (clearFilters)="clearFilters()">
-      </app-candidate-table> -->
+      </app-candidate-table>
 
       }
-      <!-- 
+<!--       
       @if (filteredCandidates().length === 0) {
       <div class="empty-state">
         <mat-icon class="empty-icon">people_outline</mat-icon>
