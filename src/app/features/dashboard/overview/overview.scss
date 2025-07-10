@@ -17,9 +17,13 @@
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 24px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.charts-grid > :nth-child(3) {
+  grid-column: 1 / -1; /* Span full width */
 }
 
 .mat-mdc-card-header {
@@ -46,7 +50,7 @@ article.map-container {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .overview-container {
     padding: 16px;
   }

@@ -18,6 +18,7 @@ import { FilterState, ActiveFilter } from "./types";
 import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
 import { ViewMode } from "../../candidates";
 import { trigger, transition, style, animate } from "@angular/animations";
+import { CITY_OPTIONS } from "app/features/register/register";
 // import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
@@ -59,6 +60,9 @@ export class CandidateFilters {
   readonly viewMode = input.required<ViewMode>();
   readonly resultCount = input.required<number>();
   readonly totalCount = input.required<number>();
+
+  readonly cityOptions = input<string[]>(CITY_OPTIONS);
+
   readonly loading = input(false);
   readonly showAdvancedFilters = model(false);
   readonly searchChange = model<string>();
@@ -71,7 +75,7 @@ export class CandidateFilters {
   readonly removeFilter = output<keyof FilterState>();
   readonly clearFilters = output<void>();
   // Computed active filters
-  activeFilters = computed(() => {
+  readonly activeFilters = computed(() => {
     const filters = this.filters();
     const active: ActiveFilter[] = [];
 
@@ -119,7 +123,7 @@ export class CandidateFilters {
   });
 
   // Computed has active filters
-  hasActiveFilters = computed((): boolean => {
+  readonly hasActiveFilters = computed((): boolean => {
     const filters = this.filters();
     return (
       filters.searchTerm !== "" ||

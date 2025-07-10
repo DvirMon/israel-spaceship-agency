@@ -34,15 +34,9 @@ export function optionIncludedValidator<T>(validOptions: T[]): ValidatorFn {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CityAutocomplete {
-  control = input.required<FormControl>();
+  readonly control = input.required<FormControl>();
 
-  options = input.required<string[]>();
-
-  isRequired = computed(() => this.control().hasError("required"));
-
-  optionNotIncluded = computed(
-    () => this.control().hasError("optionNotIncluded")
-  );
+  readonly options = input.required<string[]>();
 
   readonly selectedCity = linkedSignal(() => this.control().value);
 

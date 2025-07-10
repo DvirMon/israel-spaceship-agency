@@ -1,7 +1,7 @@
 <div class="filters-section" [class.loading]="loading()">
   <!-- Main Filters Row -->
   <div class="filters-row">
-    <mat-form-field appearance="outline" class="search-field">
+    <mat-form-field appearance="outline" class="full-field">
       <mat-label>Search candidates</mat-label>
       <input
         matInput
@@ -12,61 +12,46 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by city</mat-label>
-      <mat-select
-        [value]="filters().cityFilter"
-        (selectionChange)="onCityFilterChange($event.value)"
-        [disabled]="loading()">
-        <mat-option value="all">All Cities</mat-option>
-        <mat-option value="tel-aviv">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Tel Aviv
-        </mat-option>
-        <mat-option value="jerusalem">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Jerusalem
-        </mat-option>
-        <mat-option value="haifa">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Haifa
-        </mat-option>
-        <mat-option value="beer-sheva">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Beer Sheva
-        </mat-option>
-        <mat-option value="eilat">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Eilat
-        </mat-option>
-        <mat-option value="netanya">
-          <mat-icon class="option-icon">location_city</mat-icon>
-          Netanya
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <section class="filters-buttons">
+      <mat-form-field appearance="outline" class="full-field">
+        <mat-label>Filter by city</mat-label>
+        <mat-select
+          [value]="filters().cityFilter"
+          (selectionChange)="onCityFilterChange($event.value)"
+          [disabled]="loading()">
+          <mat-option value="all">All Cities</mat-option>
+          @for (city of cityOptions(); track $index) {
+          <mat-option value="tel-aviv">
+            <mat-icon class="option-icon">location_city</mat-icon>
+            {{city}}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    <!-- Advanced Filters Toggle -->
-    <button
-      matIconButton
-      (click)="toggleAdvancedFilters()"
-      [matTooltip]="
+      <button
+        matIconButton
+        (click)="toggleAdvancedFilters()"
+        [matTooltip]="
         showAdvancedFilters()
           ? 'Hide advanced filters'
           : 'Show advanced filters'
       "
-      [class.active]="showAdvancedFilters()"
-      [disabled]="loading()">
-      <mat-icon>{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon>
-    </button>
+        [class.active]="showAdvancedFilters()"
+        [disabled]="loading()">
+        <mat-icon
+          >{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon
+        >
+      </button>
 
-    <button
-      matButton="outlined"
-      (click)="onClearFilters()"
-      [disabled]="loading() || !hasActiveFilters()">
-      <mat-icon>clear_all</mat-icon>
-      Clear Filters
-    </button>
+      <button
+        matButton="outlined"
+        (click)="onClearFilters()"
+        [disabled]="loading() || !hasActiveFilters()">
+        <mat-icon>clear_all</mat-icon>
+        Clear Filters
+      </button>
+    </section>
   </div>
   <!-- Advanced Filters Row -->
   @if (showAdvancedFilters()) {

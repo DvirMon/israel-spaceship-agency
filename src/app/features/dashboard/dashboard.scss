@@ -34,8 +34,14 @@
 }
 
 .main-content {
-  width: 85vw;
+  width: 75vw;
   margin: 0 auto;
+}
+
+@media (max-width: 2000px) {
+  .main-content {
+    width: 95vw;
+  }
 }
 
 ::ng-deep .mat-mdc-tab-group.candidate-tabs .mat-mdc-tab-body {
