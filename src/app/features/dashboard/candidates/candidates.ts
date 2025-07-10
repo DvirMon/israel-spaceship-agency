@@ -19,6 +19,7 @@ import {
 import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
+import { IS_MOBILE } from "@core/tokens/mobile";
 
 export type ViewMode = "grid" | "table";
 
@@ -36,6 +37,8 @@ const componentsImports = [CandidateFilters, CandidateTable];
 })
 export class Candidates {
   private readonly dashboardService = inject(DashboardService);
+
+  readonly isMobile = inject(IS_MOBILE);
 
   // Filter signals
   readonly searchTerm = signal("");
