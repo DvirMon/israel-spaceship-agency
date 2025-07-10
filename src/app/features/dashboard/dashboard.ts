@@ -4,6 +4,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Candidates } from "./candidates/candidates";
+import { Overview } from "./overview/overview";
 
 const materialImports = [
   MatToolbarModule,
@@ -12,7 +13,7 @@ const materialImports = [
   MatChipsModule,
 ];
 
-const componentImports = [Candidates]; 
+const componentImports = [Candidates, Overview]; 
 
 @Component({
   selector: "app-dashboard",
