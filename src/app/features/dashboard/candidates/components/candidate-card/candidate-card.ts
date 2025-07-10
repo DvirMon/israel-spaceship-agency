@@ -1,4 +1,4 @@
-import { NgOptimizedImage } from "@angular/common";
+import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +14,7 @@ import { CandidateStore } from "@core/models/candidate-store.model";
 @Component({
   selector: "app-candidate-card",
   standalone: true,
-  imports: [NgOptimizedImage, MatCardModule, MatIconModule, MatChipsModule],
+  imports: [NgOptimizedImage, MatCardModule, MatIconModule, MatChipsModule, DatePipe],
   templateUrl: "./candidate-card.html",
   styleUrls: ["./candidate-card.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

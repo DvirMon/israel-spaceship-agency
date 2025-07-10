@@ -1,26 +1,22 @@
 @let data = candidate(); @if(data) {
 
 <mat-card class="candidate-card" (click)="onCardClick()">
+  <mat-card-header>
+    <img
+      [ngSrc]="data.profileImage || ''"
+      [alt]="data.fullName"
+      width="80"
+      height="80"
+      mat-card-avatar />
+
+    <mat-card-title>{{ data.fullName }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt | date : 'MMM dd' }}
+    </mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
-    <div class="candidate-info">
-      <img
-        [ngSrc]="data.profileImage || ''"
-        [alt]="data.fullName"
-        width="48"
-        height="48"
-        class="candidate-avatar" />
-      <div class="candidate-details">
-        <h3 class="candidate-name">{{ data.fullName }}</h3>
-        <p class="candidate-location">
-          <mat-icon class="location-icon">place</mat-icon>
-          {{ data.city }} • Age {{ data.age }}
-        </p>
-        <p class="candidate-summary">{{ data.motivation }}</p>
-        <div class="candidate-footer">
-          <span class="application-date">{{ data.registeredAt }}</span>
-        </div>
-      </div>
-    </div>
+      <span class="application-date">{{ data.hobbies }}</span>
+    <span class="candidate-pitch">{{ data.motivation }}</span>
   </mat-card-content>
 </mat-card>
 
