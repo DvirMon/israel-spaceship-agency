@@ -14,18 +14,16 @@
   );
 }
 
-
 .filters-section {
   // align with card padding
   padding: 0px 8px 0px 8px;
 }
+
 .filters-row {
   display: flex;
   gap: 8px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
 
-  .search-field {
+  .full-field {
     flex: 1;
     min-width: 200px;
   }
@@ -34,6 +32,10 @@
   button.mat-mdc-button-base {
     margin-top: 10px;
   }
+}
+
+.filters-buttons {
+  display: flex;
 }
 
 .advanced-filters {
