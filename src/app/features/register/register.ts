@@ -44,7 +44,7 @@ const importMaterial = [
   MatAutocompleteModule,
 ];
 
-const CITY_OPTIONS = [
+export const CITY_OPTIONS = [
   "Jerusalem",
   "Tel Aviv",
   "Haifa",
