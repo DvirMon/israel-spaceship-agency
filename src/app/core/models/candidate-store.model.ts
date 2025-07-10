@@ -10,7 +10,7 @@ export type CandidateStore = {
   city: string;
   hobbies?: string;
   motivation?: string;
-  profileImage?: File | null | string;
+  profileImage?: string;
   geo: { latitude: number; longitude: number };
   registeredAt: Date;
   expiresAt: Date;
@@ -24,7 +24,7 @@ export type CandidateFireStore = {
   city: string;
   hobbies: string;
   motivation: string;
-  profileImage: File | null | string;
+  profileImage: string;
   geo: GeoPoint;
   registeredAt: Timestamp;
   expiresAt: Timestamp;

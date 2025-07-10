@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
@@ -19,12 +20,14 @@ import {
 import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
+import { IS_MOBILE } from "@core/tokens/mobile";
+import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
 
-export type ViewMode = "list" | "table";
+export type ViewMode = "grid" | "table";
 
 const materialImports = [MatCardModule, MatIconModule, MatDialogModule];
 
-const componentsImports = [CandidateFilters, CandidateTable];
+const componentsImports = [CandidateFilters, CandidateTable, CandidateGrid];
 
 @Component({
   selector: "app-candidates",
@@ -37,6 +40,8 @@ const componentsImports = [CandidateFilters, CandidateTable];
 export class Candidates {
   private readonly dashboardService = inject(DashboardService);
 
+  readonly isMobile = inject(IS_MOBILE);
+
   // Filter signals
   readonly searchTerm = signal("");
   readonly statusFilter = signal("all");
@@ -46,10 +51,13 @@ export class Candidates {
   readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly viewMode = signal<ViewMode>("table");
   readonly loading = signal(false);
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
+  readonly viewMode = linkedSignal({
+    source: this.isMobile,
+    computation: (isMobile) => (!isMobile ? "grid" : "table"),
+  })
 
   readonly totalCandidates = this.dashboardService.totalCandidates;
 

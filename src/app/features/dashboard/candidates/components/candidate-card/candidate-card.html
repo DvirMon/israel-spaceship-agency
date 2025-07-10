@@ -1,0 +1,23 @@
+@let data = candidate(); @if(data) {
+
+<mat-card class="candidate-card" (click)="onCardClick()">
+  <mat-card-header>
+    <img
+      [ngSrc]="data.profileImage || ''"
+      [alt]="data.fullName"
+      width="80"
+      height="80"
+      mat-card-avatar />
+
+    <mat-card-title>{{ data.fullName }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt | date : 'MMM dd' }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      <span class="application-date">{{ data.hobbies }}</span>
+    <span class="candidate-pitch">{{ data.motivation }}</span>
+  </mat-card-content>
+</mat-card>
+
+}

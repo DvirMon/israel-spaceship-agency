@@ -1,16 +1,24 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { FilterState, ActiveFilter } from './types';
-import { getCityLabel, getDateLabel, getSortLabel } from './utils';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { FilterState, ActiveFilter } from "./types";
+import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
+import { ViewMode } from "../../candidates";
+import { trigger, transition, style, animate } from "@angular/animations";
 // import { animate, style, transition, trigger } from "@angular/animations";
-
 
 @Component({
   selector: "app-candidate-filters",
@@ -28,27 +36,27 @@ import { getCityLabel, getDateLabel, getSortLabel } from './utils';
   styleUrls: ["./candidate-filters.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    // trigger("slideDown", [
-    //   transition(":enter", [
-    //     style({ opacity: 0, transform: "translateY(-10px)" }),
-    //     animate(
-    //       "200ms ease-out",
-    //       style({ opacity: 1, transform: "translateY(0)" })
-    //     ),
-    //   ]),
-    //   transition(":leave", [
-    //     animate(
-    //       "200ms ease-in",
-    //       style({ opacity: 0, transform: "translateY(-10px)" })
-    //     ),
-    //   ]),
-    // ]),
+    trigger("slideDown", [
+      transition(":enter", [
+        style({ opacity: 0, transform: "translateY(-10px)" }),
+        animate(
+          "200ms ease-out",
+          style({ opacity: 1, transform: "translateY(0)" })
+        ),
+      ]),
+      transition(":leave", [
+        animate(
+          "200ms ease-in",
+          style({ opacity: 0, transform: "translateY(-10px)" })
+        ),
+      ]),
+    ]),
   ],
 })
 export class CandidateFilters {
   // Signal-based inputs
   readonly filters = input.required<FilterState>();
-  readonly viewMode = input.required<"list" | "table">();
+  readonly viewMode = input.required<ViewMode>();
   readonly resultCount = input.required<number>();
   readonly totalCount = input.required<number>();
   readonly loading = input(false);
@@ -59,7 +67,7 @@ export class CandidateFilters {
   readonly ageFilterChange = model<string>();
   readonly dateFilterChange = model<string>();
   readonly sortChange = model<string>();
-  readonly toggleView = output<"list" | "table">();
+  readonly toggleView = output<ViewMode>();
   readonly removeFilter = output<keyof FilterState>();
   readonly clearFilters = output<void>();
   // Computed active filters
@@ -149,10 +157,10 @@ export class CandidateFilters {
     this.sortChange.set(value);
   }
 
-    onToggleView(mode: "list" | "table"): void {
+  onToggleView(mode: ViewMode): void {
     this.toggleView.emit(mode);
   }
-  
+
   onClearFilters(): void {
     this.clearFilters.emit();
   }
@@ -164,7 +172,6 @@ export class CandidateFilters {
   toggleAdvancedFilters(): void {
     this.showAdvancedFilters.update((show) => !show);
   }
-
 
   // TrackBy function for performance
   trackByFilter(index: number, filter: ActiveFilter): string {
