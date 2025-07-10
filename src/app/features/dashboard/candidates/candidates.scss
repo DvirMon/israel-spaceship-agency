@@ -1,6 +1,5 @@
 @use "@angular/material" as mat;
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
 :host {
   @include mat.card-overrides(
     (
@@ -8,11 +7,6 @@
       subtitle-text-size: 24px,
     )
   );
-}
-
-.candidates-container {
-  margin: 0 auto;
-  padding: 24px;
 }
 
 .candidates-card {
