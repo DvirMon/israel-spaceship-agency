@@ -55,7 +55,7 @@ export class Candidates {
   readonly showAdvancedFilters = signal(false);
   readonly viewMode = linkedSignal({
     source: this.isMobile,
-    computation: (isMobile) => (!isMobile ? "grid" : "table"),
+    computation: (isMobile) => (isMobile ? "grid" : "table"),
   });
 
   readonly totalCandidates = this.dashboardService.totalCandidates;
