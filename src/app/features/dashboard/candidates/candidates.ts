@@ -20,7 +20,7 @@ import { CandidateFilters } from "./components/candidate-filters/candidate-filte
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
 
-export type ViewMode = "list" | "table";
+export type ViewMode = "grid" | "table";
 
 const materialImports = [MatCardModule, MatIconModule, MatDialogModule];
 

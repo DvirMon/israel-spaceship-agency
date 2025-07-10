@@ -59,7 +59,7 @@ export class CandidateFilters {
   readonly ageFilterChange = model<string>();
   readonly dateFilterChange = model<string>();
   readonly sortChange = model<string>();
-  readonly toggleView = output<"list" | "table">();
+  readonly toggleView = output<ViewMode>();
   readonly removeFilter = output<keyof FilterState>();
   readonly clearFilters = output<void>();
   // Computed active filters
@@ -149,10 +149,10 @@ export class CandidateFilters {
     this.sortChange.set(value);
   }
 
-    onToggleView(mode: "list" | "table"): void {
+  onToggleView(mode: ViewMode): void {
     this.toggleView.emit(mode);
   }
-  
+
   onClearFilters(): void {
     this.clearFilters.emit();
   }
@@ -164,7 +164,6 @@ export class CandidateFilters {
   toggleAdvancedFilters(): void {
     this.showAdvancedFilters.update((show) => !show);
   }
-
 
   // TrackBy function for performance
   trackByFilter(index: number, filter: ActiveFilter): string {
