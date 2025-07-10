@@ -8,7 +8,7 @@ export type AdditionalInfoModel = Pick<
   CandidateStore,
   "hobbies" | "motivation" | "profileImage"
 >;
-export type CandidateForm = PersonalInfoModel & AdditionalInfoModel;
+export type CandidateForm = PersonalInfoModel & Partial<AdditionalInfoModel>;
 
 type RegisterMetadata = {
   geo: { latitude: number; longitude: number };
