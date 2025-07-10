@@ -70,9 +70,7 @@ export class FileUpload implements ControlValueAccessor {
   readonly previewUrl = toSignal(
     this.control.valueChanges.pipe(
       filter((value) => value instanceof File),
-      // tap(() => console.log("Control value changed:", this.control.value)),
       filter((file) => this.control.valid),
-      // tap(() => console.log("Control value valid:", this.control.value)),
       mapFileToDataUrl()
     ),
     {

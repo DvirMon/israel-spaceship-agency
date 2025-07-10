@@ -1,6 +1,22 @@
+import { GeoPoint, Timestamp } from "@angular/fire/firestore";
+
 // The source of truth for candidate types
 export type CandidateStore = {
-  id : string
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  age: number;
+  city: string;
+  hobbies?: string;
+  motivation?: string;
+  profileImage?: string;
+  geo: { latitude: number; longitude: number };
+  registeredAt: Date;
+  expiresAt: Date;
+};
+export type CandidateFireStore = {
+  id: string;
   fullName: string;
   email: string;
   phone: string;
@@ -8,8 +24,8 @@ export type CandidateStore = {
   city: string;
   hobbies: string;
   motivation: string;
-  profileImage: File | null | string;
-  geo: { latitude: number; longitude: number };
-  profileImageUrl: string;
-  registeredAt: Date;
+  profileImage: string;
+  geo: GeoPoint;
+  registeredAt: Timestamp;
+  expiresAt: Timestamp;
 };

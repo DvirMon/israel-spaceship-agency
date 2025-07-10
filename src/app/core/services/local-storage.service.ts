@@ -100,8 +100,6 @@ export class LocalStorage {
         return false;
       }
 
-      console.log(localStorage.getItem(key));
-
       return localStorage.getItem(key) !== null;
     } catch (error) {
       console.error("Error checking localStorage key:", error);

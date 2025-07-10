@@ -9,6 +9,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  Observable,
   withLatestFrom
 } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
@@ -65,7 +66,7 @@ export function createRegistrationForm() {
   });
 }
 
-// TODO - fix first submit on update
+// TODO - ref with type infernce
 export function formSubmitEffect(form: FormGroup) {
   return form.events.pipe(
     filter((event) => event instanceof FormSubmittedEvent),
@@ -73,4 +74,30 @@ export function formSubmitEffect(form: FormGroup) {
     map(([event, value]) => value),
     distinctUntilChanged((a, b) => compareCandidates(a, b))
   );
+}
+
+export function toFormData<T extends Record<string, any>>(
+  orderedKeys?: (keyof T)[]
+) {
+  return (source$: Observable<T>) =>
+    source$.pipe(
+      map((data) => {
+        const formData = new FormData();
+        const keys = orderedKeys ?? (Object.keys(data) as (keyof T)[]);
+
+        for (const key of keys) {
+          const value = data[key] as unknown;
+
+          if (value instanceof Blob || value instanceof File) {
+            formData.append(key as string, value);
+          } else if (value !== undefined && value !== null) {
+            formData.append(key as string, value.toString());
+          } else {
+            formData.append(key as string, "");
+          }
+        }
+
+        return formData;
+      })
+    );
 }

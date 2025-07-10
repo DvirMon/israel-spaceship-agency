@@ -17,8 +17,6 @@ export function optionIncludedValidator<T>(validOptions: T[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     const isValid = validOptions.includes(value);
-
-    console.log("isValid", isValid);
     return isValid ? null : { optionNotIncluded: true };
   };
 }
@@ -53,12 +51,12 @@ export class CityAutocomplete {
     computation: (city) => {
       if (!city) return this.options();
 
-      // if (typeof city !== "string") {
-      //   return this.options();
-      // }
+      if (typeof city !== "string") {
+        return this.options();
+      }
 
       return this.options().filter((option) =>
-        option.toLowerCase().includes(city.toLowerCase())
+        option.toLowerCase().trim().includes(city.toLowerCase().trim())
       );
     },
   });

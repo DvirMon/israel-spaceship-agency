@@ -1,9 +1,9 @@
 import {
   Injectable,
   computed,
-  effect,
   inject,
-  linkedSignal
+  linkedSignal,
+  signal
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { CandidateStore } from "@core/models/candidate-store.model";
@@ -14,9 +14,19 @@ import { of } from "rxjs";
 export class RegisterStore {
   private readonly localStorage = inject(LocalStorage);
 
+  private readonly existingUuid = signal(
+    this.localStorage.getItem<string>("registration-uuid")
+  );
+
   readonly storeCandidate = toSignal(this.initializeRegistrationFlow());
 
-  readonly candidate = linkedSignal(() => this.storeCandidate());
+  readonly candidate = linkedSignal(() => {
+    const candidate = this.storeCandidate();
+
+    if (!candidate) return null;
+
+    return candidate;
+  });
 
   readonly isUpdateFlow = computed(() => {
     const candidate = this.candidate();
@@ -25,13 +35,9 @@ export class RegisterStore {
     return Object(candidate).hasOwnProperty("id");
   });
 
-
   private initializeRegistrationFlow() {
-    const existingUuid = this.localStorage.getItem<string>("registration-uuid");
 
-    if (existingUuid) {
-      console.log("Found existing registration UUID:", existingUuid);
-
+    if (this.existingUuid()) {
       // Create mock data for existing registration
       const mockData = {
         fullName: "John Doe",
@@ -43,8 +49,8 @@ export class RegisterStore {
           "Reading, hiking, photography, and learning new technologies. I enjoy spending time outdoors and exploring different cultures.",
         motivation:
           "I am passionate about innovation and technology. The IISa Program represents an incredible opportunity to develop my skills, collaborate with like-minded individuals, and contribute to meaningful projects that can make a real impact on society.",
-        profileImage: null,
-        id: "text",
+        profileImage: undefined,
+        id: this.existingUuid(),
       } as CandidateStore;
 
       return of(mockData);

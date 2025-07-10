@@ -1,0 +1,172 @@
+@use "@angular/material" as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:host {
+  @include mat.table-overrides(
+    (
+      header-container-height: 80px,
+      header-headline-size: 24px,
+      row-item-container-height: 120px,
+      row-item-label-text-size: 1.5rem,
+    )
+  );
+}
+
+.candidates-table {
+  width: 100%;
+
+  &.loading {
+    pointer-events: none;
+  }
+}
+
+.table-container {
+  .mat-mdc-row:hover {
+    opacity: 0.8;
+  }
+
+  .table-row {
+    cursor: pointer;
+  }
+
+  .table-row td {
+    border-bottom-width: 0;
+  }
+  //   required to hide expand row
+  .detail-row {
+    height: 0;
+  }
+}
+
+.table-candidate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .table-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.table-location {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .location-age {
+    font-size: 1.2rem;
+  }
+}
+
+.table-applied {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .applied-ago {
+    font-size: 1.2rem;
+  }
+}
+
+button.view-button {
+  font-size: 1.5rem;
+  height: 3rem;
+}
+
+.expanded-detail {
+  .detail-content {
+    padding: 0 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+
+    .detail-section {
+      h3 {
+        font-weight: 500;
+      }
+
+      p {
+        font-size: 24px;
+      }
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+.table-loading {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .loading-header {
+    display: flex;
+    background-color: #f8f9fa;
+    padding: 12px;
+
+    .header-skeleton {
+      flex: 1;
+      height: 16px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin-right: 12px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .row-skeleton {
+    display: flex;
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+
+    .cell-skeleton {
+      flex: 1;
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin-right: 12px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:first-child {
+        height: 32px;
+        width: 150px;
+        flex: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 6px 4px;
+    }
+  }
+
+  .table-candidate {
+    gap: 6px;
+
+    .table-avatar {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .table-actions button span:not(.mat-icon) {
+    display: none;
+  }
+
+  .expanded-detail .detail-content {
+    padding: 8px;
+  }
+}
