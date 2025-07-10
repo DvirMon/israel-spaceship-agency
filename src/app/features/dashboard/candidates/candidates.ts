@@ -10,7 +10,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate-store.model";
-import { DashboardService } from "../dashboard-service";
+import { IS_MOBILE } from "@core/tokens/mobile";
+import { DashboardService } from "../dashboard.service";
 import {
   matchesAgeFilter,
   matchesCity,
@@ -19,9 +20,8 @@ import {
 } from "./candidates.utils";
 import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
 import { FilterState } from "./components/candidate-filters/types";
-import { CandidateTable } from "./components/candidate-table/candidate-table";
-import { IS_MOBILE } from "@core/tokens/mobile";
 import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
+import { CandidateTable } from "./components/candidate-table/candidate-table";
 
 export type ViewMode = "grid" | "table";
 
@@ -35,7 +35,6 @@ const componentsImports = [CandidateFilters, CandidateTable, CandidateGrid];
   templateUrl: "./candidates.html",
   styleUrl: "./candidates.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DashboardService],
 })
 export class Candidates {
   private readonly dashboardService = inject(DashboardService);
