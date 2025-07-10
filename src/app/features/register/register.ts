@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   effect,
-  inject
+  inject,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -20,11 +20,17 @@ import { CityAutocomplete } from "app/shared/components/city-autocomplete/city-a
 import { FileUpload } from "app/shared/components/file-upload/file-upload";
 import { LoadingOverlay } from "app/shared/components/loading-overlay/loading-overlay";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
-import { filter, switchMap, tap } from "rxjs";
+import { filter, map, switchMap, tap } from "rxjs";
 import { RegisterHttp } from "./services/register-http";
 import { RegisterStore } from "./services/register-store";
 import { RegisterService } from "./services/register.service";
 import { createRegistrationForm, formSubmitEffect } from "./utils/form";
+import { compareCandidates } from "./utils/utils";
+import {
+  withCoordinates,
+  withTimestamps,
+} from "app/shared/components/loading-overlay/operator";
+import { provideCollectionToken } from "@core/tokens/collection.tokens";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -84,7 +90,9 @@ const CITY_OPTIONS = [
   templateUrl: "./register.html",
   styleUrl: "./register.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RegisterService, RegisterStore, RegisterHttp],
+  providers: [
+    provideCollectionToken('candidates'),
+    RegisterService, RegisterStore, RegisterHttp],
 })
 export class Register {
   // Computed signal for dynamic button label
@@ -105,12 +113,20 @@ export class Register {
   readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => this.registerService.store.isUpdateFlow()),
     tap((val) => console.log("update", val)),
+    filter(
+      (value) =>
+        !compareCandidates(value, this.registerService.store.candidate())
+    ),
+    map((value) => ({ ...this.registerService.store.candidate(), ...value })),
+    withCoordinates(),
     switchMap((value) => this.registerService.http.updateCandidate(value))
   );
 
   readonly createCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => !this.registerService.store.isUpdateFlow()),
     tap(() => console.log("create")),
+    withCoordinates(),
+    withTimestamps(),
     switchMap((value) => this.registerService.http.createCandidate(value))
   );
 

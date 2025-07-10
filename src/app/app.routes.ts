@@ -7,8 +7,8 @@ export const routes: Routes = [
       import('./features/landing/landing').then(m => m.Landing),
   },
   {
-    path: 'admin',
+    path: 'dashboard',
     loadComponent: () =>
-      import('./features/admin/admin').then(m => m.Admin),
+      import('./features/dashboard/dashboard').then(m => m.Dashboard),
   },
 ];

@@ -14,9 +14,4 @@ export class LoadingOverlayService {
     this._loading.set(false);
   }
 
-  constructor() {
-    effect(() => {
-      console.log('isLoading', this.isLoading());
-    });
-  }
 }
