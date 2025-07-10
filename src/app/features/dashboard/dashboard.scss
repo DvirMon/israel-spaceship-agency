@@ -55,3 +55,7 @@
   width: 85vw;
   margin: 0 auto;
 }
+
+::ng-deep .mat-mdc-tab-group.candidate-tabs .mat-mdc-tab-body {
+  padding-top: 32px !important;
+}

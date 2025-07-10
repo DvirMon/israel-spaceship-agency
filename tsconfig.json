@@ -19,6 +19,7 @@
       "@core/*": ["app/core/*"],
       "@models/*": ["app/core/models/*"],
       "@tokens/*": ["app/core/tokens/*"],
+      "@charts/*": ["app/core/charts/*"],
       "@cards/*": ["app/shared/components/cards/*"],
       "@chards/*": ["app/shared/components/chards/*"],
       "@shared/pipes/*": ["app/shared/pipes/*"]
