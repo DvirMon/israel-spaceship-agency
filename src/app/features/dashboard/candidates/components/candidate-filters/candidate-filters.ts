@@ -59,10 +59,9 @@ export class CandidateFilters {
   readonly ageFilterChange = model<string>();
   readonly dateFilterChange = model<string>();
   readonly sortChange = model<string>();
-  readonly clearFilters = model<void>();
-  readonly toggleView = model<"list" | "table">();
-  readonly removeFilter = model<keyof FilterState>();
-
+  readonly toggleView = output<"list" | "table">();
+  readonly removeFilter = output<keyof FilterState>();
+  readonly clearFilters = output<void>();
   // Computed active filters
   activeFilters = computed(() => {
     const filters = this.filters();
@@ -150,17 +149,16 @@ export class CandidateFilters {
     this.sortChange.set(value);
   }
 
+    onToggleView(mode: "list" | "table"): void {
+    this.toggleView.emit(mode);
+  }
+  
   onClearFilters(): void {
-    this.clearFilters.set();
+    this.clearFilters.emit();
   }
-
-  onToggleView(mode: "list" | "table"): void {
-    this.toggleView.set(mode);
-  }
-
 
   onRemoveFilter(key: keyof FilterState): void {
-    this.removeFilter.set(key);
+    this.removeFilter.emit(key);
   }
 
   toggleAdvancedFilters(): void {
