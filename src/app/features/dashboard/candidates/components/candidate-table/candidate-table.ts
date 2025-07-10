@@ -1,7 +1,8 @@
-import { NgOptimizedImage } from "@angular/common";
+import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
   signal,
@@ -13,7 +14,13 @@ import { MatTableModule } from "@angular/material/table";
 import { CandidateStore } from "@core/models/candidate-store.model";
 import { ViewMode } from "../../candidates";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
-
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from "@angular/animations";
 @Component({
   selector: "app-candidate-table",
   imports: [
@@ -22,11 +29,22 @@ import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
     MatIconModule,
     MatChipsModule,
     NgOptimizedImage,
+    DatePipe,
     DaysAgoPipe,
   ],
   templateUrl: "./candidate-table.html",
   styleUrl: "./candidate-table.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger("detailExpand", [
+      state("collapsed", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
+      transition(
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+      ),
+    ]),
+  ],
 })
 export class CandidateTable {
   readonly candidates = input.required<CandidateStore[]>();
@@ -45,6 +63,7 @@ export class CandidateTable {
     "actions",
   ];
   readonly expandedCandidate = signal<CandidateStore | null>(null);
+  // readonly expandedCandidate = computed(() => this.candidates()[0]);
 
   onViewClick(candidate: CandidateStore): void {
     this.candidateView.emit(candidate);

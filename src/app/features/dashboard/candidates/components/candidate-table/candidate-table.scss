@@ -1,3 +1,17 @@
+@use "@angular/material" as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:host {
+  @include mat.table-overrides(
+    (
+      header-container-height: 80px,
+      header-headline-size: 24px,
+      row-item-container-height: 120px,
+      row-item-label-text-size: 1.5rem,
+    )
+  );
+}
+
 .candidates-table {
   width: 100%;
 
@@ -7,31 +21,8 @@
 }
 
 .table-container {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-
-  table {
-    width: 100%;
-  }
-
-  .mat-mdc-header-row {
-    background-color: #f8f9fa;
-
-    .mat-mdc-header-cell {
-      font-weight: 600;
-      color: #424242;
-
-      .header-content {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-    }
-  }
-
   .mat-mdc-row:hover {
-    background-color: #f5f5f5;
+    opacity: 0.8;
   }
 
   .table-row {
@@ -41,6 +32,7 @@
   .table-row td {
     border-bottom-width: 0;
   }
+  //   required to hide expand row
   .detail-row {
     height: 0;
   }
@@ -55,95 +47,46 @@
     border-radius: 50%;
     object-fit: cover;
   }
-
-  .table-candidate-info {
-    .table-candidate-name {
-      font-weight: 500;
-      margin-bottom: 2px;
-    }
-
-    .table-candidate-summary {
-      font-size: 11px;
-      color: #757575;
-      max-width: 150px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-}
-
-.table-contact {
-  .contact-email {
-    font-size: 12px;
-    margin-bottom: 2px;
-  }
-
-  .contact-available {
-    font-size: 10px;
-    color: #4caf50;
-  }
 }
 
 .table-location {
-  .location-city {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    margin-bottom: 2px;
-
-    .location-icon {
-      font-size: 14px;
-      width: 14px;
-      height: 14px;
-      margin-right: 4px;
-      color: #757575;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   .location-age {
-    font-size: 10px;
-    color: #757575;
+    font-size: 1.2rem;
   }
 }
 
 .table-applied {
-  .applied-date {
-    font-size: 12px;
-    margin-bottom: 2px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   .applied-ago {
-    font-size: 10px;
-    color: #757575;
+    font-size: 1.2rem;
   }
 }
 
-.table-actions {
-  display: flex;
-  gap: 6px;
+button.view-button {
+  font-size: 1.5rem;
+  height: 3rem;
 }
 
 .expanded-detail {
-
   .detail-content {
-    padding: 12px;
-    background: #f8f9fa;
+    padding: 0 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
 
     .detail-section {
-      margin-bottom: 8px;
-
-      h4 {
-        margin: 0 0 4px 0;
-        font-size: 12px;
-        font-weight: 600;
-        color: #424242;
+      h3 {
+        font-weight: 500;
       }
 
       p {
-        margin: 0;
-        font-size: 12px;
-        color: #616161;
+        font-size: 24px;
       }
     }
 

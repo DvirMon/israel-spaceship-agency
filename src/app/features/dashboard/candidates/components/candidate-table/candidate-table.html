@@ -19,92 +19,70 @@
 
   <!-- Data Table -->
   @if (!loading()) {
+
   <div class="table-container">
     <table
       mat-table
       [dataSource]="candidates()"
       class="mat-elevation-2"
       multiTemplateDataRows>
-      <!-- Candidate Column -->
       <ng-container matColumnDef="candidate">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-content"> Candidate </span>
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Candidate</th>
+
         <td mat-cell *matCellDef="let candidate">
           <div class="table-candidate">
             <img
-              [ngSrc]="candidate.image"
-              [alt]="candidate.name"
+              [ngSrc]="candidate.profileImage"
+              [alt]="candidate.fullName"
               class="table-avatar"
-              width="40"
-              height="40"
+              width="80"
+              height="80"
               priority />
-            <div class="table-candidate-info">
-              <div class="table-candidate-name">{{ candidate.name }}</div>
-              <div class="table-candidate-summary">{{ candidate.summary }}</div>
-            </div>
+            {{ candidate.fullName }}
           </div>
         </td>
       </ng-container>
-      <!-- Contact Column -->
+
       <ng-container matColumnDef="contact">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-content"> Contact </span>
-        </th>
-        <td mat-cell *matCellDef="let candidate">
-          <div class="table-contact">
-            <div class="contact-email">{{ candidate.email }}</div>
-            <div class="contact-available">Contact available</div>
-          </div>
-        </td>
+        <th mat-header-cell *matHeaderCellDef>Contact</th>
+        <td mat-cell *matCellDef="let candidate">{{ candidate.email }}</td>
       </ng-container>
-      <!-- Location Column -->
+
       <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-content"> Location & Age </span>
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Location & Age</th>
         <td mat-cell *matCellDef="let candidate">
           <div class="table-location">
-            <div class="location-city">{{ candidate.city }}</div>
+            {{ candidate.city }}
             <div class="location-age">Age {{ candidate.age }}</div>
           </div>
         </td>
       </ng-container>
 
-      <!-- Applied Column -->
       <ng-container matColumnDef="applied">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-content">
-            <!-- <mat-icon>schedule</mat-icon> -->
-            Applied
-          </span>
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Applied</th>
         <td mat-cell *matCellDef="let candidate">
           <div class="table-applied">
-            <div class="applied-date">{{ candidate.applicationDate }}</div>
-            <div class="applied-ago">
-              {{ candidate.applicationDate | daysAgo }} days ago
-            </div>
+            {{ candidate.registeredAt | date }}
+            <span class="applied-ago">
+              {{ candidate.registeredAt | daysAgo }} days ago
+            </span>
           </div>
         </td>
       </ng-container>
-      <!-- Actions Column -->
+
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-content"> Actions </span>
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let candidate">
-          <div class="table-actions">
-            <button
-              matButton="filled"
-              (click)="onViewClick(candidate); $event.stopPropagation()"
-              [attr.aria-label]="'View details for ' + candidate.name">
-              View details</button
-            >>
-          </div>
+          <button
+            class="view-button"
+            matButton="filled"
+            (click)="onViewClick(candidate); $event.stopPropagation()"
+            [attr.aria-label]="'View details for ' + candidate.name">
+            View details
+          </button>
         </td>
       </ng-container>
-      <!-- Expanded Detail Row -->
+
       <ng-container matColumnDef="expandedDetail">
         <td
           mat-cell
@@ -112,22 +90,23 @@
           [attr.colspan]="displayedColumns.length">
           <div
             class="expanded-detail"
-            [@detailExpand]="
-              candidate.id == expandedCandidate()?.id ? 'expanded' : 'collapsed'
-            ">
-            <div class="detail-content">
-              <div class="detail-section">
-                <h4>Hobbies & Interests</h4>
+            [@detailExpand]="candidate.id == expandedCandidate()?.id ? 'expanded' : 'collapsed'
+">
+            <section class="detail-content">
+              <article class="detail-section">
+                <h3>Hobbies & Interests</h3>
                 <p>{{ candidate.hobbies }}</p>
-              </div>
-              <div class="detail-section">
-                <h4>Full Summary</h4>
-                <p>{{ candidate.summary }}</p>
-              </div>
-            </div>
+              </article>
+
+              <article class="detail-section">
+                <h3>Pitch</h3>
+                <p>{{ candidate.motivation }}</p>
+              </article>
+            </section>
           </div>
         </td>
       </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr
         mat-row
@@ -135,7 +114,7 @@
         class="table-row"
         [class.expanded-row]="expandedCandidate()?.id === row.id"
         (click)="onRowClick(row)"
-        [attr.aria-label]="'Candidate row for ' + row.name"></tr>
+        [attr.aria-label]="'Candidate row for ' + row.fullName"></tr>
 
       <tr
         mat-row
@@ -143,5 +122,6 @@
         class="detail-row"></tr>
     </table>
   </div>
+
   }
 </div>
