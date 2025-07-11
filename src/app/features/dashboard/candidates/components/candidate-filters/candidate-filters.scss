@@ -1,6 +1,5 @@
 @use "@angular/material" as mat;
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
 :host {
   @include mat.chips-overrides(
     (
@@ -12,37 +11,54 @@
       with-avatar-avatar-size: 32px,
     )
   );
+
+  @include mat.form-field-overrides(
+    (
+      container-text-size: 28px,
+      outlined-label-text-size: 32px,
+      outlined-label-text-populated-size : 24px,
+      disabled-leading-icon-color: red,
+    )
+  );
 }
 
 .filters-section {
   // align with card padding
   padding: 0px 8px 0px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .filters-row {
   display: flex;
-  gap: 8px;
+  gap: 32px;
+  align-items: center;
 
   .full-field {
     flex: 1;
     min-width: 200px;
   }
 
-  // required to align with mat-form-field
-  button.mat-mdc-button-base {
-    margin-top: 10px;
+  // required to compensate for mat-form-field
+  button {
+    margin-bottom: 20px;
   }
-}
 
-.filters-buttons {
-  display: flex;
+  // required to align with mat-form-field
+  button.clear-filters-button {
+    font-size: 1.5rem;
+    height: 3.5rem;
+  }
+
+  button.mat-mdc-icon-button {
+    scale: 1.8;
+  }
 }
 
 .advanced-filters {
   display: flex;
   gap: 8px;
-  margin-bottom: 8px;
-  padding: 8px;
   flex-wrap: wrap;
 }
 

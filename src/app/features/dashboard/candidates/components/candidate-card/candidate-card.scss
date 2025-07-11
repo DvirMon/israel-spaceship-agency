@@ -29,6 +29,10 @@
   .mat-mdc-card-avatar {
     width: 120px;
     height: 120px;
+    
+    &.avatar-fallback {
+      background-color: #444c56;
+    }
   }
 
   ::ng-deep mat-card-header .mat-mdc-card-header-text {
@@ -46,5 +50,4 @@
     gap: 16px;
     font-size: 18px;
   }
-
 }
