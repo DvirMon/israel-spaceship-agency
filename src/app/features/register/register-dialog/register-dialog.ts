@@ -43,7 +43,7 @@ export class RegisterDialog {
     this.renderer.addClass(this.elementRef.nativeElement, "closing");
 
     // Close the dialog after animation completes using RxJS timer (300ms matches CSS transition)
-    timer(300)
+    timer(2500)
       .pipe(take(1))
       .subscribe(() => {
         this.dialogRef.close();
