@@ -1,16 +1,20 @@
 import { inject } from "@angular/core";
 import {
+  AbstractControl,
   FormGroup,
   FormSubmittedEvent,
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
+import { StorageService } from "@core/services/fire-storage.service";
 import {
   distinctUntilChanged,
   filter,
   map,
+  mergeAll,
   Observable,
-  withLatestFrom
+  of,
+  withLatestFrom,
 } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
 import { compareCandidates } from "./utils";
@@ -62,16 +66,20 @@ export function createRegistrationForm() {
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | null>(""),
+    profileImage: nfb.control<File | string | null | undefined>(""),
   });
 }
 
-// TODO - ref with type infernce
-export function formSubmitEffect(form: FormGroup) {
+export function formSubmitEffect<
+  T extends { [K in keyof T]: AbstractControl<any> }
+>(form: FormGroup<T>) {
   return form.events.pipe(
-    filter((event) => event instanceof FormSubmittedEvent),
+    filter(
+      (event): event is FormSubmittedEvent =>
+        event instanceof FormSubmittedEvent
+    ),
     withLatestFrom(form.valueChanges),
-    map(([event, value]) => value),
+    map(([_, value]) => value),
     distinctUntilChanged((a, b) => compareCandidates(a, b))
   );
 }
@@ -99,5 +107,27 @@ export function toFormData<T extends Record<string, any>>(
 
         return formData;
       })
+    );
+}
+export function fileToUrl<T, K extends keyof T>(key: K) {
+  const storage = inject(StorageService);
+
+  return (source$: Observable<T>) =>
+    source$.pipe(
+      map((data): Observable<T> => {
+        const file = data[key];
+
+        if (file instanceof File) {
+          return storage.uploadFile(file).pipe(
+            map((uploaded) => ({
+              ...data,
+              [key]: uploaded as T[K],
+            }))
+          );
+        }
+
+        return of(data);
+      }),
+      mergeAll() // 👈 flatten Observable<Observable<T>> to Observable<T>
     );
 }

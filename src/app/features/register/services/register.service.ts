@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { take, timer } from "rxjs";
-import { RegisterDialog } from "../components/register-dialog/register-dialog";
+import { RegisterDialog } from "../register-dialog/register-dialog";
 import { RegisterHttp } from "./register-http";
 import { RegisterStore } from "./register-store";
 
