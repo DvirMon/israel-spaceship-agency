@@ -15,29 +15,16 @@ import { from, map, Observable, throwError } from "rxjs";
 import { COLLECTION_KEY } from "../tokens/collection.tokens";
 
 @Injectable()
-export class FireStoreService<T> {
+export class FireStoreService<T extends DocumentData> {
   private firestore = inject(Firestore);
 
-  private readonly collectionToken = inject(COLLECTION_KEY);
+  private readonly collectionToken = inject(COLLECTION_KEY, { optional: true });
 
-  loadCollection<T>(collectionPath?: string): Observable<T[]> {
+  loadCollection(collectionPath?: string): Observable<T[]> {
     const path = collectionPath || this.collectionToken;
     if (!path) throw new Error("No collection path provided or injected");
     const colRef = collection(this.firestore, path) as CollectionReference<T>;
-    return collectionData(colRef) as Observable<T[]>;
-  }
-
-  async fetchCollection(): Promise<DocumentData[]> {
-    const snapshot = await getDocs(collection(this.firestore, "candidates"));
-    return snapshot.docs.map((doc) => doc.data());
-  }
-
-  async addDocument<T>(data: T, collectionPath?: string): Promise<string> {
-    const path = collectionPath || this.collectionToken;
-    if (!path) throw new Error("No collection path provided or injected");
-    const colRef = collection(this.firestore, path) as CollectionReference<T>;
-    const docRef = await addDoc(colRef, data);
-    return docRef.id;
+    return collectionData(colRef, { idField: "id" }) as Observable<T[]>;
   }
 
   createDocument<T extends object>(data: T, collectionPath?: string) {
