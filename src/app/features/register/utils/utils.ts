@@ -40,6 +40,16 @@ export function compareCandidates(
 
   return comparisons.every(Boolean);
 }
+
+export function isValidDate(value: unknown): value is Date {
+  return value instanceof Date && !isNaN(value.getTime());
+}
+
+export function isExpired(value: Date | undefined): boolean {
+  if (!isValidDate(value)) return false;
+
+  return new Date() > value;
+}
 export function withCoordinates<T, K extends keyof T>(key: K) {
   const geocode = inject(GeocodingService);
 
