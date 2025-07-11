@@ -24,13 +24,15 @@ export class RegisterService {
       .pipe(take(1))
       .subscribe(() => {
         // Use the component's animation method for smooth close
-        const componentInstance = dialogRef.componentInstance;
-        componentInstance.closeWithAnimation();
-      });
+        const componentInstance = dialogRef.componentInstance);
+  }
 
-    dialogRef.afterClosed().subscribe(() => {
-      // Optionally reset the form or navigate somewhere
-      console.log("Success dialog closed");
+  openExpiredDialog() {
+    this.dialog.open(ExpiredNoticeDialog, {
+      width: "500px",
+      disableClose: true,
+      maxWidth: "95vw",
+      panelClass: "expired-dialog-panel",
     });
   }
 }
