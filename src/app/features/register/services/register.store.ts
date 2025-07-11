@@ -9,6 +9,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { LocalStorage } from "@core/services/local-storage.service";
 import { of } from "rxjs";
 import { RegisterHttp } from "./register.http";
+import { isExpired } from "../utils/utils";
 
 @Injectable()
 export class RegisterStore {
@@ -35,6 +36,14 @@ export class RegisterStore {
 
     return Object(candidate).hasOwnProperty("id");
   });
+
+  readonly hasEditExpired = computed(() =>
+    isExpired(this.candidate()?.expiresAt)
+  );
+
+  readonly isAllowEdit = computed(
+    () => !this.hasEditExpired() && this.isUpdateFlow()
+  );
 
   private initCandidate() {
     const id = this.existingUuid();
