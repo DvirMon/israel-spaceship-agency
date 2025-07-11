@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
@@ -24,6 +25,7 @@ export class Overview {
   private readonly dashboardService = inject(DashboardService);
 
   readonly candidates = this.dashboardService.data;
+  readonly isLoading = this.dashboardService.isLoading;
 
   readonly viewState = getChartView();
 
@@ -40,6 +42,14 @@ export class Overview {
   readonly cityResults = computed(() =>
     groupToChartData(this.candidates(), this.groupByCity)
   );
+
+  readonly locationCoordinates = computed(() =>
+    this.candidates().map((c) => ({
+      lat: c.geo.latitude,
+      lng: c.geo.longitude,
+    }))
+  );
+
 
   formatTicks = (value: number): string => {
     return Number.isInteger(value) ? value.toString() : "";

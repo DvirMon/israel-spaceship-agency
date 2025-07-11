@@ -2,14 +2,14 @@ import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
-  output,
+  output
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
+import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
 
 @Component({
   selector: "app-candidate-card",
@@ -20,6 +20,7 @@ import { CandidateStore } from "@core/models/candidate.model";
     MatIconModule,
     MatChipsModule,
     DatePipe,
+    TimestampToDatePipe,
   ],
   templateUrl: "./candidate-card.html",
   styleUrls: ["./candidate-card.scss"],
