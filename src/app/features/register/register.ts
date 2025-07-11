@@ -17,7 +17,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { provideCollectionToken } from "@core/tokens/collection.tokens";
 import { CityAutocomplete } from "app/shared/components/city-autocomplete/city-autocomplete";
 import { FileUpload } from "app/shared/components/file-upload/file-upload";
@@ -28,8 +28,8 @@ import { withTimestamps } from "@shared/operators";
 import { filter, map, switchMap, tap } from "rxjs";
 import { CandidateForm } from "./models/register.model";
 import { RegisterHttp } from "./services/register.http";
-import { RegisterStore } from "./services/register.store";
 import { RegisterService } from "./services/register.service";
+import { RegisterStore } from "./services/register.store";
 import {
   createRegistrationForm,
   fileToUrl,

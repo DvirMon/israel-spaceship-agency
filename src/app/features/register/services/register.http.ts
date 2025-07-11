@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { FireStoreService } from "@core/services/fire-store.service";
 import { convertTimestampsToDate } from "@shared/operators";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";

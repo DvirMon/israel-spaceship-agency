@@ -3,15 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject
+  inject,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { groupToChartData } from "@core/charts/utils";
-import { CandidateStore } from "@core/models/candidate-store.model";
-import {
-  NgxChartsModule,
-  ScaleType
-} from "@swimlane/ngx-charts";
+import { CandidateStore } from "@core/models/candidate.model";
+import { NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { DashboardService } from "../dashboard.service";
 import { LocationMap } from "./location-map/location-map";
 import { getChartView } from "./utils";
