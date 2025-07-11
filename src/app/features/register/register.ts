@@ -115,26 +115,8 @@ export class Register {
   });
 
   readonly submitRegisterEvent$ = formSubmitEffect(this.registerForm);
-
-  readonly updateCandidateEffect$ = this.submitRegisterEvent$.pipe(
-    filter(() => this.registerService.store.isAllowEdit()),
-    tap((val) => console.log("before compare", val)),
-    fileToUrl("profileImage"),
-    filter(
-      (value) =>
-        !compareCandidates(value, this.registerService.store.candidate())
-    ),
-    map(
-      (value) =>
-        ({
-          ...this.registerService.store.candidate(),
-          ...value,
-        } as CandidateStore)
-    ),
-    withCoordinates("city"),
-    tap((val) => console.log("update", val)),
-    switchMap((value) => this.registerService.http.updateCandidate(value))
-  );
+  readonly createCandidate = createCandidateEvent(this.submitRegisterEvent$);
+  readonly updateCandidate = updateCandidateEvent(this.submitRegisterEvent$);
 
   readonly createCandidateEffect$ = this.submitRegisterEvent$.pipe(
     filter(() => !this.registerService.store.isUpdateFlow()),
