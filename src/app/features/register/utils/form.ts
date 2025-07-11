@@ -1,5 +1,6 @@
 import { inject } from "@angular/core";
 import {
+  AbstractControl,
   FormGroup,
   FormSubmittedEvent,
   NonNullableFormBuilder,
@@ -62,16 +63,20 @@ export function createRegistrationForm() {
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | null>(""),
+    profileImage: nfb.control<File | string | null | undefined>(""),
   });
 }
 
-// TODO - ref with type infernce
-export function formSubmitEffect(form: FormGroup) {
+export function formSubmitEffect<
+  T extends { [K in keyof T]: AbstractControl<any> }
+>(form: FormGroup<T>) {
   return form.events.pipe(
-    filter((event) => event instanceof FormSubmittedEvent),
+    filter(
+      (event): event is FormSubmittedEvent =>
+        event instanceof FormSubmittedEvent
+    ),
     withLatestFrom(form.valueChanges),
-    map(([event, value]) => value),
+    map(([_, value]) => value),
     distinctUntilChanged((a, b) => compareCandidates(a, b))
   );
 }
