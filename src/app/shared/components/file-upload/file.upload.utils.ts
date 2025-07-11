@@ -60,6 +60,7 @@ export function validateImageFile(
   return null;
 }
 
+// TODO = ref with ng destroy function
 export function mapFileToDataUrl(): (
   source$: Observable<File | null>
 ) => Observable<string | null> {
@@ -85,4 +86,10 @@ export function mapFileToDataUrl(): (
 
       return () => subscription.unsubscribe();
     });
+}
+
+
+
+export function isFile(value: File | string | null): value is File {
+  return value instanceof File;
 }

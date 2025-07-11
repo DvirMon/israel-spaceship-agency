@@ -21,9 +21,9 @@ const importComponents = [Register];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Landing {
-  registerComponent = viewChild("register", { read: ElementRef<Register> });
+  readonly registerComponent = viewChild("register", { read: ElementRef<Register> });
 
-  scrollToEffect = timer(2000).pipe(take(1));
+  readonly scrollToEffect = timer(2000).pipe(take(1));
 
   constructor() {
     this.scrollToEffect.subscribe(() => {
