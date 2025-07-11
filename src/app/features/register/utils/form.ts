@@ -6,12 +6,15 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
+import { StorageService } from "@core/services/fire-storage.service";
 import {
   distinctUntilChanged,
   filter,
   map,
+  mergeAll,
   Observable,
-  withLatestFrom
+  of,
+  withLatestFrom,
 } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
 import { compareCandidates } from "./utils";
@@ -104,5 +107,27 @@ export function toFormData<T extends Record<string, any>>(
 
         return formData;
       })
+    );
+}
+export function fileToUrl<T, K extends keyof T>(key: K) {
+  const storage = inject(StorageService);
+
+  return (source$: Observable<T>) =>
+    source$.pipe(
+      map((data): Observable<T> => {
+        const file = data[key];
+
+        if (file instanceof File) {
+          return storage.uploadFile(file).pipe(
+            map((uploaded) => ({
+              ...data,
+              [key]: uploaded as T[K],
+            }))
+          );
+        }
+
+        return of(data);
+      }),
+      mergeAll() // 👈 flatten Observable<Observable<T>> to Observable<T>
     );
 }
