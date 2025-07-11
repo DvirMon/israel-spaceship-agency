@@ -160,12 +160,19 @@ export class Register {
     });
 
     effect(() => {
+      const hasEditExpired = this.registerService.store.hasEditExpired();
+      if (hasEditExpired) {
+        this.registerService.openExpiredDialog();
+      }
+    });
+
+    effect(() => {
       const value = this.createCandidateEffect();
 
       if (!value) return;
 
       this.registerService.store.candidate.set(value);
-      this.registerService.openDialog(value.fullName);
+      this.registerService.openSuccessDialog(value.fullName);
     });
 
     effect(() => {
