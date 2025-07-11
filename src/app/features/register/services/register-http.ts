@@ -13,12 +13,15 @@ export class RegisterHttp extends FireStoreService<CandidateStore> {
   private readonly geocoding = inject(GeocodingService);
 
   private readonly overlayService = inject(LoadingOverlayService);
-  createCandidate(data: CandidateStore): Observable<CandidateStore> {
+  createCandidate(
+    data: Omit<CandidateStore, "id">
+  ) {
     // TODO - add flow to save image at storage
+
     return this.createDocument(data).pipe(
       withLoadingOverlay(this.overlayService),
       tap((data) => {
-        this.localStorage.setItem("registration-uuid", data.id);
+        // this.localStorage.setItem("registration-uuid", data.id);
       })
     );
   }
