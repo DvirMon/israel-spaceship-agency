@@ -1,7 +1,8 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { take, timer } from "rxjs";
-import { RegisterDialog } from "../register-dialog/register-dialog";
+import { Subject, switchMap, take, timer } from "rxjs";
+import { ExpiredNoticeDialog } from "../dialogs/expired-notice-dialog/expired-notice-dialog";
+import { RegisterDialog } from "../dialogs/register-dialog/register-dialog";
 import { RegisterHttp } from "./register.http";
 import { RegisterStore } from "./register.store";
 
@@ -12,7 +13,20 @@ export class RegisterService {
 
   private readonly dialog = inject(MatDialog);
 
-  openDialog(userName: string): void {
+  private readonly closeAnimation$ = new Subject<RegisterDialog>();
+
+  private readonly closingDialogEffect$ = this.closeAnimation$.pipe(
+    take(1),
+    switchMap(() => timer(3000))
+  );
+
+  constructor() {
+    this.closingDialogEffect$.subscribe(() => {
+      this.dialog.closeAll();
+    });
+  }
+
+  openSuccessDialog(userName: string): void {
     const dialogRef = this.dialog.open(RegisterDialog, {
       width: "500px",
       maxWidth: "95vw",
@@ -20,11 +34,7 @@ export class RegisterService {
       data: { userName },
     });
 
-    timer(3000)
-      .pipe(take(1))
-      .subscribe(() => {
-        // Use the component's animation method for smooth close
-        const componentInstance = dialogRef.componentInstance);
+    this.closeAnimation$.next(dialogRef.componentInstance);
   }
 
   openExpiredDialog() {
