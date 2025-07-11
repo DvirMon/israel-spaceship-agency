@@ -167,5 +167,13 @@ export class Register {
       this.registerService.store.candidate.set(value);
       this.registerService.openDialog(value.fullName);
     });
+
+    effect(() => {
+      const value = this.updateCandidateEffect();
+
+      if (!value) return;
+
+      this.registerService.store.candidate.set(value);
+    });
   }
 }
