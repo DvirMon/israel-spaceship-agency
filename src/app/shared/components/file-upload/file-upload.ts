@@ -7,6 +7,7 @@ import {
   forwardRef,
   inject,
   input,
+  resource,
   signal,
   viewChild,
 } from "@angular/core";
@@ -14,23 +15,24 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import {
   ControlValueAccessor,
   FormBuilder,
-  NG_VALUE_ACCESSOR
+  NG_VALUE_ACCESSOR,
 } from "@angular/forms";
-import { MatIconButton } from "@angular/material/button";
+import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { merge } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { } from "../../../features/register/utils/form";
 import {
   formatFileSize,
   getFileUploadErrorMessage,
   imageFileValidator,
-  mapFileToDataUrl,
+  isFile,
+  readFileAsDataUrl
 } from "./file.upload.utils";
 
 @Component({
   selector: "app-file-upload",
-  imports: [MatIcon, MatIconButton],
+  imports: [MatIcon, MatIconButton, MatButtonModule],
   templateUrl: "./file-upload.html",
   styleUrl: "./file-upload.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +46,7 @@ import {
 })
 export class FileUpload implements ControlValueAccessor {
   readonly fileInput = viewChild("fileInput", {
-    read: ElementRef<HTMLInputElement>,
+    read: ElementRef,
   });
   readonly control = inject(FormBuilder).control<File | string | null>(null, {
     validators: [imageFileValidator()],
@@ -62,21 +64,11 @@ export class FileUpload implements ControlValueAccessor {
 
   readonly value = signal<File | string | null>(null);
 
+  readonly disabled = signal(false);
   readonly selectedFile = computed(() => {
     const value = this.value();
-    return value instanceof File ? value : null;
+    return value !== null;
   });
-
-  readonly previewUrl = toSignal(
-    this.control.valueChanges.pipe(
-      filter((value) => value instanceof File),
-      filter((file) => this.control.valid),
-      mapFileToDataUrl()
-    ),
-    {
-      initialValue: null,
-    }
-  );
 
   readonly uploadHintText = computed(() => {
     const types = this.allowedTypes();
@@ -91,10 +83,18 @@ export class FileUpload implements ControlValueAccessor {
     return `${extensions.join(", ")} up to ${sizeText}`;
   });
 
+  readonly fileResource = resource({
+    params: () => this.value(),
+    loader: async ({ params: file }) => {
+      if (typeof file === "string") return Promise.resolve(file);
+      if (!isFile(file)) return Promise.resolve(null);
+      return readFileAsDataUrl(file);
+    },
+  });
+
   // CVA callbacks
   private onChange: (value: File | string | null) => void = () => {};
   private onTouched: () => void = () => {};
-  disabled = signal(false);
 
   private readonly errorTrigger$ = merge(
     this.control?.statusChanges,
@@ -102,19 +102,14 @@ export class FileUpload implements ControlValueAccessor {
   );
 
   readonly hasError = toSignal(
-    merge(this.control.statusChanges, this.control.valueChanges).pipe(
-      map(
-        () => this.control.invalid
-        // (this.control!.touched || this.control!.dirty)
-      )
-    ),
+    this.errorTrigger$.pipe(map(() => this.control.invalid)),
     {
       initialValue:
         this.control.invalid && (this.control.touched || this.control.dirty),
     }
   );
   readonly errorMessage = toSignal(
-    merge(this.control.statusChanges, this.control.valueChanges).pipe(
+    this.errorTrigger$.pipe(
       map(() => getFileUploadErrorMessage(this.control!.errors, this.maxSize()))
     ),
     {
@@ -127,7 +122,6 @@ export class FileUpload implements ControlValueAccessor {
 
   constructor() {
     effect(() => {
-      // Update disabled state based on control's disabled status
       this.control.setValue(this.value());
     });
   }
@@ -151,8 +145,6 @@ export class FileUpload implements ControlValueAccessor {
 
   // UI event handlers
   onFileSelected(event: Event): void {
-    console.log("File selected:", event);
-
     if (this.disabled()) return;
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {

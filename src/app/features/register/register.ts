@@ -4,8 +4,8 @@ import {
   computed,
   effect,
   inject,
+  untracked,
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -16,21 +16,17 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import { provideCollectionToken } from "@core/tokens/collection.tokens";
 import { CityAutocomplete } from "app/shared/components/city-autocomplete/city-autocomplete";
 import { FileUpload } from "app/shared/components/file-upload/file-upload";
 import { LoadingOverlay } from "app/shared/components/loading-overlay/loading-overlay";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
-import { filter, map, switchMap, tap } from "rxjs";
-import { RegisterHttp } from "./services/register-http";
-import { RegisterStore } from "./services/register-store";
+
+import { RegisterHttp } from "./services/register.http";
 import { RegisterService } from "./services/register.service";
+import { RegisterStore } from "./services/register.store";
+import { createCandidateEvent, updateCandidateEvent } from "./utils/effects";
 import { createRegistrationForm, formSubmitEffect } from "./utils/form";
-import { compareCandidates } from "./utils/utils";
-import {
-  withCoordinates,
-  withTimestamps,
-} from "app/shared/components/loading-overlay/operator";
-import { provideCollectionToken } from "@core/tokens/collection.tokens";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -44,7 +40,7 @@ const importMaterial = [
   MatAutocompleteModule,
 ];
 
-const CITY_OPTIONS = [
+export const CITY_OPTIONS = [
   "Jerusalem",
   "Tel Aviv",
   "Haifa",
@@ -98,59 +94,61 @@ const CITY_OPTIONS = [
   ],
 })
 export class Register {
-  // Computed signal for dynamic button label
-
   private readonly registerService = inject(RegisterService);
 
   readonly isLoading = inject(LoadingOverlayService).isLoading;
 
+  readonly registerForm = createRegistrationForm();
+  readonly cityOptions = CITY_OPTIONS;
   readonly submitButtonLabel = computed(() => {
     const candidate = this.registerService.store.candidate();
     return candidate === null ? "Save & Submit" : "Save & Update";
   });
 
-  readonly registerForm = createRegistrationForm();
+  readonly submitRegisterEvent$ = formSubmitEffect(this.registerForm);
+  readonly createCandidate = createCandidateEvent(this.submitRegisterEvent$);
+  readonly updateCandidate = updateCandidateEvent(this.submitRegisterEvent$);
 
-  readonly cityOptions = CITY_OPTIONS;
+  readonly editExpiredEffect = effect(() => {
+    const hasEditExpired = this.registerService.store.hasEditExpired();
+    if (hasEditExpired) {
+      this.registerService.openExpiredDialog();
+    }
+  });
 
-  readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
-    filter(() => this.registerService.store.isUpdateFlow()),
-    tap((val) => console.log("update", val)),
-    filter(
-      (value) =>
-        !compareCandidates(value, this.registerService.store.candidate())
-    ),
-    map((value) => ({ ...this.registerService.store.candidate(), ...value })),
-    withCoordinates(),
-    switchMap((value) => this.registerService.http.updateCandidate(value))
-  );
+  readonly updateFormEffect = effect(() => {
+    // use untracked to patch only when first initialized
+    const existingCandidate = untracked(this.registerService.store.candidate);
+    if (existingCandidate) {
+      this.registerForm.patchValue(existingCandidate);
+    }
+  });
 
-  readonly createCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
-    filter(() => !this.registerService.store.isUpdateFlow()),
-    tap(() => console.log("create")),
-    withCoordinates(),
-    withTimestamps(),
-    switchMap((value) => this.registerService.http.createCandidate(value))
-  );
+  readonly createCandidateEffect = effect(() => {
+    const value = this.createCandidate();
 
-  readonly updateCandidateEffect = toSignal(this.updateCandidateEffect$);
-  readonly createCandidateEffect = toSignal(this.createCandidateEffect$);
+    if (!value) return;
 
-  constructor() {
-    effect(() => {
-      const existingCandidate = this.registerService.store.candidate();
-      if (existingCandidate) {
-        this.registerForm.patchValue(existingCandidate);
-      }
+    this.registerService.store.candidate.set(value);
+
+    this.registerService.openSuccessDialog({
+      fullName: value.fullName,
+      mode: "create",
+      editableUntil: value.expiresAt,
     });
+  });
 
-    effect(() => {
-      const value = this.createCandidateEffect();
+  readonly updateCandidateEffect = effect(() => {
+    const value = this.updateCandidate();
 
-      if (!value) return;
+    if (!value) return;
 
-      this.registerService.store.candidate.set(value);
-      this.registerService.openDialog(value.fullName);
+    this.registerService.store.candidate.set(value);
+
+    this.registerService.openSuccessDialog({
+      fullName: value.fullName,
+      mode: "update",
+      editableUntil: value.expiresAt,
     });
-  }
+  });
 }

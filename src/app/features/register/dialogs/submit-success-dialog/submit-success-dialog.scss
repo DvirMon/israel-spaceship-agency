@@ -1,0 +1,166 @@
+// .success-dialog {
+//   &.closing {
+//     opacity: 0;
+//     transform: scale(0.95);
+//   }
+// }
+
+.dialog-header {
+  text-align: center;
+  padding: 2rem 2rem 1rem 2rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 500;
+    animation: slideInUp 0.8s ease-out 0.2s both;
+  }
+
+  mat-icon.success-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: white;
+    animation: successPulse 0.6s ease-out;
+  }
+}
+
+.mat-mdc-dialog-content.dialog-content {
+  padding: 1.5rem 3rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .thank-you-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+
+    .title {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    strong {
+      color: #bb86fc;
+    }
+
+    .mat-subtitle {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+  }
+
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    ul.info-list {
+      display: flex;
+      flex-direction: column;
+      padding: 0px;
+      margin: 0px;
+      gap: 2rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+
+      &:nth-child(2) {
+        animation-delay: 0.7s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.8s;
+      }
+
+      .info-icon {
+        color: #8b5cf6;
+        font-size: 2rem;
+        width: 4rem;
+        height: 2rem;
+      }
+
+      span {
+        font-size: 1.4rem;
+        line-height: 1.5;
+
+        strong {
+          color: #bb86fc;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode support (if needed in the future)
+@media (prefers-color-scheme: dark) {
+  .dialog-content {
+    background: #1e1e1e;
+
+    .thank-you-message {
+      color: #e0e0e0;
+
+      strong {
+        color: #bb86fc;
+      }
+    }
+
+    .info-item p {
+      color: #b0b0b0;
+
+      strong {
+        color: #e0e0e0;
+      }
+    }
+  }
+
+  .dialog-actions {
+    background: #1e1e1e;
+  }
+}

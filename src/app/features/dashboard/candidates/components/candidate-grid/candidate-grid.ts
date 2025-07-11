@@ -6,7 +6,7 @@ import {
   output,
 } from "@angular/core";
 import { ViewMode } from "../../candidates";
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateCard } from "../candidate-card/candidate-card";

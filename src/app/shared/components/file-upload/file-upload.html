@@ -24,25 +24,20 @@
     </div>
     } @else {
     <div class="file-preview">
-      @if (previewUrl()) {
-      <img [src]="previewUrl()" alt="Preview" class="preview-image" />
+      @let url = fileResource.value(); @if (url) {
+
+      <img [src]="url" alt="Preview" class="preview-image" />
       }
-      <div class="file-info">
-        <button
-          matIconButton
-          type="button"
-          color="warn"
-          [disabled]="disabled()"
-          (click)="removeFile($event)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <button
+        matIconButton
+        type="button"
+        [disabled]="disabled()"
+        (click)="removeFile($event)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
     }
   </div>
 
-  <div
-    class="error-message">
-    {{ errorMessage() }}
-  </div>
+  <div class="error-message">{{ errorMessage() }}</div>
 </div>

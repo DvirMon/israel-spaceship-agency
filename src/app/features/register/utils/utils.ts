@@ -1,30 +1,67 @@
-import { CandidateForm } from "../models/register.model";
+import { inject, isDevMode } from "@angular/core";
+import { GeocodingService } from "@core/services/geocoding.service";
+import { withGeo } from "app/shared/operators";
+import { Observable, of } from "rxjs";
+import { CandidateForm } from "../types";
 
 export function compareCandidates(
   a: Partial<CandidateForm> | null,
   b: Partial<CandidateForm> | null
 ): boolean {
-  // If both are null, they're equal
   if (a === null && b === null) return true;
-
-  // If one is null and the other isn't, they're not equal
   if (a === null || b === null) return false;
 
-  // Compare all text fields
-  const textFieldsEqual =
-    a.fullName === b.fullName &&
-    a.email === b.email &&
-    a.phone === b.phone &&
-    a.age === b.age &&
-    a.city === b.city &&
-    a.hobbies === b.hobbies &&
-    a.motivation === b.motivation;
+  const fields: (keyof CandidateForm)[] = [
+    "fullName",
+    "email",
+    "phone",
+    "age",
+    "city",
+    "hobbies",
+    "motivation",
+    "profileImage",
+  ];
 
-  // Compare file properties (since File objects can't be directly compared)
-  // const fileEqual =
-  //   a.profileImage?.name === b.profileImage?.name &&
-  //   a.profileImage?.size === b.profileImage?.size &&
-  //   a.profileImage?.lastModified === b.profileImage?.lastModified;
+  const comparisons = fields.map((field) => {
+    const equal = a[field] === b[field];
 
-  return textFieldsEqual /* && fileEqual */;
+    if (isDevMode()) {
+      // console.log(`[compareCandidates] Field mismatch: ${field}`);
+      // console.log('  A:', a[field]);
+      // console.log('  B:', b[field]);
+    }
+
+    return equal;
+  });
+
+  if (isDevMode()) {
+    console.log("[compareCandidates] Comparisons:", comparisons);
+  }
+
+  return comparisons.every(Boolean);
+}
+
+export function isValidDate(value: unknown): value is Date {
+  return value instanceof Date && !isNaN(value.getTime());
+}
+
+export function isExpired(value: Date | undefined): boolean {
+  if (!isValidDate(value)) return false;
+
+  return new Date() > value;
+}
+export function withCoordinates<T, K extends keyof T>(key: K) {
+  const geocode = inject(GeocodingService);
+
+  return (source$: Observable<T>) =>
+    source$.pipe(
+      withGeo((value) => {
+        const city = value[key];
+
+        if (typeof city !== "string" || city.trim() === "")
+          return of({ lat: 0, lng: 0 });
+
+        return geocode.loadCoordinates(city);
+      })
+    );
 }

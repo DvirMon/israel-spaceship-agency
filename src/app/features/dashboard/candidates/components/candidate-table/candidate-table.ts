@@ -11,7 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { ViewMode } from "../../candidates";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
 import {

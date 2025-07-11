@@ -1,0 +1,30 @@
+.mat-mdc-dialog-actions,
+.mat-mdc-dialog-content {
+  background: #1e1e1e;
+}
+
+.mat-mdc-dialog-title {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 8px 24px;
+
+  .mat-icon {
+    margin-right: 8px;
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+  }
+}
+
+.mat-mdc-dialog-content.dialog-content {
+  font-size: 1.4rem;
+  line-height: 2rem;
+  padding: 16px 32px 32px 32px;
+
+  span {
+    color: #bb86fc;
+  }
+}
+
+.mat-mdc-dialog-actions.dialog-actions {
+}

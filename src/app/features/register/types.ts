@@ -1,4 +1,4 @@
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 export type PersonalInfoModel = Pick<
   CandidateStore,
   "fullName" | "email" | "phone" | "age" | "city"
@@ -6,9 +6,10 @@ export type PersonalInfoModel = Pick<
 
 export type AdditionalInfoModel = Pick<
   CandidateStore,
-  "hobbies" | "motivation" | "profileImage"
+  "hobbies" | "motivation"
 >;
-export type CandidateForm = PersonalInfoModel & Partial<AdditionalInfoModel>;
+export type CandidateForm = PersonalInfoModel &
+  Partial<AdditionalInfoModel> & { profileImage: File | string | undefined };
 
 type RegisterMetadata = {
   geo: { latitude: number; longitude: number };

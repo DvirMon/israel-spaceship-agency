@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from "@angular/core";
 
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { ChartData } from "@core/charts/types";
 
 @Injectable()

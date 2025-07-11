@@ -1,9 +1,10 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { take, timer } from "rxjs";
-import { RegisterDialog } from "../components/register-dialog/register-dialog";
-import { RegisterHttp } from "./register-http";
-import { RegisterStore } from "./register-store";
+import { Subject, switchMap, take, timer } from "rxjs";
+import { ExpiredNoticeDialog } from "../dialogs/expired-notice-dialog/expired-notice-dialog";
+import { SubmitSuccessDialog, SuccessSubmitDialogData } from "../dialogs/submit-success-dialog/submit-success-dialog";
+import { RegisterHttp } from "./register.http";
+import { RegisterStore } from "./register.store";
 
 @Injectable()
 export class RegisterService {
@@ -12,25 +13,36 @@ export class RegisterService {
 
   private readonly dialog = inject(MatDialog);
 
-  openDialog(userName: string): void {
-    const dialogRef = this.dialog.open(RegisterDialog, {
-      width: "500px",
+  private readonly closeAnimation$ = new Subject<SubmitSuccessDialog>();
+
+  private readonly closingDialogEffect$ = this.closeAnimation$.pipe(
+    take(1),
+    switchMap(() => timer(3000))
+  );
+
+  constructor() {
+    this.closingDialogEffect$.subscribe(() => {
+      this.dialog.closeAll();
+    });
+  }
+
+  openSuccessDialog(data :  SuccessSubmitDialogData): void {
+    const dialogRef = this.dialog.open(SubmitSuccessDialog, {
+      width: "550px",
       maxWidth: "95vw",
       panelClass: "success-dialog-panel",
-      data: { userName },
+      data,
     });
 
-    timer(3000)
-      .pipe(take(1))
-      .subscribe(() => {
-        // Use the component's animation method for smooth close
-        const componentInstance = dialogRef.componentInstance;
-        componentInstance.closeWithAnimation();
-      });
+    this.closeAnimation$.next(dialogRef.componentInstance);
+  }
 
-    dialogRef.afterClosed().subscribe(() => {
-      // Optionally reset the form or navigate somewhere
-      console.log("Success dialog closed");
+  openExpiredDialog() {
+    this.dialog.open(ExpiredNoticeDialog, {
+      width: "500px",
+      disableClose: true,
+      maxWidth: "95vw",
+      panelClass: "expired-dialog-panel",
     });
   }
 }

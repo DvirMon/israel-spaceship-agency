@@ -1,19 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-    ),
-    typography: Roboto,
-    density: 0
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  @include mat.icon-overrides(
+    (
+      color: #666,
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 mat-form-field input[type="number"] {
   /* Chrome, Safari, Edge, Opera */
@@ -22,8 +38,7 @@ mat-form-field input[type="number"] {
     -webkit-appearance: none;
     margin: 0;
   }
-  
+
   /* Firefox */
   -moz-appearance: textfield;
 }
-

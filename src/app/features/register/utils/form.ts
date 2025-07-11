@@ -1,19 +1,14 @@
 import { inject } from "@angular/core";
 import {
+  AbstractControl,
   FormGroup,
   FormSubmittedEvent,
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  Observable,
-  withLatestFrom
-} from "rxjs";
+import { StorageService } from "@core/services/fire-storage.service";
+import { filter, map, mergeAll, Observable, of, withLatestFrom } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
-import { compareCandidates } from "./utils";
 
 export function createPersonalInfoForm() {
   const nfb = inject(NonNullableFormBuilder);
@@ -62,17 +57,21 @@ export function createRegistrationForm() {
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | null>(""),
+    profileImage: nfb.control<File | string >(""),
   });
 }
 
-// TODO - ref with type infernce
-export function formSubmitEffect(form: FormGroup) {
+export function formSubmitEffect<
+  T extends { [K in keyof T]: AbstractControl<any> }
+>(form: FormGroup<T>) {
   return form.events.pipe(
-    filter((event) => event instanceof FormSubmittedEvent),
+    filter(
+      (event): event is FormSubmittedEvent =>
+        event instanceof FormSubmittedEvent
+    ),
     withLatestFrom(form.valueChanges),
-    map(([event, value]) => value),
-    distinctUntilChanged((a, b) => compareCandidates(a, b))
+    map(([_, value]) => value)
+    // distinctUntilChanged((a, b) => compareCandidates(a, b))
   );
 }
 
@@ -99,5 +98,39 @@ export function toFormData<T extends Record<string, any>>(
 
         return formData;
       })
+    );
+}
+export function fileToUrl<T, K extends keyof T>(
+  key: K
+): (source$: Observable<T>) => Observable<Omit<T, K> & { [P in K]: string }> {
+  const storage = inject(StorageService);
+
+  return (source$) =>
+    source$.pipe(
+      map((data) => {
+        const file = data[key];
+
+        if (typeof file === "string") {
+          return of({
+            ...data,
+            [key]: file,
+          });
+        }
+
+        if (file instanceof File) {
+          return storage.uploadFile(file).pipe(
+            map((uploaded) => ({
+              ...data,
+              [key]: uploaded,
+            }))
+          );
+        }
+
+        return of({
+          ...data,
+          [key]: "",
+        });
+      }),
+      mergeAll()
     );
 }

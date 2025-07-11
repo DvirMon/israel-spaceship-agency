@@ -66,7 +66,7 @@ export class FireStoreService<T> {
     return from(updateDoc(docRef, data));
   }
 
-  getDocumentById<T>(
+  getDocumentById(
     id: string,
     collectionPath?: string
   ): Observable<T | undefined> {
@@ -75,4 +75,6 @@ export class FireStoreService<T> {
     const docRef = doc(this.firestore, path, id);
     return docData(docRef) as Observable<T | undefined>;
   }
+
+  
 }
