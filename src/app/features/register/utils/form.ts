@@ -7,17 +7,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { StorageService } from "@core/services/fire-storage.service";
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  mergeAll,
-  Observable,
-  of,
-  withLatestFrom,
-} from "rxjs";
+import { filter, map, mergeAll, Observable, of, withLatestFrom } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
-import { compareCandidates } from "./utils";
 
 export function createPersonalInfoForm() {
   const nfb = inject(NonNullableFormBuilder);
@@ -79,8 +70,8 @@ export function formSubmitEffect<
         event instanceof FormSubmittedEvent
     ),
     withLatestFrom(form.valueChanges),
-    map(([_, value]) => value),
-    distinctUntilChanged((a, b) => compareCandidates(a, b))
+    map(([_, value]) => value)
+    // distinctUntilChanged((a, b) => compareCandidates(a, b))
   );
 }
 
@@ -109,25 +100,37 @@ export function toFormData<T extends Record<string, any>>(
       })
     );
 }
-export function fileToUrl<T, K extends keyof T>(key: K) {
+export function fileToUrl<T, K extends keyof T>(
+  key: K
+): (source$: Observable<T>) => Observable<Omit<T, K> & { [P in K]: string }> {
   const storage = inject(StorageService);
 
-  return (source$: Observable<T>) =>
+  return (source$) =>
     source$.pipe(
-      map((data): Observable<T> => {
+      map((data) => {
         const file = data[key];
+
+        if (typeof file === "string") {
+          return of({
+            ...data,
+            [key]: file,
+          });
+        }
 
         if (file instanceof File) {
           return storage.uploadFile(file).pipe(
             map((uploaded) => ({
               ...data,
-              [key]: uploaded as T[K],
+              [key]: uploaded,
             }))
           );
         }
 
-        return of(data);
+        return of({
+          ...data,
+          [key]: "",
+        });
       }),
-      mergeAll() // 👈 flatten Observable<Observable<T>> to Observable<T>
+      mergeAll()
     );
 }

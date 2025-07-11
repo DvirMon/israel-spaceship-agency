@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  untracked,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -102,25 +103,22 @@ export const CITY_OPTIONS = [
   ],
 })
 export class Register {
-  // Computed signal for dynamic button label
-
   private readonly registerService = inject(RegisterService);
 
   readonly isLoading = inject(LoadingOverlayService).isLoading;
 
+  readonly registerForm = createRegistrationForm();
+  readonly cityOptions = CITY_OPTIONS;
   readonly submitButtonLabel = computed(() => {
     const candidate = this.registerService.store.candidate();
     return candidate === null ? "Save & Submit" : "Save & Update";
   });
 
-  readonly registerForm = createRegistrationForm();
-
-  readonly cityOptions = CITY_OPTIONS;
 
   readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => this.registerService.store.isUpdateFlow()),
-    tap((val) => console.log("update", val)),
-    map((value) => ({ ...value, profileImage: "" } as CandidateForm)),
+    tap((val) => console.log("before compare", val)),
+    fileToUrl("profileImage"),
     filter(
       (value) =>
         !compareCandidates(value, this.registerService.store.candidate())
@@ -133,6 +131,7 @@ export class Register {
         } as CandidateStore)
     ),
     withCoordinates("city"),
+    tap((val) => console.log("update", val)),
     switchMap((value) => this.registerService.http.updateCandidate(value))
   );
 
@@ -153,7 +152,8 @@ export class Register {
 
   constructor() {
     effect(() => {
-      const existingCandidate = this.registerService.store.candidate();
+      // use untracked to patch only when first initialized
+      const existingCandidate = untracked(this.registerService.store.candidate);
       if (existingCandidate) {
         this.registerForm.patchValue(existingCandidate);
       }
@@ -166,6 +166,14 @@ export class Register {
 
       this.registerService.store.candidate.set(value);
       this.registerService.openDialog(value.fullName);
+    });
+
+    effect(() => {
+      const value = this.updateCandidateEffect();
+
+      if (!value) return;
+
+      this.registerService.store.candidate.set(value);
     });
   }
 }
