@@ -1,8 +1,15 @@
-import { finalize, map, Observable, OperatorFunction, switchMap } from "rxjs";
-import { LoadingOverlayService } from "./loading-overlay.service";
 import { inject } from "@angular/core";
-import { GeocodingService } from "@core/services/geocoding.service";
 import { GeoPoint } from "@angular/fire/firestore";
+import { GeocodingService } from "@core/services/geocoding.service";
+import {
+  finalize,
+  map,
+  Observable,
+  of,
+  OperatorFunction,
+  switchMap
+} from "rxjs";
+import { LoadingOverlayService } from "./loading-overlay.service";
 
 export function withLoadingOverlay<T>(
   overlay: LoadingOverlayService
@@ -54,8 +61,18 @@ export function withGeo<T>(
     );
 }
 
-export function withCoordinates<T extends { city: string }>() {
+export function withCoordinates<T, K extends keyof T>(key: K) {
   const geocode = inject(GeocodingService);
+
   return (source$: Observable<T>) =>
-    source$.pipe(withGeo(({ city }) => geocode.loadCoordinates(city)));
+    source$.pipe(
+      withGeo((value) => {
+        const city = value[key];
+
+        if (typeof city !== "string" || city.trim() === "")
+          return of({ lat: 0, lng: 0 });
+
+        return geocode.loadCoordinates(city);
+      })
+    );
 }
