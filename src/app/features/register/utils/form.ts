@@ -57,7 +57,7 @@ export function createRegistrationForm() {
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string | null | undefined>(""),
+    profileImage: nfb.control<File | string >(""),
   });
 }
 
