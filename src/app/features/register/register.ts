@@ -6,7 +6,6 @@ import {
   inject,
   untracked,
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -17,25 +16,17 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
-import { CandidateStore } from "@core/models/candidate.model";
 import { provideCollectionToken } from "@core/tokens/collection.tokens";
 import { CityAutocomplete } from "app/shared/components/city-autocomplete/city-autocomplete";
 import { FileUpload } from "app/shared/components/file-upload/file-upload";
 import { LoadingOverlay } from "app/shared/components/loading-overlay/loading-overlay";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 
-import { withTimestamps } from "@shared/operators";
-import { filter, map, switchMap, tap } from "rxjs";
-import { CandidateForm } from "./models/register.model";
 import { RegisterHttp } from "./services/register.http";
 import { RegisterService } from "./services/register.service";
 import { RegisterStore } from "./services/register.store";
-import {
-  createRegistrationForm,
-  fileToUrl,
-  formSubmitEffect,
-} from "./utils/form";
-import { compareCandidates, withCoordinates } from "./utils/utils";
+import { createCandidateEvent, updateCandidateEvent } from "./utils/effects";
+import { createRegistrationForm, formSubmitEffect } from "./utils/form";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -121,8 +112,9 @@ export class Register {
   readonly editExpiredEffect = effect(() => {
     const hasEditExpired = this.registerService.store.hasEditExpired();
     if (hasEditExpired) {
-      this.registerService.http.createCandidate(value))
-  );
+      this.registerService.openExpiredDialog();
+    }
+  });
 
   readonly updateFormEffect = effect(() => {
     // use untracked to patch only when first initialized
@@ -132,28 +124,31 @@ export class Register {
     }
   });
 
-    effect(() => {
-      const hasEditExpired = this.registerService.store.hasEditExpired();
-      if (hasEditExpired) {
-        this.registerService.openExpiredDialog();
-      }
+  readonly createCandidateEffect = effect(() => {
+    const value = this.createCandidate();
+
+    if (!value) return;
+
+    this.registerService.store.candidate.set(value);
+
+    this.registerService.openSuccessDialog({
+      fullName: value.fullName,
+      mode: "create",
+      editableUntil: value.expiresAt,
     });
+  });
 
-    effect(() => {
-      const value = this.createCandidateEffect();
+  readonly updateCandidateEffect = effect(() => {
+    const value = this.updateCandidate();
 
-      if (!value) return;
+    if (!value) return;
 
-      this.registerService.store.candidate.set(value);
-      this.registerService.openSuccessDialog(value.fullName);
+    this.registerService.store.candidate.set(value);
+
+    this.registerService.openSuccessDialog({
+      fullName: value.fullName,
+      mode: "update",
+      editableUntil: value.expiresAt,
     });
-
-    effect(() => {
-      const value = this.updateCandidateEffect();
-
-      if (!value) return;
-
-      this.registerService.store.candidate.set(value);
-    });
-  }
+  });
 }
