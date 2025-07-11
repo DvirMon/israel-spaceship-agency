@@ -1,4 +1,4 @@
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 
 type AgeFilterFn = (age: number) => boolean;
 const ageFilterMap: Record<string, AgeFilterFn> = {

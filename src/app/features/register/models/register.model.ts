@@ -1,4 +1,4 @@
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 export type PersonalInfoModel = Pick<
   CandidateStore,
   "fullName" | "email" | "phone" | "age" | "city"

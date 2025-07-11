@@ -9,7 +9,7 @@ import {
 import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
-import { CandidateStore } from "@core/models/candidate-store.model";
+import { CandidateStore } from "@core/models/candidate.model";
 import { IS_MOBILE } from "@core/tokens/mobile";
 import { DashboardService } from "../dashboard.service";
 import {
