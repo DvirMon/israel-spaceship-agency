@@ -1,3 +1,7 @@
+import { inject } from "@angular/core";
+import { GeocodingService } from "@core/services/geocoding.service";
+import { withGeo } from "app/shared/operators";
+import { Observable, of } from "rxjs";
 import { CandidateForm } from "../models/register.model";
 
 export function compareCandidates(
@@ -19,12 +23,23 @@ export function compareCandidates(
     a.city === b.city &&
     a.hobbies === b.hobbies &&
     a.motivation === b.motivation;
+  a.profileImage === b.profileImage;
 
-  // Compare file properties (since File objects can't be directly compared)
-  // const fileEqual =
-  //   a.profileImage?.name === b.profileImage?.name &&
-  //   a.profileImage?.size === b.profileImage?.size &&
-  //   a.profileImage?.lastModified === b.profileImage?.lastModified;
+  return textFieldsEqual;
+}
 
-  return textFieldsEqual /* && fileEqual */;
+export function withCoordinates<T, K extends keyof T>(key: K) {
+  const geocode = inject(GeocodingService);
+
+  return (source$: Observable<T>) =>
+    source$.pipe(
+      withGeo((value) => {
+        const city = value[key];
+
+        if (typeof city !== "string" || city.trim() === "")
+          return of({ lat: 0, lng: 0 });
+
+        return geocode.loadCoordinates(city);
+      })
+    );
 }
