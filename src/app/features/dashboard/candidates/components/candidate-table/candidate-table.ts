@@ -21,6 +21,7 @@ import {
   transition,
   animate,
 } from "@angular/animations";
+import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
 @Component({
   selector: "app-candidate-table",
   imports: [
@@ -31,6 +32,7 @@ import {
     NgOptimizedImage,
     DatePipe,
     DaysAgoPipe,
+    TimestampToDatePipe,
   ],
   templateUrl: "./candidate-table.html",
   styleUrl: "./candidate-table.scss",

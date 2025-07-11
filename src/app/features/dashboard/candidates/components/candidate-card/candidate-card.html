@@ -11,7 +11,8 @@
 
     <mat-card-title>{{ data.fullName }}</mat-card-title>
     <mat-card-subtitle>
-      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt | date : 'MMM dd' }}
+      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt |
+      timestampToDate | date : 'MMM dd' }}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
