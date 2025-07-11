@@ -1,25 +1,26 @@
+@use "@angular/material" as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:host {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: #666,
+    )
+  );
+}
+
 .image-upload-section {
   width: 100%;
 }
 
 .upload-area {
-  border: 2px dashed #ccc;
+  min-height: 120px;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   background-color: #fafafa;
-
-  &:hover:not(.disabled) {
-    border-color: #1976d2;
-    background-color: #f5f5f5;
-  }
-
-  &.has-file {
-    border-color: #4caf50;
-    background-color: #f8fff8;
-  }
 
   &.disabled {
     opacity: 0.6;
@@ -38,8 +39,6 @@
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
-    color: #666;
-    margin-bottom: 1rem;
   }
 
   p {
@@ -56,26 +55,17 @@
 .file-preview {
   display: flex;
   align-items: center;
-  gap: 1rem;
 
-  .file-info {
-    flex: 1;
-    text-align: left;
-  }
-
-  .file-info > .file-size {
-    color: #666;
-    font-size: 0.875rem;
-    margin: 0;
+  button {
+    margin-left: auto;
   }
 }
 
 .file-preview > .preview-image {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #e0e0e0;
+  border-radius: 50%;
 }
 
 .error-message {
