@@ -41,6 +41,10 @@ export class RegisterStore {
     isExpired(this.candidate()?.expiresAt)
   );
 
+  readonly isAllowEdit = computed(
+    () => !this.hasEditExpired() && this.isUpdateFlow()
+  );
+
   private initCandidate() {
     const id = this.existingUuid();
     if (id) {

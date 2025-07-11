@@ -114,9 +114,10 @@ export class Register {
     return candidate === null ? "Save & Submit" : "Save & Update";
   });
 
+  readonly submitRegisterEvent$ = formSubmitEffect(this.registerForm);
 
-  readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
-    filter(() => this.registerService.store.isUpdateFlow()),
+  readonly updateCandidateEffect$ = this.submitRegisterEvent$.pipe(
+    filter(() => this.registerService.store.isAllowEdit()),
     tap((val) => console.log("before compare", val)),
     fileToUrl("profileImage"),
     filter(
@@ -135,7 +136,7 @@ export class Register {
     switchMap((value) => this.registerService.http.updateCandidate(value))
   );
 
-  readonly createCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
+  readonly createCandidateEffect$ = this.submitRegisterEvent$.pipe(
     filter(() => !this.registerService.store.isUpdateFlow()),
     map((value) => ({ ...value } as CandidateForm)),
     fileToUrl("profileImage"),
