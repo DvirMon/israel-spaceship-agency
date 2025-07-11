@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, isDevMode } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
@@ -33,19 +33,23 @@ export class LocalStorage {
    */
   getItem<T>(key: string): T | null {
     try {
-      if (!this.isLocalStorageAvailable()) {
-        // console.warn("localStorage is not available");
-        return null;
-      }
+      if (!this.isLocalStorageAvailable()) return null;
 
       const item = localStorage.getItem(key);
-      if (!item || item === 'undefined') {
-        return null;
+      if (!item || item === "undefined") return null;
+
+      // If item looks like JSON (starts with `{` or `[`), parse it
+      if (/^\s*[{[]/.test(item)) {
+        return JSON.parse(item) as T;
       }
 
-      return JSON.parse(item) as T;
+      if (!isDevMode()) return null;
+
+      // Otherwise return primitive types as-is (string, number, boolean)
+      return item as unknown as T;
     } catch (error) {
       console.error("Error reading from localStorage:", error);
+      localStorage.removeItem(key); // Optional: cleanup bad value
       return null;
     }
   }
