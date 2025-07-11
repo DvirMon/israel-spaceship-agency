@@ -1,4 +1,4 @@
-import { inject } from "@angular/core";
+import { inject, isDevMode } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
 import { withGeo } from "app/shared/operators";
 import { Observable, of } from "rxjs";
@@ -8,26 +8,38 @@ export function compareCandidates(
   a: Partial<CandidateForm> | null,
   b: Partial<CandidateForm> | null
 ): boolean {
-  // If both are null, they're equal
   if (a === null && b === null) return true;
-
-  // If one is null and the other isn't, they're not equal
   if (a === null || b === null) return false;
 
-  // Compare all text fields
-  const textFieldsEqual =
-    a.fullName === b.fullName &&
-    a.email === b.email &&
-    a.phone === b.phone &&
-    a.age === b.age &&
-    a.city === b.city &&
-    a.hobbies === b.hobbies &&
-    a.motivation === b.motivation;
-  a.profileImage === b.profileImage;
+  const fields: (keyof CandidateForm)[] = [
+    'fullName',
+    'email',
+    'phone',
+    'age',
+    'city',
+    'hobbies',
+    'motivation',
+    'profileImage'
+  ];
 
-  return textFieldsEqual;
+  const comparisons = fields.map((field) => {
+    const equal = a[field] === b[field];
+
+    if (isDevMode()) {
+      // console.log(`[compareCandidates] Field mismatch: ${field}`);
+      // console.log('  A:', a[field]);
+      // console.log('  B:', b[field]);
+    }
+
+    return equal;
+  });
+
+  if (isDevMode()) {
+    console.log("[compareCandidates] Comparisons:", comparisons);
+  }
+
+  return comparisons.every(Boolean);
 }
-
 export function withCoordinates<T, K extends keyof T>(key: K) {
   const geocode = inject(GeocodingService);
 
