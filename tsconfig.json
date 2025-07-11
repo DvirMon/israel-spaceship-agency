@@ -22,7 +22,8 @@
       "@charts/*": ["app/core/charts/*"],
       "@cards/*": ["app/shared/components/cards/*"],
       "@chards/*": ["app/shared/components/chards/*"],
-      "@shared/pipes/*": ["app/shared/pipes/*"]
+      "@shared/pipes/*": ["app/shared/pipes/*"],
+      "@shared/operators": ["app/shared/operators.ts"]
     }
   },
   "angularCompilerOptions": {
