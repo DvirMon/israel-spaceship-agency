@@ -1,17 +1,22 @@
-import { Injectable, signal, computed } from "@angular/core";
+import { computed, Injectable } from "@angular/core";
+import { rxResource } from "@angular/core/rxjs-interop";
 
 import { CandidateStore } from "@core/models/candidate.model";
-import { ChartData } from "@core/charts/types";
+import { FireStoreService } from "@core/services/fire-store.service";
 
 @Injectable()
-export class DashboardService {
-  // Signal for candidates data
-  private candidates = signal<CandidateStore[]>(this.getMockCandidates());
-
-  // Public readonly signal
+export class DashboardService extends FireStoreService<CandidateStore> {
+  
+  private readonly candidateCollection = this.loadCollection("candidates");
+  
+  private readonly candidateResource = rxResource({
+    defaultValue: [],
+    stream: () => this.candidateCollection,
+  });
+  
+  private readonly candidates = this.candidateResource.value;
+  readonly isLoading = this.candidateResource.isLoading;
   readonly data = this.candidates.asReadonly();
-
-  // Computed signals for derived data
   readonly totalCandidates = computed(() => this.data().length);
 
   private getMockCandidates(): CandidateStore[] {
@@ -105,16 +110,7 @@ export class DashboardService {
     ];
   }
 
-  // Static data methods (could also be signals if they change)
-  getAgeData(): ChartData[] {
-    return [
-      { name: "20-25", value: 8 },
-      { name: "26-30", value: 15 },
-      { name: "31-35", value: 12 },
-      { name: "36-40", value: 7 },
-      { name: "41+", value: 3 },
-    ];
-  }
+
 
   // getLocationData(): LocationData[] {
   //   return [
