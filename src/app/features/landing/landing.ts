@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
-  viewChild,
+  viewChild
 } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { take, timer } from "rxjs";
+import { map, take, timer } from "rxjs";
 import { Register } from "../register/register";
 
 const importMaterial = [MatIconModule, MatButtonModule];
@@ -21,19 +23,25 @@ const importComponents = [Register];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Landing {
-  readonly registerComponent = viewChild("register", { read: ElementRef<Register> });
+  readonly registerComponent = viewChild("register", {
+    read: ElementRef<Register>,
+  });
 
-  readonly scrollToEffect = timer(2000).pipe(take(1));
+  readonly delayEvent = toSignal(
+    timer(2000).pipe(
+      take(1),
+      map(() => true)
+    )
+  );
 
-  constructor() {
-    this.scrollToEffect.subscribe(() => {
-      const register = this.registerComponent();
+  readonly scrollToEffect = effect(() => {
+    const register = this.registerComponent();
+    const delayEvent = this.delayEvent();
+    if (delayEvent && register) {
+      register.nativeElement.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  });
 
-      if (register) {
-        register.nativeElement.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    });
-  }
 }
