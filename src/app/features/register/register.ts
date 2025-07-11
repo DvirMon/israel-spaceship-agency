@@ -124,17 +124,13 @@ export class Register {
       this.registerService.http.createCandidate(value))
   );
 
-  readonly updateCandidateEffect = toSignal(this.updateCandidateEffect$);
-  readonly createCandidateEffect = toSignal(this.createCandidateEffect$);
-
-  constructor() {
-    effect(() => {
-      // use untracked to patch only when first initialized
-      const existingCandidate = untracked(this.registerService.store.candidate);
-      if (existingCandidate) {
-        this.registerForm.patchValue(existingCandidate);
-      }
-    });
+  readonly updateFormEffect = effect(() => {
+    // use untracked to patch only when first initialized
+    const existingCandidate = untracked(this.registerService.store.candidate);
+    if (existingCandidate) {
+      this.registerForm.patchValue(existingCandidate);
+    }
+  });
 
     effect(() => {
       const hasEditExpired = this.registerService.store.hasEditExpired();
