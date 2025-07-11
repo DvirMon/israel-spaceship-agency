@@ -118,16 +118,10 @@ export class Register {
   readonly createCandidate = createCandidateEvent(this.submitRegisterEvent$);
   readonly updateCandidate = updateCandidateEvent(this.submitRegisterEvent$);
 
-  readonly createCandidateEffect$ = this.submitRegisterEvent$.pipe(
-    filter(() => !this.registerService.store.isUpdateFlow()),
-    map((value) => ({ ...value } as CandidateForm)),
-    fileToUrl("profileImage"),
-    withCoordinates("city"),
-    withTimestamps(),
-    tap((value) => console.log("create", value)),
-
-    // TODO: solve with mergeMap to able using withLoadingOverlay
-    switchMap((value) => this.registerService.http.createCandidate(value))
+  readonly editExpiredEffect = effect(() => {
+    const hasEditExpired = this.registerService.store.hasEditExpired();
+    if (hasEditExpired) {
+      this.registerService.http.createCandidate(value))
   );
 
   readonly updateCandidateEffect = toSignal(this.updateCandidateEffect$);
