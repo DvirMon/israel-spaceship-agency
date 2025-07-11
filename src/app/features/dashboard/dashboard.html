@@ -7,32 +7,30 @@
   </mat-toolbar>
 
   <div class="main-content">
-    <mat-tab-group class="candidate-tabs" animationDuration="300ms">
+    <mat-tab-group class="candidate-tabs" [selectedIndex]="1" animationDuration="300ms">
       <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Overview</span>
+        </ng-template>
         <ng-template matTabContent>
-          <ng-template mat-tab-label>
-            <span>Overview</span>
-          </ng-template>
-          <div>
-            <app-overview></app-overview>
-          </div>
+          <app-overview></app-overview>
         </ng-template>
       </mat-tab>
 
       <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Candidates</span>
+        </ng-template>
         <ng-template matTabContent>
-          <ng-template mat-tab-label>
-            <span>Candidates</span>
-          </ng-template>
           <app-candidates></app-candidates>
         </ng-template>
       </mat-tab>
 
       <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Analytics</span>
+        </ng-template>
         <ng-template matTabContent>
-          <ng-template mat-tab-label>
-            <span>Analytics</span>
-          </ng-template>
           <app-analytics></app-analytics>
         </ng-template>
       </mat-tab>
