@@ -17,7 +17,7 @@ import {
   FormBuilder,
   NG_VALUE_ACCESSOR,
 } from "@angular/forms";
-import { MatIconButton } from "@angular/material/button";
+import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { merge } from "rxjs";
 import { filter, map } from "rxjs/operators";
@@ -33,7 +33,7 @@ import {
 
 @Component({
   selector: "app-file-upload",
-  imports: [MatIcon, MatIconButton],
+  imports: [MatIcon, MatIconButton, MatButtonModule],
   templateUrl: "./file-upload.html",
   styleUrl: "./file-upload.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +47,7 @@ import {
 })
 export class FileUpload implements ControlValueAccessor {
   readonly fileInput = viewChild("fileInput", {
-    read: ElementRef<HTMLInputElement>,
+    read: ElementRef,
   });
   readonly control = inject(FormBuilder).control<File | string | null>(null, {
     validators: [imageFileValidator()],
@@ -68,19 +68,8 @@ export class FileUpload implements ControlValueAccessor {
   readonly disabled = signal(false);
   readonly selectedFile = computed(() => {
     const value = this.value();
-    return value instanceof File ? value : null;
+    return value !== null;
   });
-
-  readonly previewUrl = toSignal(
-    this.control.valueChanges.pipe(
-      filter((value) => value instanceof File),
-      filter((file) => this.control.valid),
-      mapFileToDataUrl()
-    ),
-    {
-      initialValue: null,
-    }
-  );
 
   readonly uploadHintText = computed(() => {
     const types = this.allowedTypes();
@@ -98,6 +87,7 @@ export class FileUpload implements ControlValueAccessor {
   readonly fileResource = resource({
     params: () => this.value(),
     loader: async ({ params: file }) => {
+      if (typeof file === "string") return Promise.resolve(file);
       if (!isFile(file)) return Promise.resolve(null);
       return readFileAsDataUrl(file);
     },
