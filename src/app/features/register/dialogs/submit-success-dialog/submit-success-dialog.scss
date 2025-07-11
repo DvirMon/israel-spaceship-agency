@@ -1,23 +1,13 @@
-.success-dialog {
-  &.closing {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-}
+// .success-dialog {
+//   &.closing {
+//     opacity: 0;
+//     transform: scale(0.95);
+//   }
+// }
 
 .dialog-header {
   text-align: center;
   padding: 2rem 2rem 1rem 2rem;
-
-  .success-icon {
-    mat-icon {
-      font-size: 4rem;
-      width: 4rem;
-      height: 4rem;
-      color: white;
-      animation: successPulse 0.6s ease-out;
-    }
-  }
 
   h2 {
     margin: 0;
@@ -25,10 +15,18 @@
     font-weight: 500;
     animation: slideInUp 0.8s ease-out 0.2s both;
   }
+
+  mat-icon.success-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: white;
+    animation: successPulse 0.6s ease-out;
+  }
 }
 
-.dialog-content {
-  padding: 3rem;
+.mat-mdc-dialog-content.dialog-content {
+  padding: 1.5rem 3rem 3rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -40,14 +38,14 @@
     gap: 1rem;
     color: white;
     animation: fadeInUp 0.8s ease-out 0.4s both;
-    
+
     .title {
       font-size: 2rem;
       line-height: 1.2;
     }
 
     strong {
-      color: white;
+      color: #bb86fc;
     }
 
     .mat-subtitle {
@@ -61,9 +59,17 @@
     flex-direction: column;
     gap: 2rem;
 
+    ul.info-list {
+      display: flex;
+      flex-direction: column;
+      padding: 0px;
+      margin: 0px;
+      gap: 2rem;
+    }
+
     .info-item {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 1.5rem;
       animation: fadeInUp 0.8s ease-out 0.6s both;
 
@@ -78,7 +84,7 @@
       .info-icon {
         color: #8b5cf6;
         font-size: 2rem;
-        width: 3.5rem;
+        width: 4rem;
         height: 2rem;
       }
 

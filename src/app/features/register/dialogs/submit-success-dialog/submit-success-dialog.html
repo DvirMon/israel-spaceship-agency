@@ -1,0 +1,41 @@
+<div class="dialog-header">
+  <mat-icon class="success-icon">check_circle</mat-icon>
+  <h2 mat-dialog-title>{{ title() }}</h2>
+</div>
+
+<mat-dialog-content class="dialog-content">
+  <section class="thank-you-message">
+    <span class="title"> Thank you <strong>{{ fullName() }}</strong> </span>
+    <span class="mat-subtitle">{{ subtitle() }}</span>
+  </section>
+
+  <section class="info-section" aria-label="Registration Info Summary">
+    <ul class="info-list">
+      <li class="info-item">
+        <mat-icon class="info-icon" aria-hidden="true">edit</mat-icon>
+        <span>
+          Your registration will be
+          <strong>editable for the next 3 days</strong>
+
+          @if(editableUntil()) { (until {{ editableUntil() | date: 'mediumDate'
+          }}) }
+        </span>
+      </li>
+
+      <li class="info-item">
+        <mat-icon class="info-icon" aria-hidden="true">email</mat-icon>
+        <span>
+          You will receive a confirmation email shortly with further details
+        </span>
+      </li>
+
+      <li class="info-item">
+        <mat-icon class="info-icon" aria-hidden="true">schedule</mat-icon>
+        <span>
+          Our team will review your application and contact you within 5
+          business days
+        </span>
+      </li>
+    </ul>
+  </section>
+</mat-dialog-content>
