@@ -2,7 +2,7 @@ import { inject, isDevMode } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
 import { withGeo } from "app/shared/operators";
 import { Observable, of } from "rxjs";
-import { CandidateForm } from "../models/register.model";
+import { CandidateForm } from "../types";
 
 export function compareCandidates(
   a: Partial<CandidateForm> | null,
@@ -12,14 +12,14 @@ export function compareCandidates(
   if (a === null || b === null) return false;
 
   const fields: (keyof CandidateForm)[] = [
-    'fullName',
-    'email',
-    'phone',
-    'age',
-    'city',
-    'hobbies',
-    'motivation',
-    'profileImage'
+    "fullName",
+    "email",
+    "phone",
+    "age",
+    "city",
+    "hobbies",
+    "motivation",
+    "profileImage",
   ];
 
   const comparisons = fields.map((field) => {

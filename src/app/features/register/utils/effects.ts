@@ -1,6 +1,6 @@
 import { CandidateStore } from "@core/models/candidate.model";
 import { Observable, filter, tap, map, switchMap } from "rxjs";
-import { CandidateForm } from "../register.model";
+import { CandidateForm } from "../types";
 import { fileToUrl } from "./form";
 import { compareCandidates, withCoordinates } from "./utils";
 import { inject } from "@angular/core";
