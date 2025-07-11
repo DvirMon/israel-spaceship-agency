@@ -1,8 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { CandidateStore } from "@core/models/candidate-store.model";
 import { FireStoreService } from "@core/services/fire-store.service";
-import { GeocodingService } from "@core/services/geocoding.service";
-import { LocalStorage } from "@core/services/local-storage.service";
 import { convertTimestampsToDate } from "@shared/operators";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 import { withLoadingOverlay } from "app/shared/components/loading-overlay/operator";
@@ -10,9 +8,6 @@ import { map, of, take, tap } from "rxjs";
 
 @Injectable()
 export class RegisterHttp extends FireStoreService<CandidateStore> {
-  private readonly localStorage = inject(LocalStorage);
-  private readonly geocoding = inject(GeocodingService);
-
   private readonly overlayService = inject(LoadingOverlayService);
   createCandidate(data: Omit<CandidateStore, "id">) {
     // TODO - add flow to save image at storage
@@ -27,8 +22,8 @@ export class RegisterHttp extends FireStoreService<CandidateStore> {
 
   updateCandidate(data: CandidateStore) {
     return this.updateDocument(data.id, data).pipe(
-      map(() => null), // mock value
-      withLoadingOverlay(this.overlayService)
+      withLoadingOverlay(this.overlayService),
+      map(() => data)
     );
   }
 
@@ -49,7 +44,7 @@ export class RegisterHttp extends FireStoreService<CandidateStore> {
         latitude: 32.0952929,
         longitude: 34.9533225,
       },
-      id : ''
+      id,
     });
 
     return candidate.pipe(
