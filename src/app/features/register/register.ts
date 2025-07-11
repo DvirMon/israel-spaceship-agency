@@ -120,7 +120,7 @@ export class Register {
   readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => this.registerService.store.isUpdateFlow()),
     tap((val) => console.log("update", val)),
-    map((value) => ({ ...value, profileImage: "" } as CandidateForm)),
+    fileToUrl("profileImage"),
     filter(
       (value) =>
         !compareCandidates(value, this.registerService.store.candidate())
