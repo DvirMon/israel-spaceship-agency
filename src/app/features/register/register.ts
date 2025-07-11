@@ -24,13 +24,19 @@ import { filter, map, switchMap, tap } from "rxjs";
 import { RegisterHttp } from "./services/register-http";
 import { RegisterStore } from "./services/register-store";
 import { RegisterService } from "./services/register.service";
-import { createRegistrationForm, formSubmitEffect } from "./utils/form";
+import {
+  createRegistrationForm,
+  formSubmitEffect,
+  fileToUrl,
+} from "./utils/form";
 import { compareCandidates } from "./utils/utils";
 import {
   withCoordinates,
   withTimestamps,
 } from "app/shared/components/loading-overlay/operator";
 import { provideCollectionToken } from "@core/tokens/collection.tokens";
+import { CandidateForm } from "./models/register.model";
+import { CandidateStore } from "@core/models/candidate-store.model";
 
 const importMaterial = [
   MatFormFieldModule,
@@ -116,20 +122,31 @@ export class Register {
   readonly updateCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => this.registerService.store.isUpdateFlow()),
     tap((val) => console.log("update", val)),
+    map((value) => ({ ...value, profileImage: "" } as CandidateForm)),
     filter(
       (value) =>
         !compareCandidates(value, this.registerService.store.candidate())
     ),
-    map((value) => ({ ...this.registerService.store.candidate(), ...value })),
-    withCoordinates(),
+    map(
+      (value) =>
+        ({
+          ...this.registerService.store.candidate(),
+          ...value,
+        } as CandidateStore)
+    ),
+    withCoordinates("city"),
     switchMap((value) => this.registerService.http.updateCandidate(value))
   );
 
   readonly createCandidateEffect$ = formSubmitEffect(this.registerForm).pipe(
     filter(() => !this.registerService.store.isUpdateFlow()),
-    tap(() => console.log("create")),
-    withCoordinates(),
+    map((value) => ({ ...value } as CandidateForm)),
+    fileToUrl("profileImage"),
+    withCoordinates("city"),
     withTimestamps(),
+    tap((value) => console.log("create", value)),
+
+    // TODO: solve with mergeMap to able using withLoadingOverlay
     switchMap((value) => this.registerService.http.createCandidate(value))
   );
 
