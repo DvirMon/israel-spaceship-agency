@@ -8,13 +8,14 @@ import {
   docData,
   DocumentData,
   Firestore,
-  getDocs,
   updateDoc,
 } from "@angular/fire/firestore";
-import { from, map, Observable, throwError } from "rxjs";
+import { from, map, Observable, tap, throwError } from "rxjs";
 import { COLLECTION_KEY } from "../tokens/collection.tokens";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class FireStoreService<T extends DocumentData> {
   private firestore = inject(Firestore);
 
@@ -41,7 +42,8 @@ export class FireStoreService<T extends DocumentData> {
       map((docRef) => ({
         ...data,
         id: docRef.id,
-      }))
+      })),
+      tap((doc) => console.log("Document written with ID: ", doc.id))
     );
   }
 
@@ -62,6 +64,4 @@ export class FireStoreService<T extends DocumentData> {
     const docRef = doc(this.firestore, path, id);
     return docData(docRef) as Observable<T | undefined>;
   }
-
-  
 }
