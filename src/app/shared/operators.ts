@@ -1,5 +1,14 @@
-import { GeoPoint, Timestamp } from "@angular/fire/firestore";
-import { Observable, OperatorFunction, map, switchMap } from "rxjs";
+import { inject } from "@angular/core";
+import {
+  doc,
+  Firestore,
+  GeoPoint,
+  increment,
+  runTransaction,
+  setDoc,
+  Timestamp,
+} from "@angular/fire/firestore";
+import { defer, map, Observable, OperatorFunction, switchMap } from "rxjs";
 
 export function withTimestamps<T>(): OperatorFunction<
   T,
@@ -61,5 +70,28 @@ export function convertTimestampsToDate<T>(keys: (keyof T)[]) {
 
         return result as T;
       })
+    );
+}
+
+export function incrementDoc(path: string) {
+  const firestore = inject(Firestore);
+
+  return <T>(source$: Observable<T>): Observable<T> =>
+    source$.pipe(
+      switchMap((value) =>
+        defer(() =>
+          runTransaction(firestore, async (tx) => {
+
+            console.log('incrementing', path);
+
+            const ref = doc(firestore, path);
+            tx.update(ref, { count: increment(1) });
+          }).catch(async (err) => {
+            if (err.code === 'not-found') {
+              await setDoc(doc(firestore, path), { count: 1 });
+            }
+          })
+        ).pipe(map(() => value)) 
+      )
     );
 }
