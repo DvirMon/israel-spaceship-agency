@@ -1,5 +1,6 @@
 <div class="overview-container">
   <div class="charts-grid">
+    @if(!isLoading()) {
     <mat-card class="info-card">
       <mat-card-header>
         <mat-card-title> Age Distribution </mat-card-title>
@@ -84,9 +85,11 @@
       </mat-card-header>
       <mat-card-content>
         <article class="map-container">
-          <app-location-map></app-location-map>
+          <app-location-map [results]="locationCoordinates()">
+          </app-location-map>
         </article>
       </mat-card-content>
     </mat-card>
+    }
   </div>
 </div>

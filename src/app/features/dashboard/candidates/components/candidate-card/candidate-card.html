@@ -2,20 +2,26 @@
 
 <mat-card class="candidate-card" (click)="onCardClick()">
   <mat-card-header>
+    @if(data.profileImage) {
     <img
-      [ngSrc]="data.profileImage || ''"
+      mat-card-avatar
+      [ngSrc]="data.profileImage"
       [alt]="data.fullName"
       width="80"
       height="80"
-      mat-card-avatar />
+      priority />
+    } @else {
+    <div mat-card-avatar class="avatar-fallback"></div>
+    }
 
     <mat-card-title>{{ data.fullName }}</mat-card-title>
     <mat-card-subtitle>
-      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt | date : 'MMM dd' }}
+      {{ data.city }} • Age {{ data.age }} • {{ data.registeredAt |
+      timestampToDate | date : 'MMM dd' }}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-      <span class="application-date">{{ data.hobbies }}</span>
+    <span class="application-date">{{ data.hobbies }}</span>
     <span class="candidate-pitch">{{ data.motivation }}</span>
   </mat-card-content>
 </mat-card>
