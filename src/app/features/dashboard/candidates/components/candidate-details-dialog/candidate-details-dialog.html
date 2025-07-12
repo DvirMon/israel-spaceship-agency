@@ -1,70 +1,86 @@
 @if (candidate(); as candidate) {
-<div class="candidate-detail-container">
-  <mat-card class="candidate-detail-card">
-    <mat-card-header>
-      <div class="candidate-header">
-        @if(candidate.profileImage) {
-        <img
-          mat-card-avatar
-          [ngSrc]="candidate.profileImage"
-          [alt]="candidate.fullName"
-          width="80"
-          height="80"
-          priority />
-        } @else {
-        <div mat-card-avatar class="avatar-fallback"></div>
-        }
+<div mat-dialog-title>
+  <section class="candidate-header">
+    @if (candidate.profileImage) {
+    <img
+      mat-card-avatar
+      [ngSrc]="candidate.profileImage"
+      [alt]="candidate.fullName"
+      width="80"
+      height="80"
+      priority />
+    } @else {
+    <div mat-card-avatar class="avatar-fallback"></div>
+    }
 
-        <div class="candidate-basic">
-          <h2>{{ candidate.fullName }}</h2>
-          <p class="candidate-email">{{ candidate.email }}</p>
-          <div class="candidate-location">
-            <mat-icon>place</mat-icon>
-            {{ candidate.city }} • Age {{ candidate.age }}
-          </div>
-        </div>
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="detail-grid">
-        <div class="detail-section">
-          <h3>Application Date</h3>
-          <p>{{ candidate.registeredAt }}</p>
-          <small
-            >{{ candidate.registeredAt | timestampToDate | daysAgo }} days
-            ago</small
-          >
-        </div>
-        <div class="detail-section full-width">
-          <h3>Motivation</h3>
-          <p>{{ candidate.motivation }}</p>
-        </div>
-        <div class="detail-section full-width">
-          <h3>Hobbies & Interests</h3>
-          <p>{{ candidate.hobbies }}</p>
-        </div>
-      </div>
-      <div class="action-buttons">
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="goToPreviousCandidate()"
-          [disabled]="currentIndex() === 0">
-          <mat-icon>navigate_before</mat-icon>
-          Previous
-        </button>
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="goToNextCandidate()"
-          [disabled]="currentIndex() === candidatesList().length - 1">
-          <mat-icon>navigate_next</mat-icon>
-          Next
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    <div class="candidate-basic">
+      <h2>{{ candidate.fullName }}</h2>
+      <span class="candidate-email">{{ candidate.email }}</span>
+    </div>
+  </section>
+  <section class="candidate-location">
+    <span>
+      <mat-icon fontIcon="location_on"></mat-icon>
+      {{ candidate.city }}
+    </span>
+    <span>
+      <mat-icon fontIcon="person"></mat-icon>
+      {{ candidate.age }}
+    </span>
+  </section>
 </div>
+
+<mat-dialog-content class="dialog-content">
+  <section>
+    <h3>Application Date</h3>
+    <p>
+      {{ candidate.registeredAt | timestampToDate | date }}
+      <small>
+        {{ candidate.registeredAt | timestampToDate | daysAgo }} days ago
+      </small>
+    </p>
+  </section>
+
+  <section>
+    <h3>Motivation</h3>
+    @if (candidate.motivation) {
+    <p>{{ candidate.motivation }}</p>
+    } @else {
+    <p class="empty-section">No specified</p>
+    }
+  </section>
+
+  <section>
+    <h3>Hobbies & Interests</h3>
+    @if (candidate.hobbies) {
+    <p>{{ candidate.hobbies }}</p>
+    } @else {
+    <p class="empty-section">Not specified</p>
+    }
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="goToPreviousCandidate()"
+    [disabled]="currentIndex() === 0">
+    <!-- <mat-icon>navigate_before</mat-icon> -->
+    Previous
+  </button>
+
+  <button
+    class="next-button"
+    mat-flat-button
+    color="primary"
+    (click)="goToNextCandidate()"
+    [disabled]="currentIndex() === candidatesList().length - 1">
+    Next
+    <!-- <mat-icon>navigate_next</mat-icon> -->
+  </button>
+</mat-dialog-actions>
+
 } @if (!candidate()) {
 <div class="not-found">
   <mat-card>
