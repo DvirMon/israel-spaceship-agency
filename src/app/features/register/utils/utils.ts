@@ -1,6 +1,6 @@
 import { inject, isDevMode } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
-import { withGeo } from "app/shared/operators";
+import { incrementDoc, withGeo } from "app/shared/operators";
 import { Observable, of } from "rxjs";
 import { CandidateForm } from "../types";
 
@@ -64,4 +64,8 @@ export function withCoordinates<T, K extends keyof T>(key: K) {
         return geocode.loadCoordinates(city);
       })
     );
+}
+
+export function withLogRegister() {
+  return incrementDoc('analytics/register');
 }

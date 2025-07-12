@@ -1,13 +1,12 @@
 <div class="analytics-container">
-  <app-stats-grid [statCards]="statCards()"> </app-stats-grid>
+  <app-stats-grid [statCards]="statCards()" [loading]="isLoading()">
+  </app-stats-grid>
 
   <div class="analytics-grid">
     <!-- Visits vs Registrations Chart -->
     <mat-card class="info-card">
       <mat-card-header>
-        <mat-card-title>
-          Visits vs Registrations
-        </mat-card-title>
+        <mat-card-title> Visits vs Registrations </mat-card-title>
         <mat-card-subtitle
           >Daily website traffic and conversion</mat-card-subtitle
         >

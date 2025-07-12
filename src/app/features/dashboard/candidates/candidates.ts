@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   linkedSignal,
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
 import { IS_MOBILE } from "@core/tokens/mobile";
@@ -18,6 +19,7 @@ import {
   matchesDateFilter,
   matchesSearch,
 } from "./candidates.utils";
+import { CandidateDetailsDialog } from "./components/candidate-details-dialog/candidate-details-dialog";
 import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
@@ -38,7 +40,7 @@ const componentsImports = [CandidateFilters, CandidateTable, CandidateGrid];
 })
 export class Candidates {
   private readonly dashboardService = inject(DashboardService);
-
+  private readonly dialog = inject(MatDialog);
   readonly isMobile = inject(IS_MOBILE);
 
   // Filter signals
@@ -50,15 +52,14 @@ export class Candidates {
   readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly loading = signal(false);
-  readonly filtersLoading = signal(false);
-  readonly showAdvancedFilters = signal(false);
+  readonly loading = this.dashboardService.isLoading;
+  readonly candidates = this.dashboardService.candidates;
+  readonly totalCandidates = this.dashboardService.totalCandidates;
   readonly viewMode = linkedSignal({
     source: this.isMobile,
     computation: (isMobile) => (isMobile ? "grid" : "table"),
   });
 
-  readonly totalCandidates = this.dashboardService.totalCandidates;
 
   // Computed filter state
   readonly filters = computed(
@@ -74,7 +75,7 @@ export class Candidates {
 
   // Computed filtered candidates
   readonly filteredCandidates = computed(() => {
-    const candidates = this.dashboardService.data();
+    const candidates = this.candidates();
     const filters = {
       search: this.searchTerm().toLowerCase(),
       status: this.statusFilter(),
@@ -94,6 +95,12 @@ export class Candidates {
       return conditions.every(Boolean);
     });
   });
+
+  constructor() {
+    effect(() => {
+      this.viewCandidateDetail(this.candidates()[0]);
+    });
+  }
 
   private readonly filterResetMap: Record<keyof FilterState, () => void> = {
     searchTerm: () => this.searchTerm.set(""),
@@ -121,10 +128,11 @@ export class Candidates {
   }
 
   viewCandidateDetail(candidate: CandidateStore): void {
-    // this.dialog.open(CandidateDetailDialog, {
-    //   data: { id: candidate.id },
-    //   width: "800px",
-    //   maxHeight: "90vh",
-    // });
+    this.dialog.open(CandidateDetailsDialog, {
+      data: { id: candidate.id, candidates: this.candidates() },
+      width: "800px",
+  
+      disableClose: true,
+    });
   }
 }

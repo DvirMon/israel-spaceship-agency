@@ -8,10 +8,11 @@ import {
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { DashboardService } from "../dashboard.service";
+import { AnalyticsService } from "./analytics.service";
 import { StatCard } from "./stats-grid/stats-card/types";
 import { StatsGrid } from "./stats-grid/stats-grid";
 import { VisitData } from "./types";
+import { DashboardService } from "../dashboard.service";
 
 @Component({
   selector: "app-analytics",
@@ -22,6 +23,7 @@ import { VisitData } from "./types";
 })
 export class Analytics {
   private readonly dashboardService = inject(DashboardService);
+  private readonly analyticsService = inject(AnalyticsService);
 
   readonly visitsData = signal<VisitData[]>([]);
   readonly statsLoading = signal(false);
@@ -31,11 +33,10 @@ export class Analytics {
   readonly totalRegistrations = computed(() =>
     this.visitsData().reduce((sum, day) => sum + day.registrations, 0)
   );
-  readonly conversionRate = computed(() => {
-    const visits = this.totalVisits();
-    const registrations = this.totalRegistrations();
-    return visits > 0 ? Number(((registrations / visits) * 100).toFixed(1)) : 0;
-  });
+  readonly conversionRate = this.analyticsService.conversionRate;
+  readonly analytics = this.analyticsService.analytics;
+
+  readonly isLoading = this.analyticsService.isLoading;
 
   readonly statCards = computed((): StatCard[] => [
     {
@@ -48,14 +49,14 @@ export class Analytics {
     {
       title: "Total Visits",
       icon: "visibility",
-      value: this.totalVisits().toLocaleString(),
-      subtitle: "Last 7 days",
+      value: this.analyticsService.visitsCount(),
+      subtitle: "Current total",
       gradient: "green",
     },
     {
       title: "Registrations",
       icon: "how_to_reg",
-      value: this.totalRegistrations(),
+      value: this.analyticsService.registerCount(),
       subtitle: `Conversion: ${this.conversionRate()}%`,
       gradient: "purple",
     },

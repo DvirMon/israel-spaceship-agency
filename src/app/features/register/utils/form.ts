@@ -6,7 +6,7 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
-import { StorageService } from "@core/services/fire-storage.service";
+import { FireStorage } from "@core/services/fire-storage.service";
 import { filter, map, mergeAll, Observable, of, withLatestFrom } from "rxjs";
 import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
 
@@ -57,7 +57,7 @@ export function createRegistrationForm() {
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
-    profileImage: nfb.control<File | string >(""),
+    profileImage: nfb.control<File | string>(""),
   });
 }
 
@@ -103,7 +103,7 @@ export function toFormData<T extends Record<string, any>>(
 export function fileToUrl<T, K extends keyof T>(
   key: K
 ): (source$: Observable<T>) => Observable<Omit<T, K> & { [P in K]: string }> {
-  const storage = inject(StorageService);
+  const storage = inject(FireStorage);
 
   return (source$) =>
     source$.pipe(
