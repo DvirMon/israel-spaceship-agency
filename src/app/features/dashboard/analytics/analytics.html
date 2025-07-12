@@ -12,17 +12,35 @@
         >
       </mat-card-header>
       <mat-card-content>
-        <!-- <ngx-charts-area-chart
-          [results]="results()"
-          [scheme]="'red'"
-          [xAxis]="true"
-          [yAxis]="true"
-          [showXAxisLabel]="true"
-          [showYAxisLabel]="true"
-          xAxisLabel="Date"
-          yAxisLabel="Count"
-          [animations]="true">
-        </ngx-charts-area-chart> -->
+        <div>
+          @if(chartViewState.show()) {
+          <ngx-charts-area-chart
+            [view]="chartViewState.view()"
+            [results]="results()"
+            [scheme]="colorScheme"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Date"
+            yAxisLabel="Count"
+            [animations]="true">
+          </ngx-charts-area-chart>
+          } @else {
+
+          <ngx-charts-area-chart
+            [results]="results()"
+            [scheme]="colorScheme"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Date"
+            yAxisLabel="Count"
+            [animations]="true">
+          </ngx-charts-area-chart>
+          }
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
