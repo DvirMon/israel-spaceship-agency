@@ -30,9 +30,9 @@ import { trigger, transition, style, animate } from "@angular/animations";
 })
 export class StatsGrid {
   readonly statCards = input.required<StatCard[]>();
+  readonly loading = input(false);
   readonly columns = input<number | "auto">("auto");
   readonly gap = input<"small" | "medium" | "large">("medium");
-  readonly loading = computed(() => this.statCards().length === 0);
 
   readonly cardClick = output<StatCard>();
   readonly cardHover = output<StatCard>();
