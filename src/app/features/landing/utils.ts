@@ -1,4 +1,4 @@
-import { incrementDoc } from "@shared/operators";
+import { incrementDoc } from "app/shared/operators/operators";
 import { EMPTY, Observable, of, switchMap, tap } from "rxjs";
 
 function getTodayId(): string {

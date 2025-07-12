@@ -1,8 +1,8 @@
 import { inject, isDevMode } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
-import { incrementDoc, withGeo } from "app/shared/operators";
 import { Observable, of } from "rxjs";
 import { CandidateForm } from "../types";
+import { withGeo, incrementDoc } from "@shared/operators";
 
 export function compareCandidates(
   a: Partial<CandidateForm> | null,
@@ -24,13 +24,6 @@ export function compareCandidates(
 
   const comparisons = fields.map((field) => {
     const equal = a[field] === b[field];
-
-    if (isDevMode()) {
-      // console.log(`[compareCandidates] Field mismatch: ${field}`);
-      // console.log('  A:', a[field]);
-      // console.log('  B:', b[field]);
-    }
-
     return equal;
   });
 
@@ -67,5 +60,5 @@ export function withCoordinates<T, K extends keyof T>(key: K) {
 }
 
 export function withLogRegister() {
-  return incrementDoc('analytics/register');
+  return incrementDoc("analytics/register");
 }
