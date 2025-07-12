@@ -48,7 +48,7 @@ export class RegisterStore {
   private initCandidate() {
     const id = this.existingUuid();
     if (id) {
-      return this.http.getCandidate(id.trim());
+      return this.http.getCandidate(id);
     } else {
       return of(null);
     }
