@@ -96,12 +96,6 @@ export class Candidates {
     });
   });
 
-  constructor() {
-    effect(() => {
-      this.viewCandidateDetail(this.candidates()[0]);
-    });
-  }
-
   private readonly filterResetMap: Record<keyof FilterState, () => void> = {
     searchTerm: () => this.searchTerm.set(""),
     statusFilter: () => this.statusFilter.set("all"),
@@ -130,9 +124,8 @@ export class Candidates {
   viewCandidateDetail(candidate: CandidateStore): void {
     this.dialog.open(CandidateDetailsDialog, {
       data: { id: candidate.id, candidates: this.candidates() },
-      width: "800px",
-  
-      disableClose: true,
+      width: "inherit",
+      height: "650px",
     });
   }
 }
