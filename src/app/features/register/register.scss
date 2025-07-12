@@ -1,4 +1,20 @@
-/* Mobile-first responsive registration form styles */
+@use "@angular/material" as mat;
+
+:host {
+  @include mat.form-field-overrides(
+    (
+      container-height: 88px,
+      container-text-size: 24px,
+      subscript-text-size: 24px,
+      filled-label-text-size: 24px,
+      filled-with-label-container-padding-top: 44px,
+      filled-with-label-container-padding-bottom: 24px,
+      subscript-text-line-height: 44px,
+      container-text-line-height: 32x,
+      error-text-color: white,
+    )
+  );
+}
 
 .registration-section {
   min-height: 100vh;

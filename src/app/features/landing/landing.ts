@@ -8,7 +8,7 @@ import {
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { incrementDoc } from "@shared/operators";
+import { incrementDoc } from "app/shared/operators/operators";
 import { map, take, timer } from "rxjs";
 import { Register } from "../register/register";
 import { withLogDailyVisit } from "./utils";

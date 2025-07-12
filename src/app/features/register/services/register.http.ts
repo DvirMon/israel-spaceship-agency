@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { CandidateStore } from "@core/models/candidate.model";
 import { FireStore } from "@core/services/fire-store.service";
-import { convertTimestampsToDate } from "@shared/operators";
+import { mapTimestampsToDate } from "@shared/operators";
 import { setLocalStorage } from "@shared/operators/local-storage";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 import { withLoadingOverlay } from "app/shared/components/loading-overlay/operator";
@@ -47,7 +47,7 @@ export class RegisterHttp extends FireStore<CandidateStore> {
     return candidate.pipe(
       take(1),
       map((candidate) => candidate as CandidateStore),
-      convertTimestampsToDate(["registeredAt", "expiresAt"]),
+      mapTimestampsToDate(["registeredAt", "expiresAt"]),
       tap((candidate) => {
         console.log(candidate);
       }),
