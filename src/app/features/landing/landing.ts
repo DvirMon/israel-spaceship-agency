@@ -37,15 +37,15 @@ export class Landing {
 
   readonly logDailyVisit$ = timer(5000).pipe(withLogDailyVisit());
 
-  readonly scrollToEffect = effect(() => {
-    const register = this.registerComponent();
-    const delayEvent = this.delayEvent();
-    if (delayEvent && register) {
-      register.nativeElement.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  });
+  // readonly scrollToEffect = effect(() => {
+  //   const register = this.registerComponent();
+  //   const delayEvent = this.delayEvent();
+  //   if (delayEvent && register) {
+  //     register.nativeElement.scrollIntoView({
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // });
 
   constructor() {
     this.logDailyVisit$.subscribe();
