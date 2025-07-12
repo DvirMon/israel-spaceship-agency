@@ -29,10 +29,6 @@
     background-color: #f5f5f5;
   }
 
-  &.error {
-    border-color: #f44336;
-    background-color: #fff5f5;
-  }
 }
 
 .upload-content {
@@ -43,11 +39,12 @@
   }
 
   p {
+    font-size: 1.4rem;
     margin: 0.5rem 0;
     color: #666;
 
     &.upload-hint {
-      font-size: 0.875rem;
+      font-size: 1rem;
       color: #999;
     }
   }
@@ -59,6 +56,8 @@
 
   button {
     margin-left: auto;
+    margin-bottom: auto;
+    scale: 1.2;
   }
 }
 

@@ -67,7 +67,7 @@ export class FileUpload implements ControlValueAccessor {
   readonly disabled = signal(false);
   readonly selectedFile = computed(() => {
     const value = this.value();
-    return value !== null;
+    return !!value 
   });
 
   readonly uploadHintText = computed(() => {
