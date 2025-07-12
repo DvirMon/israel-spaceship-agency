@@ -50,7 +50,7 @@ article.map-container {
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 960px) {
   .overview-container {
     padding: 16px;
   }
@@ -60,6 +60,7 @@ article.map-container {
   }
 }
 
+// ngx charts
 :host {
   ::ng-deep .ngx-charts text {
     fill: white; /* or any light color that contrasts with your dark background */
