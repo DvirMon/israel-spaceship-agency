@@ -3,11 +3,11 @@
   @if (loading()) {
   <div class="stats-loading">
     @for (item of [1,2,3]; track $index) {
-    <div class="stat-skeleton">
-      <div class="skeleton-header"></div>
-      <div class="skeleton-number"></div>
-      <div class="skeleton-subtitle"></div>
-    </div>
+    <mat-card class="stat-skeleton">
+      <div class="skeleton line"></div>
+      <div class="skeleton line"></div>
+      <div class="skeleton line"></div>
+    </mat-card>
     }
   </div>
   }
