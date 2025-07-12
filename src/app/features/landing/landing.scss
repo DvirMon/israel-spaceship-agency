@@ -84,12 +84,14 @@
 
 @media (max-width: 768px) {
   .hero-content {
-    padding: 1rem;
+    padding: 2rem;
+    margin-bottom: 8rem;
   }
 
   .hero-title {
-    font-size: clamp(3.5rem, 5vw, 4rem);
+    font-size: clamp(3rem, 5vw, 4rem);
     font-weight: 300;
+    margin: 0 0 2rem;
   }
 
   .hero-subtitle {
