@@ -60,7 +60,6 @@ export class Candidates {
     computation: (isMobile) => (isMobile ? "grid" : "table"),
   });
 
-
   // Computed filter state
   readonly filters = computed(
     (): FilterState => ({

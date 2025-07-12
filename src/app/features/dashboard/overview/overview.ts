@@ -65,8 +65,4 @@ export class Overview {
   };
   groupByCity = (item: { city?: string }) => item.city ?? "Unknown";
 
-  onResize(event: any) {
-    console.log(event);
-    // this.view = [event.target.innerWidth / 1.35, 400];
-  }
 }
