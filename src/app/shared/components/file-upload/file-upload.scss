@@ -2,9 +2,9 @@
 
 // Customize the entire app. Change :root to your selector if you want to scope the styles.
 :host {
-  @include mat.icon-button-overrides(
+  @include mat.icon-overrides(
     (
-      icon-color: #666,
+      color: #666,
     )
   );
 }
@@ -32,7 +32,7 @@
 }
 
 .upload-content {
-  .upload-icon {
+  mat-icon {
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
