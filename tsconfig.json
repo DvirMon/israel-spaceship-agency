@@ -23,7 +23,8 @@
       "@cards/*": ["app/shared/components/cards/*"],
       "@chards/*": ["app/shared/components/chards/*"],
       "@shared/pipes/*": ["app/shared/pipes/*"],
-      "@shared/operators": ["app/shared/operators.ts"]
+      "@shared/operators": ["app/shared/operators.ts"],
+      "@shared/operators/local-storage": ["app/shared/operators/local-storage.ts"]
     }
   },
   "angularCompilerOptions": {

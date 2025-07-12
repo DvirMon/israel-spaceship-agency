@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { CandidateStore } from "@core/models/candidate.model";
 import { FireStore } from "@core/services/fire-store.service";
 import { convertTimestampsToDate } from "@shared/operators";
+import { setLocalStorage } from "@shared/operators/local-storage";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 import { withLoadingOverlay } from "app/shared/components/loading-overlay/operator";
 import { map, of, take, tap } from "rxjs";
@@ -10,12 +11,9 @@ import { map, of, take, tap } from "rxjs";
 export class RegisterHttp extends FireStore<CandidateStore> {
   private readonly overlayService = inject(LoadingOverlayService);
   createCandidate(data: Omit<CandidateStore, "id">) {
-
     return this.createDocument(data).pipe(
       withLoadingOverlay(this.overlayService),
-      tap((data) => {
-        // this.localStorage.setItem("registration-uuid", data.id);
-      })
+      setLocalStorage("registration-uuid", (data) => data.id)
     );
   }
 
