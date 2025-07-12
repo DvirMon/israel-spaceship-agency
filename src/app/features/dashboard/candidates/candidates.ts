@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   linkedSignal,
   signal,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
 import { IS_MOBILE } from "@core/tokens/mobile";
@@ -22,6 +23,7 @@ import { CandidateFilters } from "./components/candidate-filters/candidate-filte
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
+import { CandidateDetailsDialog } from "./components/candidate-details-dialog/candidate-details-dialog";
 
 export type ViewMode = "grid" | "table";
 
@@ -38,7 +40,7 @@ const componentsImports = [CandidateFilters, CandidateTable, CandidateGrid];
 })
 export class Candidates {
   private readonly dashboardService = inject(DashboardService);
-
+  private readonly dialog = inject(MatDialog);
   readonly isMobile = inject(IS_MOBILE);
 
   // Filter signals
@@ -50,9 +52,7 @@ export class Candidates {
   readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly loading = signal(false);
-  readonly filtersLoading = signal(false);
-  readonly showAdvancedFilters = signal(false);
+  readonly loading = this.dashboardService.isLoading;
   readonly viewMode = linkedSignal({
     source: this.isMobile,
     computation: (isMobile) => (isMobile ? "grid" : "table"),
@@ -95,6 +95,12 @@ export class Candidates {
     });
   });
 
+  constructor() {
+    effect(() => {
+      this.viewCandidateDetail(this.dashboardService.data()[0]);
+    });
+  }
+
   private readonly filterResetMap: Record<keyof FilterState, () => void> = {
     searchTerm: () => this.searchTerm.set(""),
     statusFilter: () => this.statusFilter.set("all"),
@@ -121,10 +127,11 @@ export class Candidates {
   }
 
   viewCandidateDetail(candidate: CandidateStore): void {
-    // this.dialog.open(CandidateDetailDialog, {
-    //   data: { id: candidate.id },
-    //   width: "800px",
-    //   maxHeight: "90vh",
-    // });
+    this.dialog.open(CandidateDetailsDialog, {
+      data: { id: candidate.id, candidates: this.dashboardService.data() },
+      width: "800px",
+  
+      disableClose: true,
+    });
   }
 }

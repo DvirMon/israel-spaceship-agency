@@ -1,0 +1,80 @@
+@if (candidate(); as candidate) {
+<div class="candidate-detail-container">
+  <mat-card class="candidate-detail-card">
+    <mat-card-header>
+      <div class="candidate-header">
+        @if(candidate.profileImage) {
+        <img
+          mat-card-avatar
+          [ngSrc]="candidate.profileImage"
+          [alt]="candidate.fullName"
+          width="80"
+          height="80"
+          priority />
+        } @else {
+        <div mat-card-avatar class="avatar-fallback"></div>
+        }
+
+        <div class="candidate-basic">
+          <h2>{{ candidate.fullName }}</h2>
+          <p class="candidate-email">{{ candidate.email }}</p>
+          <div class="candidate-location">
+            <mat-icon>place</mat-icon>
+            {{ candidate.city }} • Age {{ candidate.age }}
+          </div>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="detail-grid">
+        <div class="detail-section">
+          <h3>Application Date</h3>
+          <p>{{ candidate.registeredAt }}</p>
+          <small
+            >{{ candidate.registeredAt | timestampToDate | daysAgo }} days
+            ago</small
+          >
+        </div>
+        <div class="detail-section full-width">
+          <h3>Motivation</h3>
+          <p>{{ candidate.motivation }}</p>
+        </div>
+        <div class="detail-section full-width">
+          <h3>Hobbies & Interests</h3>
+          <p>{{ candidate.hobbies }}</p>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="goToPreviousCandidate()"
+          [disabled]="currentIndex() === 0">
+          <mat-icon>navigate_before</mat-icon>
+          Previous
+        </button>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="goToNextCandidate()"
+          [disabled]="currentIndex() === candidatesList().length - 1">
+          <mat-icon>navigate_next</mat-icon>
+          Next
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+} @if (!candidate()) {
+<div class="not-found">
+  <mat-card>
+    <mat-card-content>
+      <div class="not-found-content">
+        <mat-icon class="not-found-icon">person_off</mat-icon>
+        <h2>Candidate Not Found</h2>
+        <p>The candidate you're looking for doesn't exist.</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+}

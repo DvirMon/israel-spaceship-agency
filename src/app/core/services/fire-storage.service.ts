@@ -8,7 +8,7 @@ import {
 import { from, Observable, switchMap } from "rxjs";
 
 @Injectable({ providedIn: "root" })
-export class StorageService {
+export class FireStorage {
   private readonly storage = inject(Storage);
 
   private storagePath = "gs://israel-spaceship-agency.firebasestorage.app";
@@ -37,7 +37,6 @@ export class StorageService {
   }
 
   uploadFile(file: Blob): Observable<string> {
-
     // TODO try with file reader url
     const path = this.generateStoragePath("candidates", file, {
       entityId: "candidateId",
