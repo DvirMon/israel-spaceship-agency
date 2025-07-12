@@ -13,10 +13,11 @@ import {
 import { from, map, Observable, tap, throwError } from "rxjs";
 import { COLLECTION_KEY } from "../tokens/collection.tokens";
 
+// TODO: consult maya about the collection structure and api?
 @Injectable({
   providedIn: "root",
 })
-export class FireStoreService<T extends DocumentData> {
+export class FireStore<T extends DocumentData> {
   private firestore = inject(Firestore);
 
   private readonly collectionToken = inject(COLLECTION_KEY, { optional: true });

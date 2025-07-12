@@ -2,7 +2,7 @@ import { CandidateStore } from "@core/models/candidate.model";
 import { Observable, filter, tap, map, switchMap } from "rxjs";
 import { CandidateForm } from "../types";
 import { fileToUrl } from "./form";
-import { compareCandidates, withCoordinates } from "./utils";
+import { compareCandidates, withCoordinates, withLogRegister } from "./utils";
 import { inject } from "@angular/core";
 import { RegisterService } from "../services/register.service";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -44,9 +44,8 @@ export function createCandidateEvent(
     fileToUrl("profileImage"),
     withCoordinates("city"),
     withTimestamps(),
-    // TODO: solve with mergeMap to able using withLoadingOverlay
-
-    switchMap((value) => http.createCandidate(value))
+    switchMap((value) => http.createCandidate(value)),
+    withLogRegister()
   );
   return toSignal(event$);
 }

@@ -24,7 +24,7 @@ import { getChartView } from "./utils";
 export class Overview {
   private readonly dashboardService = inject(DashboardService);
 
-  readonly candidates = this.dashboardService.data;
+  readonly candidates = this.dashboardService.candidates;
   readonly isLoading = this.dashboardService.isLoading;
 
   readonly viewState = getChartView();
@@ -65,8 +65,4 @@ export class Overview {
   };
   groupByCity = (item: { city?: string }) => item.city ?? "Unknown";
 
-  onResize(event: any) {
-    console.log(event);
-    // this.view = [event.target.innerWidth / 1.35, 400];
-  }
 }
