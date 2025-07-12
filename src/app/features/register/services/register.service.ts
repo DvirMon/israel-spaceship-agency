@@ -13,11 +13,13 @@ export class RegisterService {
 
   private readonly dialog = inject(MatDialog);
 
+  private readonly CLOSING_ANIMATION_DURATION = 6000;
+
   private readonly closeAnimation$ = new Subject<SubmitSuccessDialog>();
 
   private readonly closingDialogEffect$ = this.closeAnimation$.pipe(
     take(1),
-    switchMap(() => timer(3000))
+    switchMap(() => timer(this.CLOSING_ANIMATION_DURATION))
   );
 
   constructor() {
