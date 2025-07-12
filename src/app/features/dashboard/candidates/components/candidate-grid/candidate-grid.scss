@@ -26,86 +26,40 @@
 
 .grid-loading {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 16px;
 
   .candidate-skeleton {
-    background: white;
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex;
-    gap: 12px;
+    background: #444c56;
+    padding: 16px;
     animation: pulse 1.5s ease-in-out infinite;
 
-    .skeleton-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      flex-shrink: 0;
+    .mat-mdc-card-header {
+      display: flex;
+      gap: 16px;
     }
 
-    .skeleton-content {
+    ::ng-deep .mat-mdc-card-header-text {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 16px;
+      justify-items: center;
+    }
 
-      .skeleton-name {
-        height: 16px;
-        width: 60%;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        border-radius: 4px;
-      }
+    .skeleton.avatar {
+      width: 120px;
+      height: 120px;
+    }
 
-      .skeleton-location {
-        height: 12px;
-        width: 40%;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        border-radius: 4px;
-      }
+    .skeleton.line {
+      width: 90%;
+      height: 32px;
+      border-radius: 4px;
+    }
 
-      .skeleton-summary {
-        height: 24px;
-        width: 90%;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        border-radius: 4px;
-        margin: 6px 0;
-      }
-
-      .skeleton-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: auto;
-
-        .skeleton-status {
-          height: 20px;
-          width: 60px;
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.5s infinite;
-          border-radius: 10px;
-        }
-
-        .skeleton-date {
-          height: 10px;
-          width: 40px;
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.5s infinite;
-          border-radius: 4px;
-        }
-      }
+    .skeleton.summary {
+      height: 32px;
     }
   }
 
@@ -120,7 +74,6 @@
   }
 }
 
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -133,7 +86,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

@@ -44,3 +44,36 @@ mat-form-field input[type="number"] {
   /* Firefox */
   -moz-appearance: textfield;
 }
+
+.skeleton-container {
+  background-color: var(
+    --mat-card-elevated-container-color,
+    var(--mat-sys-surface-container-low)
+  );
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
