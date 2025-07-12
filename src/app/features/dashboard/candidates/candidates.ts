@@ -19,11 +19,11 @@ import {
   matchesDateFilter,
   matchesSearch,
 } from "./candidates.utils";
+import { CandidateDetailsDialog } from "./components/candidate-details-dialog/candidate-details-dialog";
 import { CandidateFilters } from "./components/candidate-filters/candidate-filters";
 import { FilterState } from "./components/candidate-filters/types";
 import { CandidateGrid } from "./components/candidate-grid/candidate-grid";
 import { CandidateTable } from "./components/candidate-table/candidate-table";
-import { CandidateDetailsDialog } from "./components/candidate-details-dialog/candidate-details-dialog";
 
 export type ViewMode = "grid" | "table";
 
@@ -53,12 +53,13 @@ export class Candidates {
 
   // View mode and loading signals
   readonly loading = this.dashboardService.isLoading;
+  readonly candidates = this.dashboardService.candidates;
+  readonly totalCandidates = this.dashboardService.totalCandidates;
   readonly viewMode = linkedSignal({
     source: this.isMobile,
     computation: (isMobile) => (isMobile ? "grid" : "table"),
   });
 
-  readonly totalCandidates = this.dashboardService.totalCandidates;
 
   // Computed filter state
   readonly filters = computed(
@@ -74,7 +75,7 @@ export class Candidates {
 
   // Computed filtered candidates
   readonly filteredCandidates = computed(() => {
-    const candidates = this.dashboardService.data();
+    const candidates = this.candidates();
     const filters = {
       search: this.searchTerm().toLowerCase(),
       status: this.statusFilter(),
@@ -97,7 +98,7 @@ export class Candidates {
 
   constructor() {
     effect(() => {
-      this.viewCandidateDetail(this.dashboardService.data()[0]);
+      this.viewCandidateDetail(this.candidates()[0]);
     });
   }
 
@@ -128,7 +129,7 @@ export class Candidates {
 
   viewCandidateDetail(candidate: CandidateStore): void {
     this.dialog.open(CandidateDetailsDialog, {
-      data: { id: candidate.id, candidates: this.dashboardService.data() },
+      data: { id: candidate.id, candidates: this.candidates() },
       width: "800px",
   
       disableClose: true,

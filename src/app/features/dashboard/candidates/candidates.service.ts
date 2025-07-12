@@ -19,6 +19,8 @@ export class CandidateService {
   readonly dateFilter = signal("all");
   readonly sortBy = signal("name");
 
+  readonly candidates = this.dashboardService.candidates;
+
   readonly totalCandidates = this.dashboardService.totalCandidates;
 
   // Computed filter state
@@ -35,7 +37,7 @@ export class CandidateService {
 
   // Computed filtered candidates
   readonly filteredCandidates = computed(() => {
-    const candidates = this.dashboardService.data();
+    const candidates = this.candidates();
     const filters = {
       search: this.searchTerm().toLowerCase(),
       status: this.statusFilter(),

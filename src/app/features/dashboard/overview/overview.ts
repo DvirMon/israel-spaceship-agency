@@ -24,7 +24,7 @@ import { getChartView } from "./utils";
 export class Overview {
   private readonly dashboardService = inject(DashboardService);
 
-  readonly candidates = this.dashboardService.data;
+  readonly candidates = this.dashboardService.candidates;
   readonly isLoading = this.dashboardService.isLoading;
 
   readonly viewState = getChartView();
