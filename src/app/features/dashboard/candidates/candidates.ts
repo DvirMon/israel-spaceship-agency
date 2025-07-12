@@ -129,9 +129,8 @@ export class Candidates {
   viewCandidateDetail(candidate: CandidateStore): void {
     this.dialog.open(CandidateDetailsDialog, {
       data: { id: candidate.id, candidates: this.candidates() },
-      width: "800px",
-
-      disableClose: true,
+      width: "inherit",
+      height: "650px",
     });
   }
 }

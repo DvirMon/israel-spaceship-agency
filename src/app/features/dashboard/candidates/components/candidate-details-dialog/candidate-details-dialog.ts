@@ -1,31 +1,30 @@
-import { NgOptimizedImage } from "@angular/common";
+import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
-  linkedSignal,
-  signal,
+  linkedSignal
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
 import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
-import { DashboardService } from "app/features/dashboard/dashboard.service";
 
 @Component({
   selector: "app-candidate-details-dialog",
   imports: [
+    MatDialogModule,
     NgOptimizedImage,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
+    DatePipe,
     DaysAgoPipe,
     TimestampToDatePipe,
   ],

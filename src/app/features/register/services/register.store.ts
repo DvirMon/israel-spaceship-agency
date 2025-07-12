@@ -6,19 +6,16 @@ import {
   signal,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { LocalStorage } from "@core/services/local-storage.service";
+import { getItem } from "@shared/operators/local-storage";
 import { of } from "rxjs";
-import { RegisterHttp } from "./register.http";
 import { isExpired } from "../utils/utils";
+import { RegisterHttp } from "./register.http";
 
 @Injectable()
 export class RegisterStore {
-  private readonly localStorage = inject(LocalStorage);
   private readonly http = inject(RegisterHttp);
 
-  private readonly existingUuid = signal(
-    this.localStorage.getItem<string>("registration-uuid")
-  );
+  private readonly existingUuid = signal(getItem<string>("registration-uuid"));
 
   readonly storeCandidate = toSignal(this.initCandidate());
 

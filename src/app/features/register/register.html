@@ -1,16 +1,17 @@
-<section class="registration-section" #registrationSection>
-  <div class="registration-container">
-    <div class="header">
-      <span class="title">IISa Program Registration</span>
-      <span class="subtitle">Complete your registration below</span>
-    </div>
-    <app-loading-overlay [loading]="isLoading()">
+<app-loading-overlay [loading]="isLoading()">
+  <section class="registration-section" #registrationSection>
+    <div class="registration-container">
+      <div class="header">
+        <span class="title">IISa Program Registration</span>
+        <span class="subtitle">Complete your registration below</span>
+      </div>
       <form [formGroup]="registerForm" class="registration-form">
         <!-- Row 1: Full Name and Email -->
         <div class="form-row">
           <mat-form-field appearance="fill">
             <mat-label>Full Name</mat-label>
             <input matInput formControlName="fullName" />
+
             @if (registerForm.get('fullName')?.hasError('required')) {
             <mat-error> Full name is required </mat-error>
             } @if (registerForm.get('fullName')?.hasError('minlength')) {
@@ -64,37 +65,34 @@
         <!-- Row 3: Hobbies, Motivation, and Image Upload -->
         <div class="form-row">
           <mat-form-field appearance="fill">
-            <mat-label>Hobbies</mat-label>
             <textarea
               matInput
               formControlName="hobbies"
-              rows="4"
               placeholder="Tell us about your hobbies and interests"></textarea>
           </mat-form-field>
 
           <mat-form-field appearance="fill">
-            <mat-label>Motivation for joining IISa Program</mat-label>
             <textarea
               matInput
               formControlName="motivation"
-              rows="4"
-              placeholder="Tell us why you want to join the program "></textarea>
+              placeholder="Tell us why you want to join the program..."></textarea>
           </mat-form-field>
 
           <app-file-upload formControlName="profileImage"></app-file-upload>
         </div>
 
         <!-- Submit Button -->
-        <!-- <div class="form-actions"> -->
-        <button
-          matButton="filled"
-          color="primary"
-          type="submit"
-          class="submit-button">
-          {{ submitButtonLabel() }}
-        </button>
-        <!-- </div> -->
+        <div class="form-row">
+          <button
+            matButton="filled"
+            color="primary"
+            type="submit"
+            [disabled]="!registerForm.valid"
+            class="submit-button">
+            {{ submitButtonLabel() }}
+          </button>
+        </div>
       </form>
-    </app-loading-overlay>
-  </div>
-</section>
+    </div>
+  </section>
+</app-loading-overlay>

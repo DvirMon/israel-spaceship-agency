@@ -8,10 +8,11 @@ import {
 } from "@angular/forms";
 import { FireStorage } from "@core/services/fire-storage.service";
 import { filter, map, mergeAll, Observable, of, withLatestFrom } from "rxjs";
-import { imageFileValidator } from "../../../shared/components/file-upload/file.upload.utils";
 
-export function createPersonalInfoForm() {
+
+export function createRegistrationForm() {
   const nfb = inject(NonNullableFormBuilder);
+
   return nfb.group({
     fullName: nfb.control("", [
       Validators.required,
@@ -29,31 +30,7 @@ export function createPersonalInfoForm() {
       Validators.max(99),
     ]),
     city: nfb.control("", [Validators.required]),
-  });
-}
 
-export function createAdditionalInfoForm() {
-  const fnb = inject(NonNullableFormBuilder);
-
-  return fnb.group({
-    hobbies: fnb.control(""),
-    motivation: fnb.control("djskdjsk"),
-    profileImage: fnb.control<File | undefined>(undefined, [
-      imageFileValidator(),
-    ]),
-  });
-}
-
-export function createRegistrationForm() {
-  const nfb = inject(NonNullableFormBuilder);
-
-  return nfb.group({
-    // Personal Information fields
-    fullName: nfb.control(""),
-    email: nfb.control("", []),
-    phone: nfb.control("", []),
-    age: nfb.control<number | undefined>(undefined, []),
-    city: nfb.control("", []),
     // Additional Information fields
     hobbies: nfb.control("", []),
     motivation: nfb.control("", []),
@@ -75,31 +52,6 @@ export function formSubmitEffect<
   );
 }
 
-export function toFormData<T extends Record<string, any>>(
-  orderedKeys?: (keyof T)[]
-) {
-  return (source$: Observable<T>) =>
-    source$.pipe(
-      map((data) => {
-        const formData = new FormData();
-        const keys = orderedKeys ?? (Object.keys(data) as (keyof T)[]);
-
-        for (const key of keys) {
-          const value = data[key] as unknown;
-
-          if (value instanceof Blob || value instanceof File) {
-            formData.append(key as string, value);
-          } else if (value !== undefined && value !== null) {
-            formData.append(key as string, value.toString());
-          } else {
-            formData.append(key as string, "");
-          }
-        }
-
-        return formData;
-      })
-    );
-}
 export function fileToUrl<T, K extends keyof T>(
   key: K
 ): (source$: Observable<T>) => Observable<Omit<T, K> & { [P in K]: string }> {

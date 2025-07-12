@@ -2,16 +2,17 @@
 
 @use "@angular/material" as mat;
 
+
 html {
-  @include mat.theme(
-    (
-      color: (
-        theme-type: dark,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$orange-palette,
+      theme-type: dark,
+    ),
+    typography: Roboto,
+    density: 0
+  ));
 }
 
 :root {
