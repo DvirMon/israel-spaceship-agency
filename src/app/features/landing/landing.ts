@@ -29,7 +29,7 @@ export class Landing {
   });
 
   readonly delayEvent = toSignal(
-    timer(2000).pipe(
+    timer(3500).pipe(
       take(1),
       map(() => true)
     )
