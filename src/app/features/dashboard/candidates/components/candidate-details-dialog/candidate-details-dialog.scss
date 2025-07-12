@@ -1,129 +1,113 @@
-@use "@angular/material" as mat;
-
-:host {
-  @include mat.icon-overrides((
-    color: var(--mat-sys-on-surface-variant),
-  ));
-
-  @include mat.dialog-overrides((
-    container-color: var(--mat-sys-surface-container-high),
-    title-text-size: 32px,
-    content-text-size: 16px,
-  ));
+.candidate-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-
-// Styles for the header section
-.candidate-header {
+.detail-header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  width: 100%;
-  padding: 24px;
+  gap: 16px;
+  margin-bottom: 24px;
 
-  .mat-card-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--mat-sys-surface-container-high);
+  .back-button {
+    margin-left: -8px;
   }
 
-  .avatar-fallback {
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+  }
+}
+
+.candidate-detail-card {
+  .candidate-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: var(--mat-sys-surface-variant);
-    color: var(--mat-sys-on-surface-variant);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    mat-icon {
-      font-size: 64px;
-      width: 64px;
-      height: 64px;
-    }
-  }
+    gap: 24px;
+    width: 100%;
 
-  .candidate-basic {
-    flex: 1;
-
-    h2 {
-      margin: 0 0 8px 0;
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--mat-sys-on-surface);
+    .candidate-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #f5f5f5;
     }
 
-    .candidate-email {
-      margin: 0 0 8px 0;
-      color: var(--mat-sys-on-surface-variant);
-      font-size: 18px;
-    }
+    .candidate-basic {
+      flex: 1;
 
-    .candidate-location {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--mat-sys-on-surface-variant);
-      font-size: 16px;
-
-      mat-icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-}
-
-// Styles for the main content section
-mat-dialog-content {
-  padding: 0 24px 24px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-
-  .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-
-    .detail-section {
-      &.full-width {
-        grid-column: 1 / -1;
+      h2 {
+        margin: 0 0 8px 0;
+        font-size: 32px;
+        font-weight: 600;
       }
 
-      h3 {
-        margin: 0 0 12px 0;
+      .candidate-email {
+        margin: 0 0 8px 0;
+        color: #757575;
         font-size: 18px;
-        font-weight: 500;
-        color: var(--mat-sys-on-surface);
       }
 
-      p {
-        margin: 0;
+      .candidate-location {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #757575;
         font-size: 16px;
-        color: var(--mat-sys-on-surface-variant);
-        line-height: 1.5;
-      }
 
-      small {
-        display: block;
-        margin-top: 4px;
-        color: var(--mat-sys-outline);
-        font-size: 14px;
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }
 }
 
-// Styles for action buttons
-mat-dialog-actions {
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 32px 0;
+
+  .detail-section {
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #424242;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: #616161;
+      line-height: 1.5;
+    }
+
+    small {
+      display: block;
+      margin-top: 4px;
+      color: #9e9e9e;
+      font-size: 14px;
+    }
+  }
+}
+
+.action-buttons {
   display: flex;
   gap: 16px;
-  padding: 16px 24px 24px 24px;
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  justify-content: center;
+  padding-top: 32px;
+  border-top: 1px solid #e0e0e0;
 
   button {
     display: flex;
@@ -133,38 +117,44 @@ mat-dialog-actions {
   }
 }
 
-// Styles for not-found state
-.not-found-content {
-  text-align: center;
-  padding: 48px 24px;
+.not-found {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
 
-  .not-found-icon {
-    font-size: 64px;
-    width: 64px;
-    height: 64px;
-    color: var(--mat-sys-outline);
-    margin-bottom: 24px;
-  }
+  .not-found-content {
+    text-align: center;
+    padding: 48px 24px;
 
-  h2 {
-    margin: 0 0 16px 0;
-    color: var(--mat-sys-on-surface);
-    font-size: 28px;
-  }
+    .not-found-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #bdbdbd;
+      margin-bottom: 24px;
+    }
 
-  p {
-    margin: 0 0 32px 0;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 18px;
+    h2 {
+      margin: 0 0 16px 0;
+      color: #424242;
+    }
+
+    p {
+      margin: 0 0 32px 0;
+      color: #757575;
+    }
   }
 }
 
 @media (max-width: 768px) {
+  .candidate-detail-container {
+    padding: 16px;
+  }
+
   .candidate-header {
     flex-direction: column;
     text-align: center;
     gap: 16px;
-    padding: 16px;
 
     .candidate-basic {
       h2 {
@@ -181,19 +171,14 @@ mat-dialog-actions {
     }
   }
 
-  mat-dialog-content {
-    padding: 0 16px 16px 16px;
-  }
-
   .detail-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
-  mat-dialog-actions {
+  .action-buttons {
     flex-direction: column;
     align-items: center;
-    padding: 16px;
 
     button {
       width: 100%;
