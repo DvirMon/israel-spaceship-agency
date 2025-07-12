@@ -11,9 +11,15 @@
       filled-with-label-container-padding-bottom: 24px,
       subscript-text-line-height: 44px,
       container-text-line-height: 32x,
-      error-text-color: white,
+      error-text-color: black
     )
   );
+
+    @include mat.button-overrides((
+      filled-disabled-container-color : rgba(46, 36, 36, 0.734),
+    )) 
+      
+    
 }
 
 .registration-section {

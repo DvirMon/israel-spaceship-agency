@@ -87,6 +87,7 @@
             matButton="filled"
             color="primary"
             type="submit"
+            [disabled]="!registerForm.valid"
             class="submit-button">
             {{ submitButtonLabel() }}
           </button>
