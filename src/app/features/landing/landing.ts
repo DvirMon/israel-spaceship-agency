@@ -3,13 +3,15 @@ import {
   Component,
   effect,
   ElementRef,
-  viewChild
+  viewChild,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { incrementDoc } from "@shared/operators";
 import { map, take, timer } from "rxjs";
 import { Register } from "../register/register";
+import { withLogDailyVisit } from "./utils";
 
 const importMaterial = [MatIconModule, MatButtonModule];
 
@@ -34,6 +36,8 @@ export class Landing {
     )
   );
 
+  readonly logDailyVisit$ = timer(5000).pipe(withLogDailyVisit());
+
   readonly scrollToEffect = effect(() => {
     const register = this.registerComponent();
     const delayEvent = this.delayEvent();
@@ -44,4 +48,7 @@ export class Landing {
     }
   });
 
+  constructor() {
+    this.logDailyVisit$.subscribe();
+  }
 }
