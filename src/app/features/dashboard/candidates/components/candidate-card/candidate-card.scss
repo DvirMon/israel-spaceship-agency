@@ -29,7 +29,7 @@
   .mat-mdc-card-avatar {
     width: 120px;
     height: 120px;
-    
+
     &.avatar-fallback {
       background-color: #444c56;
     }
@@ -50,4 +50,16 @@
     gap: 16px;
     font-size: 18px;
   }
+}
+
+// helpers
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.empty-section {
+  font-style: italic;
 }

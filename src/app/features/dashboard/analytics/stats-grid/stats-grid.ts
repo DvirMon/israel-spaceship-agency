@@ -1,18 +1,18 @@
+import { animate, style, transition, trigger } from "@angular/animations";
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
-  output,
+  output
 } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { StatsCard } from "./stats-card/stats-card";
 import { StatCard } from "./stats-card/types";
-import { trigger, transition, style, animate } from "@angular/animations";
 
 @Component({
   selector: "app-stats-grid",
-  imports: [MatIconModule, StatsCard],
+  imports: [MatIconModule, MatCardModule, StatsCard],
   templateUrl: "./stats-grid.html",
   styleUrl: "./stats-grid.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -24,6 +24,7 @@ import {
       :host,
       .location-map {
         height: 400px;
+        border-radius: 5px;
       }
     `,
   ],
@@ -41,10 +42,7 @@ export class LocationMap {
 
   private map: LeafletMap | null = null;
 
-
-
   constructor() {
-
     // TODO: refactor witohut effect
     effect(() => {
       const el = this.mapContainer();
