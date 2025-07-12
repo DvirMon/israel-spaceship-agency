@@ -35,6 +35,11 @@
   //   required to hide expand row
   .detail-row {
     height: 0;
+    background-color: rebeccapurple;
+
+    > td {
+      padding: 0px;
+    }
   }
 }
 
@@ -48,9 +53,9 @@
     object-fit: cover;
 
     &.fallback {
-       background-color: #444c56;
-       width: 80px;
-       height: 80px;
+      background-color: #444c56;
+      width: 80px;
+      height: 80px;
     }
   }
 }
@@ -93,6 +98,7 @@ button.view-button {
 
       p {
         font-size: 24px;
+        line-height: 1.5;
       }
     }
 
