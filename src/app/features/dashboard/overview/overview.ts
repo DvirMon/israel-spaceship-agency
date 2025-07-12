@@ -1,10 +1,9 @@
-import { BreakpointObserver } from "@angular/cdk/layout";
+import { Breakpoints } from "@angular/cdk/layout";
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
-  inject,
+  inject
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { groupToChartData } from "@core/charts/utils";
@@ -12,7 +11,7 @@ import { CandidateStore } from "@core/models/candidate.model";
 import { NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { DashboardService } from "../dashboard.service";
 import { LocationMap } from "./location-map/location-map";
-import { getChartView } from "./utils";
+import { chartView } from "./utils";
 
 @Component({
   selector: "app-overview",
@@ -27,7 +26,10 @@ export class Overview {
   readonly candidates = this.dashboardService.candidates;
   readonly isLoading = this.dashboardService.isLoading;
 
-  readonly viewState = getChartView();
+  readonly chartViewState = chartView([
+    Breakpoints.Medium,
+    Breakpoints.Small, // ≥ 600px
+  ]);
 
   readonly colorScheme = {
     name: "customScheme",
@@ -50,7 +52,6 @@ export class Overview {
     }))
   );
 
-
   formatTicks = (value: number): string => {
     return Number.isInteger(value) ? value.toString() : "";
   };
@@ -64,5 +65,4 @@ export class Overview {
     return "41+";
   };
   groupByCity = (item: { city?: string }) => item.city ?? "Unknown";
-
 }

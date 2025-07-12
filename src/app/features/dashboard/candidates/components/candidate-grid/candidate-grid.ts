@@ -10,10 +10,11 @@ import { CandidateStore } from "@core/models/candidate.model";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateCard } from "../candidate-card/candidate-card";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: "app-candidate-grid",
-  imports: [MatIconModule, MatButtonModule, CandidateCard],
+  imports: [MatIconModule, MatButtonModule, MatCardModule, CandidateCard],
   templateUrl: "./candidate-grid.html",
   styleUrl: "./candidate-grid.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

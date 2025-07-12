@@ -21,8 +21,18 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <span class="application-date">{{ data.hobbies }}</span>
-    <span class="candidate-pitch">{{ data.motivation }}</span>
+   
+    @if (data.motivation) {
+    <span class="application-date truncate">{{ data.hobbies }}</span>
+    } @else {
+    <span class="empty-section">Not specified</span>
+    }
+    
+    @if (data.hobbies) {
+    <span class="candidate-pitch truncate">{{ data.motivation }}</span>
+    } @else {
+    <span class="empty-section">Not specified</span>
+    }
   </mat-card-content>
 </mat-card>
 

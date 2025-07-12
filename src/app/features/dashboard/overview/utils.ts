@@ -1,26 +1,49 @@
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { computed, inject } from "@angular/core";
+import { computed, inject, isDevMode } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { map } from "rxjs";
+import { map, tap } from "rxjs";
 
-export function getChartView() {
+const widthMap: [string, number][] = [
+  ["(max-width: 380px)", 300],
+  ["(max-width: 420px)", 340],
+  ["(max-width: 460px)", 380],
+  ["(max-width: 520px)", 440],
+  [Breakpoints.XSmall, 480],
+  [Breakpoints.Small, 0],
+  [Breakpoints.Medium, 440],
+];
+
+export function chartView(breakpoints: string[] = []) {
   const breakpointObserver = inject(BreakpointObserver);
 
-  const chartBreakPoint$ = breakpointObserver.observe([
-    Breakpoints.Medium, // ≥ 900px
-    Breakpoints.Small, // ≥ 600px
+  const defaultBreakpoints = [
     Breakpoints.XSmall, // < 600px
-    "(max-width: 440px)",
-  ]);
+    "(max-width: 520px)",
+    "(max-width: 450px)",
+    "(max-width: 420px)",
+    "(max-width: 380px)",
+  ];
+
+  const customAliases = new Set(breakpoints.map((bp) => bp));
+
+  const target = [
+    ...defaultBreakpoints.filter((bp) => !customAliases.has(bp)),
+    ...breakpoints,
+  ];
+  const chartBreakPoint$ = breakpointObserver.observe(target);
 
   const chartWidth$ = chartBreakPoint$.pipe(
     map((state) => {
-      if (state.breakpoints["(max-width: 440px)"]) return 320; // custom narrow
-      if (state.breakpoints[Breakpoints.XSmall]) return 420; // < 600px
-      if (state.breakpoints[Breakpoints.Small]) return 0; // ≥ 600px
-      if (state.breakpoints[Breakpoints.Medium]) return 420; // ≥ 900px
-
-      return 0; // default fallback
+      if (isDevMode()) {
+        console.log("chartBreakPoint$", state);
+      }
+      const activeWidth = widthMap.find(([query]) => state.breakpoints[query]);
+      return activeWidth?.[1] ?? 0;
+    }),
+    tap((value) => {
+      if (isDevMode()) {
+        console.log("chartWidth$", value);
+      }
     })
   );
 

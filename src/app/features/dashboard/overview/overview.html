@@ -8,9 +8,9 @@
       </mat-card-header>
       <mat-card-content>
         <article>
-          @if(viewState.show()) {
+          @if(chartViewState.show()) {
           <ngx-charts-bar-vertical
-            [view]="viewState.view()"
+            [view]="chartViewState.view()"
             [results]="ageResults()"
             [scheme]="colorScheme"
             [xAxis]="true"
@@ -47,9 +47,9 @@
       </mat-card-header>
       <mat-card-content>
         <article>
-          @if(viewState.show()) {
+          @if(chartViewState.show()) {
           <ngx-charts-bar-vertical
-            [view]="viewState.view()"
+            [view]="chartViewState.view()"
             [results]="cityResults()"
             [scheme]="colorScheme"
             [xAxis]="true"
