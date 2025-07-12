@@ -44,7 +44,7 @@
 
 .scroll-indicator {
   position: absolute;
-  bottom: 20%;
+  bottom: 15%;
   animation: fadeInUp 1s ease-out 0.8s both;
 
   mat-icon {
@@ -99,5 +99,13 @@
   button {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
+  }
+
+  .scroll-indicator {
+    bottom: 10%;
+
+    mat-icon {
+      scale: 3;
+    }
   }
 }
