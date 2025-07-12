@@ -40,11 +40,6 @@
   opacity: 0.9;
   font-weight: 300;
   animation: fadeInUp 1s ease-out 0.4s both;
-
-  mat-icon {
-    scale: 3;
-    margin-left: 32px;
-  }
 }
 
 .scroll-indicator {
@@ -55,6 +50,7 @@
   mat-icon {
     scale: 4;
     opacity: 0.7;
+    transform: rotate(-45deg);
     animation: bounce 2s infinite 1s;
   }
 }
@@ -76,13 +72,13 @@
   50%,
   80%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(-45deg);
   }
   40% {
-    transform: translateY(-10px);
+    transform: translateY(-10px) rotate(-45deg);
   }
   60% {
-    transform: translateY(-5px);
+    transform: translateY(-5px) rotate(-45deg);
   }
 }
 
