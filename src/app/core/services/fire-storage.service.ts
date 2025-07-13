@@ -37,7 +37,6 @@ export class FireStorage {
   }
 
   uploadFile(file: Blob): Observable<string> {
-    // TODO try with file reader url
     const path = this.generateStoragePath("candidates", file, {
       entityId: "candidateId",
       prefix: "profile",

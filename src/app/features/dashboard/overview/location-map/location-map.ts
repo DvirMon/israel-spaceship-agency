@@ -43,7 +43,7 @@ export class LocationMap {
   private map: LeafletMap | null = null;
 
   constructor() {
-    // TODO: refactor witohut effect
+    // TODO: refactor without effect
     effect(() => {
       const el = this.mapContainer();
       if (!el || this.map) return;
@@ -53,7 +53,6 @@ export class LocationMap {
         this.zoom()
       );
 
-      // TODO - fix image error
       const baseMapURl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
       tileLayer(baseMapURl, {

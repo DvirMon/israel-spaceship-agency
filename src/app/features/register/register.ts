@@ -4,7 +4,6 @@ import {
   computed,
   effect,
   inject,
-  untracked,
 } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -22,6 +21,13 @@ import { FileUpload } from "app/shared/components/file-upload/file-upload";
 import { LoadingOverlay } from "app/shared/components/loading-overlay/loading-overlay";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 
+import { toSignal } from "@angular/core/rxjs-interop";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Subject, switchMap } from "rxjs";
+import {
+  SubmitSuccessDialog,
+  SuccessSubmitDialogData,
+} from "./dialogs/submit-success-dialog/submit-success-dialog";
 import { RegisterHttp } from "./services/register.http";
 import { RegisterService } from "./services/register.service";
 import { RegisterStore } from "./services/register.store";
@@ -97,9 +103,26 @@ export class Register {
   private readonly registerService = inject(RegisterService);
 
   readonly isLoading = inject(LoadingOverlayService).isLoading;
-
   readonly registerForm = createRegistrationForm();
   readonly cityOptions = CITY_OPTIONS;
+
+  readonly openSuccessDialog = new Subject<SuccessSubmitDialogData>();
+  readonly dialogCloseSource = new Subject<
+    MatDialogRef<SubmitSuccessDialog, boolean>
+  >();
+
+  readonly dialogClose$ = this.openSuccessDialog
+    .asObservable()
+    .pipe(
+      switchMap((data) =>
+        this.registerService.openSuccessDialog(data).afterClosed()
+      )
+    );
+
+  readonly shouldShowDialog = toSignal(this.dialogClose$, {
+    initialValue: false,
+  });
+
   readonly submitButtonLabel = computed(() => {
     const candidate = this.registerService.store.candidate();
     return candidate === null ? "Save & Submit" : "Save & Update";
@@ -135,16 +158,22 @@ export class Register {
       mode: "create",
       editableUntil: value.expiresAt,
     });
+
+    this.registerForm.markAsPristine();
   });
 
-  readonly updateCandidateEffect = effect(() => {
+  readonly existingCandidateCandidateEffect = effect(() => {
     const value = this.updateCandidate();
 
     if (!value) return;
 
     this.registerService.store.candidate.set(value);
 
-    this.registerService.openSuccessDialog({
+    this.registerForm.markAsPristine();
+
+    if (this.shouldShowDialog()) return;
+
+    this.openSuccessDialog.next({
       fullName: value.fullName,
       mode: "update",
       editableUntil: value.expiresAt,

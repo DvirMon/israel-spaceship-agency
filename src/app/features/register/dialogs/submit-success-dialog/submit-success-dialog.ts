@@ -5,10 +5,16 @@ import {
   computed,
   inject,
   signal,
+  viewChild,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
-import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
+import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
 
 export type SubmitSuccessMode = "create" | "update";
 
@@ -19,13 +25,22 @@ export interface SuccessSubmitDialogData {
 }
 @Component({
   selector: "app-submit-success-dialog",
-  imports: [MatDialogModule, MatButtonModule, MatIconModule, DatePipe],
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    DatePipe,
+  ],
   templateUrl: "./submit-success-dialog.html",
   styleUrl: "./submit-success-dialog.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubmitSuccessDialog {
   private readonly data = inject<SuccessSubmitDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(MatDialogRef<SubmitSuccessDialog>);
+
+  readonly checkbox = viewChild(MatCheckbox);
 
   readonly mode = signal(this.data.mode);
 
@@ -44,4 +59,11 @@ export class SubmitSuccessDialog {
       ? "for registering to the IISa Program!"
       : "your changes have been saved successfully."
   );
+
+  closeWithData() {
+    const checkbox = this.checkbox();
+    if (checkbox) {
+      this.dialogRef.close(checkbox.checked);
+    }
+  }
 }
