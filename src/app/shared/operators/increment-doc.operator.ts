@@ -16,7 +16,6 @@ export function incrementDoc(path: string) {
       switchMap((value) =>
         defer(() =>
           runTransaction(firestore, async (tx) => {
-            console.log("incrementing", path);
             const ref = doc(firestore, path);
             tx.update(ref, { count: increment(1) });
           }).catch(async (err) => {

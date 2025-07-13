@@ -15,7 +15,6 @@ export function updateCandidateEvent(
   const http = inject(RegisterService).http;
   const event$ = submitEvent$.pipe(
     filter(() => store.isAllowEdit()),
-    tap((val) => console.log("before compare", val)),
     fileToUrl("profileImage"),
     filter((value) => !compareCandidates(value, store.candidate())),
     map(
@@ -26,7 +25,6 @@ export function updateCandidateEvent(
         } as CandidateStore)
     ),
     withCoordinates("city"),
-    tap((val) => console.log("update", val)),
     switchMap((value) => http.updateCandidate(value))
   );
 

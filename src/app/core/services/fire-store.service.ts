@@ -44,7 +44,6 @@ export class FireStore<T extends DocumentData> {
         ...data,
         id: docRef.id,
       })),
-      tap((doc) => console.log("Document written with ID: ", doc.id))
     );
   }
 

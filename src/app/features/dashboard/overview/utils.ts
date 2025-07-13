@@ -34,17 +34,11 @@ export function chartView(breakpoints: string[] = []) {
 
   const chartWidth$ = chartBreakPoint$.pipe(
     map((state) => {
-      if (isDevMode()) {
-        console.log("chartBreakPoint$", state);
-      }
+ 
       const activeWidth = widthMap.find(([query]) => state.breakpoints[query]);
       return activeWidth?.[1] ?? 0;
     }),
-    tap((value) => {
-      if (isDevMode()) {
-        console.log("chartWidth$", value);
-      }
-    })
+   
   );
 
   const chartWidth = toSignal(chartWidth$);
