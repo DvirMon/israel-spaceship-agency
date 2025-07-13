@@ -3,18 +3,18 @@
 :host {
   @include mat.card-overrides(
     (
-      elevated-container-color: rgb(255, 171, 243),
       subtitle-text-size: 1.4rem,
-      subtitle-text-color: black,
+      filled-container-color :#343135
+      
     )
   );
 }
-
 .candidate-card {
   cursor: pointer;
   transition: all 0.2s ease;
   height: 100%;
   display: flex;
+  color: white;
   flex-direction: column;
 
   &:hover {

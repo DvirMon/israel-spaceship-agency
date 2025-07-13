@@ -82,35 +82,9 @@
         <mat-option value="older">Older than 3 months</mat-option>
       </mat-select>
     </mat-form-field>
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Sort By</mat-label>
-      <mat-select
-        [value]="filters().sortBy"
-        (selectionChange)="onSortChange($event.value)"
-        [disabled]="loading()">
-        <mat-option value="name">Name (A-Z)</mat-option>
-        <mat-option value="name-desc">Name (Z-A)</mat-option>
-        <mat-option value="date">Application Date (Newest)</mat-option>
-        <mat-option value="date-desc">Application Date (Oldest)</mat-option>
-        <mat-option value="age">Age (Youngest)</mat-option>
-        <mat-option value="age-desc">Age (Oldest)</mat-option>
-      </mat-select>
-    </mat-form-field> -->
   </div>
   }
 
-  <!-- Actions Row -->
-  <div class="filters-info">
-    <!-- <div class="actions-center">
-      <mat-chip color="accent" selected>
-        <mat-icon matChipAvatar>people</mat-icon>
-        {{ resultCount() }} of {{ totalCount() }} candidates
-      </mat-chip>
-    </div> -->
-  </div>
-
-  <!-- Active Filters Display -->
-  <!-- @if (activeFilters().length > 0) { -->
   <div class="active-filters">
     <div class="filters-info">
       <mat-chip-set>
@@ -143,5 +117,4 @@
       }
     </div>
   </div>
-  <!-- } -->
 </div>

@@ -62,7 +62,7 @@
 
 <mat-dialog-actions align="end">
   <button
-    mat-flat-button
+    matButton="filled"
     color="accent"
     (click)="goToPreviousCandidate()"
     [disabled]="currentIndex() === 0">
@@ -72,7 +72,7 @@
 
   <button
     class="next-button"
-    mat-flat-button
+    matButton="filled"
     color="primary"
     (click)="goToNextCandidate()"
     [disabled]="currentIndex() === candidatesList().length - 1">
