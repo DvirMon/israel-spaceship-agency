@@ -1,10 +1,27 @@
 @use "@angular/material" as mat;
 :host {
-  @include mat.tabs-overrides(
-    (
-      label-text-size: 32px,
-    )
-  );
+  @media (min-width: 768px) {
+    @include mat.tabs-overrides(
+      (
+        label-text-size: 32px,
+      )
+    );
+  }
+  @media (max-width: 768px) {
+    @include mat.tabs-overrides(
+      (
+        label-text-size: 24px,
+      )
+    );
+  }
+  @media (max-width: 480px) {
+    @include mat.tabs-overrides(
+      (
+        label-text-size: 18px,
+      )
+
+    );
+  }
 }
 
 .dashboard-container {
