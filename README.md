@@ -92,10 +92,12 @@ src/
 
 - Candidate list (table or card view)
 - Candidate age breakdown graph
+- Candidate cities breakdown graph
 - Candidate map (location)
-- Visit-to-registration conversion stats
-- Search, filter, and individual profile view
-- Navigation between candidates
+- Search and filter bar
+- individual profile view via dialog
+- Visit and registration stats
+- Visit-to-registration conversion stats (mock)
 - Live updates via Firestore
 
 ---
