@@ -32,7 +32,6 @@ export function writeTotLocalStorage<T>(
           
           setLocalStorage(key, valueToStore);
         } catch (error) {
-          console.error(`Error setting item for key "${key}":`, error);
         }
       })
     );
@@ -55,7 +54,6 @@ export function writeTotLocalStorage<T>(
       // Otherwise return primitive types as-is (string, number, boolean)
       return item as unknown as T;
     } catch (error) {
-      console.error("Error reading from localStorage:", error);
       localStorage.removeItem(key); // Optional: cleanup bad value
       return null;
     }

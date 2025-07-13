@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { environment } from "environments/environment";
 import { map, of } from "rxjs";
 
 @Injectable({ providedIn: "root" })
@@ -11,7 +12,7 @@ export class GeocodingService {
   >();
 
   private readonly API_URL = "https://api.opencagedata.com/geocode/v1/json";
-  private readonly API_KEY = "be345afe3c6c42afb33bd71a1a12a01e";
+  private readonly API_KEY = environment.geo_key;
 
   loadCoordinates(city: string) {
     if (this.geoCache.has(city)) {

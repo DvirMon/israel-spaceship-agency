@@ -3,7 +3,8 @@ import {
   Component,
   effect,
   ElementRef,
-  viewChild,
+  isDevMode,
+  viewChild
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
@@ -24,7 +25,7 @@ const importComponents = [Register];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Landing {
-  readonly registerComponent = viewChild("register", {
+  readonly registerComponent = viewChild.required(Register, {
     read: ElementRef,
   });
 
@@ -37,17 +38,20 @@ export class Landing {
 
   readonly logDailyVisit$ = timer(5000).pipe(withLogDailyVisit());
 
-  // readonly scrollToEffect = effect(() => {
-  //   const register = this.registerComponent();
-  //   const delayEvent = this.delayEvent();
-  //   if (delayEvent && register) {
-  //     register.nativeElement.scrollIntoView({
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // });
+  readonly scrollToEffect = effect(() => {
+    const register = this.registerComponent();
+    const delayEvent = this.delayEvent();
+    if (delayEvent && register) {
+      register.nativeElement.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  });
 
   constructor() {
+    if (isDevMode()) {
+      console.log("Landing");
+    }
     this.logDailyVisit$.subscribe();
   }
 }

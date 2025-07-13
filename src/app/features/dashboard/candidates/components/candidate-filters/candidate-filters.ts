@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   model,
   output,
@@ -19,6 +20,7 @@ import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
 import { ViewMode } from "../../candidates";
 import { trigger, transition, style, animate } from "@angular/animations";
 import { CITY_OPTIONS } from "app/features/register/register";
+import { IS_MOBILE } from "@core/tokens/mobile";
 // import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
@@ -55,14 +57,13 @@ import { CITY_OPTIONS } from "app/features/register/register";
   ],
 })
 export class CandidateFilters {
-  // Signal-based inputs
+  readonly isMobile = inject(IS_MOBILE);
   readonly filters = input.required<FilterState>();
   readonly viewMode = input.required<ViewMode>();
   readonly resultCount = input.required<number>();
   readonly totalCount = input.required<number>();
 
   readonly cityOptions = input<string[]>(CITY_OPTIONS);
-
   readonly loading = input(false);
   readonly showAdvancedFilters = model(false);
   readonly searchChange = model<string>();

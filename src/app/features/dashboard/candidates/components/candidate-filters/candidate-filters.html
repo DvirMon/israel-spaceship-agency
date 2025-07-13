@@ -12,27 +12,30 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      matIconButton
-      (click)="toggleAdvancedFilters()"
-      [matTooltip]="
+    <section class="filters-actions">
+      <button
+        class="clear-filters-button"
+        matButton="outlined"
+        (click)="onClearFilters()"
+        [disabled]="loading() || !hasActiveFilters()">
+        <mat-icon>clear_all</mat-icon>
+        Clear Filters
+      </button>
+      <button
+        matIconButton
+        (click)="toggleAdvancedFilters()"
+        [matTooltip]="
         showAdvancedFilters()
           ? 'Hide advanced filters'
           : 'Show advanced filters'
-      "
-      [class.active]="showAdvancedFilters()"
-      [disabled]="loading()">
-      <mat-icon>{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon>
-    </button>
-
-    <button
-      class="clear-filters-button"
-      matButton="outlined"
-      (click)="onClearFilters()"
-      [disabled]="loading() || !hasActiveFilters()">
-      <mat-icon>clear_all</mat-icon>
-      Clear Filters
-    </button>
+          "
+        [class.active]="showAdvancedFilters()"
+        [disabled]="loading()">
+        <mat-icon
+          >{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon
+        >
+      </button>
+    </section>
   </div>
   <!-- Advanced Filters Row -->
   @if (showAdvancedFilters()) {
@@ -79,7 +82,7 @@
         <mat-option value="older">Older than 3 months</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
       <mat-label>Sort By</mat-label>
       <mat-select
         [value]="filters().sortBy"
@@ -92,47 +95,53 @@
         <mat-option value="age">Age (Youngest)</mat-option>
         <mat-option value="age-desc">Age (Oldest)</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
   </div>
   }
 
   <!-- Actions Row -->
-  <div class="filters-actions">
-    <div class="actions-center">
+  <div class="filters-info">
+    <!-- <div class="actions-center">
       <mat-chip color="accent" selected>
         <mat-icon matChipAvatar>people</mat-icon>
         {{ resultCount() }} of {{ totalCount() }} candidates
       </mat-chip>
-    </div>
-
-    <div class="actions-right">
-      <mat-button-toggle-group
-        [value]="viewMode()"
-        (change)="onToggleView($event.value)"
-        [disabled]="loading()">
-        <mat-button-toggle value="grid" [matTooltip]="'Grid View'">
-          <mat-icon>view_module</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="table" [matTooltip]="'Table View'">
-          <mat-icon>view_list</mat-icon>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
+    </div> -->
   </div>
 
   <!-- Active Filters Display -->
-  @if (activeFilters().length > 0) {
+  <!-- @if (activeFilters().length > 0) { -->
   <div class="active-filters">
-    <!-- <span class="active-filters-label">Active filters:</span> -->
-    <mat-chip-set>
-      @for (filter of activeFilters(); track trackByFilter($index, filter)) {
-      <mat-chip (removed)="onRemoveFilter(filter.key)" removable>
-        <mat-icon matChipAvatar>{{ filter.icon }}</mat-icon>
-        {{ filter.label }}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
+    <div class="filters-info">
+      <mat-chip-set>
+        <mat-chip color="accent" selected>
+          <mat-icon matChipAvatar>people</mat-icon>
+          {{ resultCount() }} of {{ totalCount() }} candidates
+        </mat-chip>
+        @for (filter of activeFilters(); track trackByFilter($index, filter)) {
+        <mat-chip (removed)="onRemoveFilter(filter.key)" removable>
+          <mat-icon matChipAvatar>{{ filter.icon }}</mat-icon>
+          {{ filter.label }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        }
+      </mat-chip-set>
+      @if(!isMobile()) {
+      <div class="actions-right">
+        <mat-button-toggle-group
+          [value]="viewMode()"
+          (change)="onToggleView($event.value)"
+          [disabled]="loading()">
+          <mat-button-toggle value="grid" [matTooltip]="'Grid View'">
+            <mat-icon>view_module</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="table" [matTooltip]="'Table View'">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
       }
-    </mat-chip-set>
+    </div>
   </div>
-  }
+  <!-- } -->
 </div>

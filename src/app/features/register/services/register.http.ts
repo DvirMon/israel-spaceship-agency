@@ -5,7 +5,7 @@ import { mapTimestampsToDate } from "@shared/operators";
 import { writeTotLocalStorage } from "@shared/operators/local-storage";
 import { LoadingOverlayService } from "app/shared/components/loading-overlay/loading-overlay.service";
 import { withLoadingOverlay } from "app/shared/components/loading-overlay/operator";
-import { map, take } from "rxjs";
+import { map, take, tap } from "rxjs";
 
 @Injectable()
 export class RegisterHttp extends FireStore<CandidateStore> {
@@ -26,8 +26,6 @@ export class RegisterHttp extends FireStore<CandidateStore> {
   }
 
   getCandidate(id: string) {
- 
-
   return this.getDocumentById(id).pipe(
       take(1),
       map((candidate) => candidate as CandidateStore),
