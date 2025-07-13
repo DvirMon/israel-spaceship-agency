@@ -15,8 +15,8 @@ This app supports public registration for the first 100% Israeli space flight ðŸ
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/iisa-frontend.git
-cd iisa-frontend
+git clone https://github.com/DvirMon/israel-spaceship-agency.git
+cd israel-spaceship-agency
 ```
 
 ### 2. Configure Environment
@@ -40,7 +40,7 @@ ng serve
 
 App will be available at `http://localhost:4200`
 
-> To navigate directly to the dashboard, go to: `http://localhost:4200/dashboard`
+> To navigate to the dashboard, go to: `http://localhost:4200/dashboard`
 
 ---
 
