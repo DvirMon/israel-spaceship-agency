@@ -27,10 +27,6 @@ export function compareCandidates(
     return equal;
   });
 
-  if (isDevMode()) {
-    console.log("[compareCandidates] Comparisons:", comparisons);
-  }
-
   return comparisons.every(Boolean);
 }
 

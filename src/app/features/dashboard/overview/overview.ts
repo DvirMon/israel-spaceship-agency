@@ -12,10 +12,11 @@ import { NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { DashboardService } from "../dashboard.service";
 import { LocationMap } from "./location-map/location-map";
 import { chartView } from "./utils";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: "app-overview",
-  imports: [MatCardModule, NgxChartsModule, LocationMap],
+  imports: [MatCardModule, NgxChartsModule, LocationMap, MatProgressSpinner],
   templateUrl: "./overview.html",
   styleUrl: "./overview.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

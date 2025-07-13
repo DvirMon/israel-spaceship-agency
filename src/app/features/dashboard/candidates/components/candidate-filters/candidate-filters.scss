@@ -1,23 +1,31 @@
 @use "@angular/material" as mat;
 
 :host {
+  @media (min-width: 768px) {
+    @include mat.chips-overrides(
+      (
+        container-height: 56px,
+        with-icon-icon-size: 32px,
+        label-text-size: 24px,
+        with-avatar-avatar-size: 32px,
+      )
+    );
+
+    @include mat.form-field-overrides(
+      (
+        container-text-size: 28px,
+        outlined-label-text-size: 32px,
+        outlined-label-text-populated-size: 24px,
+      )
+    );
+  }
+
   @include mat.chips-overrides(
     (
-      disabled-label-text-color: orange,
-      disabled-outline-color: red,
-      container-height: 56px,
+      container-height: 44px,
       with-icon-icon-size: 32px,
-      label-text-size: 24px,
+      label-text-size: 16px,
       with-avatar-avatar-size: 32px,
-    )
-  );
-
-  @include mat.form-field-overrides(
-    (
-      container-text-size: 28px,
-      outlined-label-text-size: 32px,
-      outlined-label-text-populated-size : 24px,
-      disabled-leading-icon-color: red,
     )
   );
 }
@@ -51,7 +59,6 @@
     margin-bottom: 20px;
   }
 
-  // required to align with mat-form-field
   button.clear-filters-button {
     font-size: 1.5rem;
     height: 3.5rem;
@@ -67,6 +74,10 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.mdc-evolution-chip-set {
+  margin: 0px;
 }
 
 .filters-info {
@@ -87,5 +98,30 @@
 
   .search-field {
     min-width: unset;
+  }
+
+  .filters-row {
+    button.clear-filters-button {
+      // font-size: 1.5rem;
+      // height: 3.5rem;
+    }
+
+    button.mat-mdc-icon-button {
+      // scale: 1.8;
+      margin-left: auto;
+    }
+  }
+}
+@media (max-width: 480px) {
+  .filters-row {
+    button.clear-filters-button {
+      // font-size: 1.5rem;
+      // height: 3.5rem;
+    }
+
+    button.mat-mdc-icon-button {
+      // scale: 1.8;
+      margin-left: auto;
+    }
   }
 }
