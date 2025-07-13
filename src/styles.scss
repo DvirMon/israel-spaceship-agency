@@ -2,6 +2,7 @@
 
 @use "@angular/material" as mat;
 
+// TODO: refactor with custom palette
 html {
   @include mat.theme(
     (
