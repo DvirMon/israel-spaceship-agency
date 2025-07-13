@@ -1,59 +1,101 @@
-# IISA
+# 🚀 IISA Front-End Take-Home Assignment
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+Welcome to the official take-home project for the **Israeli Imaginary Space Agency (IISA)** recruitment initiative. This project includes a responsive public **registration landing page** and a **management dashboard** for candidate data.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🌐 Project Overview
+
+This app supports public registration for the first 100% Israeli space flight 🚀 and allows recruiters to view and manage candidate submissions in real-time.
+
+---
+
+## 🛠 Installation and Setup
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/YOUR_USERNAME/iisa-frontend.git
+cd iisa-frontend
+```
+
+### 2. Configure Environment
+
+Create a `.env` or `environment.ts` file for:
+
+- **Firebase configuration** (API keys, project ID, etc.)
+- **OpenCageData API Key** for geolocation
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Run locally
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+App will be available at `http://localhost:4200`
 
-## Code scaffolding
+> To navigate directly to the dashboard, go to: `http://localhost:4200/dashboard`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
+## 📦 Folder Structure
+
+```
+src/
+├── app/
+│   ├── core/               # Services, guards, models
+│   ├── shared/             # Shared UI components
+│   ├── features/
+│   │   ├── landing/        # Landing page
+│   │   ├── register/       # Register form
+│   │   └── dashboard/      # Admin dashboard
+│   └── app.ts
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🧩 Tech Stack
 
-```bash
-ng generate --help
-```
+- **Angular 20** (TypeScript)
+- **Angular Material**
+- **Reactive Forms**
+- **LocalStorage**
+- **Firebase**
 
-## Building
+---
 
-To build the project run:
+## ✨ Highlights
 
-```bash
-ng build
-```
+- Fully **zoneless OnPush-based** app
+- Fully **declarative using RxJS and Signals**
+- Full **responsive** design for desktop and mobile
+- Real **geolocation querying** via OpenCage API  
+- Real **image uploads stored** via Firebase Storage
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🎯 Features
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Part 1: Landing Page
 
-```bash
-ng test
-```
+- Responsive personal info form (name, email, phone, etc.)
+- Free-text fields (hobbies, motivation)
+- Profile image upload (JPEG/PNG)
+- Allows edits within 3 days (via local/session storage)
+- Fully responsive for desktop and mobile
 
-## Running end-to-end tests
+### Part 2: Management Dashboard
 
-For end-to-end (e2e) testing, run:
+- Candidate list (table or card view)
+- Candidate age breakdown graph
+- Candidate map (location)
+- Visit-to-registration conversion stats
+- Search, filter, and individual profile view
+- Navigation between candidates
+- Live updates via Firestore
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
