@@ -36,7 +36,7 @@ export class Overview {
     name: "customScheme",
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
+    domain: ["#810081"],
   };
 
   readonly ageResults = computed(() =>

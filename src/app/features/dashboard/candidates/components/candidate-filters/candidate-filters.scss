@@ -18,6 +18,19 @@
         outlined-label-text-populated-size: 24px,
       )
     );
+
+    @include mat.button-overrides(
+      (
+        outlined-label-text-size: 24px,
+        outlined-container-height: 60px,
+      )
+    );
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 80px,
+        icon-size: 48px,
+      )
+    );
   }
 
   @include mat.chips-overrides(
@@ -51,7 +64,7 @@
   .filters-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
   }
 
   // required to compensate for mat-form-field
@@ -59,13 +72,10 @@
     margin-bottom: 20px;
   }
 
-  button.clear-filters-button {
-    font-size: 1.5rem;
-    height: 3.5rem;
-  }
-
-  button.mat-mdc-icon-button {
-    scale: 1.8;
+  button.mat-mdc-icon-button mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
     margin-left: auto;
   }
 }
@@ -98,30 +108,5 @@
 
   .search-field {
     min-width: unset;
-  }
-
-  .filters-row {
-    button.clear-filters-button {
-      // font-size: 1.5rem;
-      // height: 3.5rem;
-    }
-
-    button.mat-mdc-icon-button {
-      // scale: 1.8;
-      margin-left: auto;
-    }
-  }
-}
-@media (max-width: 480px) {
-  .filters-row {
-    button.clear-filters-button {
-      // font-size: 1.5rem;
-      // height: 3.5rem;
-    }
-
-    button.mat-mdc-icon-button {
-      // scale: 1.8;
-      margin-left: auto;
-    }
   }
 }

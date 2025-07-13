@@ -1,6 +1,6 @@
 @let data = candidate(); @if(data) {
 
-<mat-card class="candidate-card" (click)="onCardClick()">
+<mat-card appearance="outlined" class="candidate-card" (click)="onCardClick()">
   <mat-card-header>
     @if(data.profileImage) {
     <img
@@ -8,8 +8,7 @@
       [ngSrc]="data.profileImage"
       [alt]="data.fullName"
       width="80"
-      height="80"
-      priority />
+      height="80" />
     } @else {
     <div mat-card-avatar class="avatar-fallback"></div>
     }
@@ -21,14 +20,11 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-   
     @if (data.motivation) {
     <span class="application-date truncate">{{ data.hobbies }}</span>
     } @else {
     <span class="empty-section">Not specified</span>
-    }
-    
-    @if (data.hobbies) {
+    } @if (data.hobbies) {
     <span class="candidate-pitch truncate">{{ data.motivation }}</span>
     } @else {
     <span class="empty-section">Not specified</span>
