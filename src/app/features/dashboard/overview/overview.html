@@ -1,14 +1,13 @@
 <div class="overview-container">
   <div class="charts-grid">
-    @if(!isLoading()) {
     <mat-card class="info-card">
       <mat-card-header>
         <mat-card-title> Age Distribution </mat-card-title>
         <mat-card-subtitle>Breakdown of candidate ages</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <article>
-          @if(chartViewState.show()) {
+        <article class="chart-container">
+          @defer (when !isLoading()) { @if(chartViewState.show()) {
           <ngx-charts-bar-vertical
             [view]="chartViewState.view()"
             [results]="ageResults()"
@@ -23,7 +22,6 @@
             [yAxisTickFormatting]="formatTicks">
           </ngx-charts-bar-vertical>
           } @else {
-
           <ngx-charts-bar-vertical
             [results]="ageResults()"
             [scheme]="colorScheme"
@@ -36,6 +34,8 @@
             [animations]="true"
             [yAxisTickFormatting]="formatTicks">
           </ngx-charts-bar-vertical>
+          } } @placeholder {
+          <mat-spinner></mat-spinner>
           }
         </article>
       </mat-card-content>
@@ -46,8 +46,8 @@
         <mat-card-subtitle>Number of users per city</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <article>
-          @if(chartViewState.show()) {
+        <article class="chart-container">
+          @defer (when !isLoading()) { @if(chartViewState.show()) {
           <ngx-charts-bar-vertical
             [view]="chartViewState.view()"
             [results]="cityResults()"
@@ -74,6 +74,8 @@
             [animations]="true"
             [yAxisTickFormatting]="formatTicks">
           </ngx-charts-bar-vertical>
+          }} @placeholder {
+          <mat-spinner></mat-spinner>
           }
         </article>
       </mat-card-content>
@@ -85,11 +87,14 @@
       </mat-card-header>
       <mat-card-content>
         <article class="map-container">
+          @defer (when !isLoading()) {
           <app-location-map [results]="locationCoordinates()">
           </app-location-map>
+          } @placeholder {
+          <mat-spinner></mat-spinner>
+          }
         </article>
       </mat-card-content>
     </mat-card>
-    }
   </div>
 </div>
