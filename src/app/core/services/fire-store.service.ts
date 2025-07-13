@@ -52,7 +52,6 @@ export class FireStore<T extends DocumentData> {
     const path = collectionPath || this.collectionToken;
     if (!path) throw new Error("No collection path provided or injected");
     const docRef = doc(this.firestore, path, id);
-    // await updateDoc(docRef, data);
     return from(updateDoc(docRef, data));
   }
 
@@ -63,6 +62,6 @@ export class FireStore<T extends DocumentData> {
     const path = collectionPath || this.collectionToken;
     if (!path) throw new Error("No collection path provided or injected");
     const docRef = doc(this.firestore, path, id);
-    return docData(docRef) as Observable<T | undefined>;
+    return docData(docRef, { idField: "id" }) as Observable<T | undefined>;
   }
 }
