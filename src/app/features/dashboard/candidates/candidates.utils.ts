@@ -1,3 +1,4 @@
+import { Timestamp } from "@angular/fire/firestore";
 import { CandidateStore } from "@core/models/candidate.model";
 
 type AgeFilterFn = (age: number) => boolean;
@@ -23,29 +24,25 @@ const dateFilterMap: Record<string, DateFilterFn> = {
   older: (d) => d > 90,
 };
 
-export function matchesDateFilter(dateString: Date, filter: string): boolean {
+function normalizeDate(dateInput: Date | string | Timestamp): Date | null {
+  if (dateInput instanceof Timestamp) return dateInput.toDate();
+  if (dateInput instanceof Date) return dateInput;
+  if (typeof dateInput === "string") return new Date(dateInput);
+  return null;
+}
+
+export function matchesDateFilter(dateInput: Date, filter: string): boolean {
   if (filter === "all") return true;
-  const date = new Date(dateString);
+
+  const date = normalizeDate(dateInput);
+
+  if (!date) return false;
+
   const now = new Date();
   const diffTime = now.getTime() - date.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return (dateFilterMap[filter] || dateFilterMap["all"])(diffDays);
 }
-
-type SortFn = (a: CandidateStore, b: CandidateStore) => number;
-
-const sortMap: Record<string, SortFn> = {
-  fullName: (a, b) => a.fullName.localeCompare(b.fullName),
-  "fullName-desc": (a, b) => b.fullName.localeCompare(a.fullName),
-
-  registeredAt: (a, b) =>
-    new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime(),
-  "date-desc": (a, b) =>
-    new Date(a.registeredAt).getTime() - new Date(b.registeredAt).getTime(),
-
-  age: (a, b) => a.age - b.age,
-  "age-desc": (a, b) => b.age - a.age,
-};
 
 export function matchesSearch(
   candidate: CandidateStore,
@@ -63,6 +60,20 @@ export function matchesCity(candidate: CandidateStore, city: string): boolean {
   if (city === "all") return true;
   return candidate.city.toLowerCase().replace(" ", "-") === city;
 }
+type SortFn = (a: CandidateStore, b: CandidateStore) => number;
+
+const sortMap: Record<string, SortFn> = {
+  fullName: (a, b) => a.fullName.localeCompare(b.fullName),
+  "fullName-desc": (a, b) => b.fullName.localeCompare(a.fullName),
+
+  registeredAt: (a, b) =>
+    new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime(),
+  "date-desc": (a, b) =>
+    new Date(a.registeredAt).getTime() - new Date(b.registeredAt).getTime(),
+
+  age: (a, b) => a.age - b.age,
+  "age-desc": (a, b) => b.age - a.age,
+};
 
 export function sortCandidateStores(
   candidates: CandidateStore[],

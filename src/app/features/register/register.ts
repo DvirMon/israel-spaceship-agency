@@ -117,8 +117,7 @@ export class Register {
   });
 
   readonly updateFormEffect = effect(() => {
-    // use untracked to patch only when first initialized
-    const existingCandidate = untracked(this.registerService.store.candidate);
+    const existingCandidate = this.registerService.store.storeCandidate();
     if (existingCandidate) {
       this.registerForm.patchValue(existingCandidate);
     }

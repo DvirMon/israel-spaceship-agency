@@ -104,12 +104,6 @@ export class Candidates {
     sortBy: () => this.sortBy.set("name"),
   };
 
-   constructor() {
-    effect(() => {
-      this.viewCandidateDetail(this.candidates()[0]);
-    });
-  }
-
   onRemoveFilter(key: keyof FilterState): void {
     this.filterResetMap[key]?.();
   }

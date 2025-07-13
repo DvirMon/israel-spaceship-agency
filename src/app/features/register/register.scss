@@ -3,23 +3,30 @@
 :host {
   @include mat.form-field-overrides(
     (
-      container-height: 88px,
-      container-text-size: 24px,
-      subscript-text-size: 24px,
-      filled-label-text-size: 24px,
-      filled-with-label-container-padding-top: 44px,
-      filled-with-label-container-padding-bottom: 24px,
-      subscript-text-line-height: 44px,
-      container-text-line-height: 32x,
-      error-text-color: black
+      error-text-color: black,
     )
   );
 
-    @include mat.button-overrides((
-      filled-disabled-container-color : rgba(46, 36, 36, 0.734),
-    )) 
-      
-    
+  @media (min-width: 768px) {
+    @include mat.form-field-overrides(
+      (
+        container-height: 88px,
+        container-text-size: 24px,
+        subscript-text-size: 24px,
+        filled-label-text-size: 24px,
+        filled-with-label-container-padding-top: 44px,
+        filled-with-label-container-padding-bottom: 24px,
+        subscript-text-line-height: 44px,
+        container-text-line-height: 32x,
+      )
+    );
+  }
+
+  @include mat.button-overrides(
+    (
+      filled-disabled-container-color: rgba(46, 36, 36, 0.734),
+    )
+  );
 }
 
 .registration-section {

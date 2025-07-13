@@ -24,7 +24,7 @@ const importComponents = [Register];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Landing {
-  readonly registerComponent = viewChild("register", {
+  readonly registerComponent = viewChild.required(Register, {
     read: ElementRef,
   });
 

@@ -12,27 +12,30 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      matIconButton
-      (click)="toggleAdvancedFilters()"
-      [matTooltip]="
+    <section class="filters-actions">
+      <button
+        class="clear-filters-button"
+        matButton="outlined"
+        (click)="onClearFilters()"
+        [disabled]="loading() || !hasActiveFilters()">
+        <mat-icon>clear_all</mat-icon>
+        Clear Filters
+      </button>
+      <button
+        matIconButton
+        (click)="toggleAdvancedFilters()"
+        [matTooltip]="
         showAdvancedFilters()
           ? 'Hide advanced filters'
           : 'Show advanced filters'
-      "
-      [class.active]="showAdvancedFilters()"
-      [disabled]="loading()">
-      <mat-icon>{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon>
-    </button>
-
-    <button
-      class="clear-filters-button"
-      matButton="outlined"
-      (click)="onClearFilters()"
-      [disabled]="loading() || !hasActiveFilters()">
-      <mat-icon>clear_all</mat-icon>
-      Clear Filters
-    </button>
+          "
+        [class.active]="showAdvancedFilters()"
+        [disabled]="loading()">
+        <mat-icon
+          >{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon
+        >
+      </button>
+    </section>
   </div>
   <!-- Advanced Filters Row -->
   @if (showAdvancedFilters()) {
@@ -79,7 +82,7 @@
         <mat-option value="older">Older than 3 months</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
       <mat-label>Sort By</mat-label>
       <mat-select
         [value]="filters().sortBy"
@@ -92,12 +95,12 @@
         <mat-option value="age">Age (Youngest)</mat-option>
         <mat-option value="age-desc">Age (Oldest)</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
   </div>
   }
 
   <!-- Actions Row -->
-  <div class="filters-actions">
+  <div class="filters-info">
     <div class="actions-center">
       <mat-chip color="accent" selected>
         <mat-icon matChipAvatar>people</mat-icon>
@@ -105,6 +108,7 @@
       </mat-chip>
     </div>
 
+    @if(!isMobile()) {
     <div class="actions-right">
       <mat-button-toggle-group
         [value]="viewMode()"
@@ -118,6 +122,7 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+    }
   </div>
 
   <!-- Active Filters Display -->

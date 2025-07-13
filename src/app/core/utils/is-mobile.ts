@@ -7,7 +7,7 @@ export function isMobile() {
   const breakpointObserver = inject(BreakpointObserver);
 
   const isMatch$ = breakpointObserver
-    .observe([Breakpoints.Handset])
+    .observe([Breakpoints.Handset, Breakpoints.Small, Breakpoints.XSmall])
     .pipe(map((result) => result.matches));
 
   return toSignal(isMatch$);

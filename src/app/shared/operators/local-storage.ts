@@ -1,6 +1,6 @@
-import { tap } from "rxjs/operators";
-import { defer, Observable, of } from "rxjs";
 import { isDevMode } from "@angular/core";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 
 function isObjectLike(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
