@@ -2,7 +2,10 @@ import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subject, switchMap, take, timer } from "rxjs";
 import { ExpiredNoticeDialog } from "../dialogs/expired-notice-dialog/expired-notice-dialog";
-import { SubmitSuccessDialog, SuccessSubmitDialogData } from "../dialogs/submit-success-dialog/submit-success-dialog";
+import {
+  SubmitSuccessDialog,
+  SuccessSubmitDialogData,
+} from "../dialogs/submit-success-dialog/submit-success-dialog";
 import { RegisterHttp } from "./register.http";
 import { RegisterStore } from "./register.store";
 
@@ -12,34 +15,18 @@ export class RegisterService {
   readonly http = inject(RegisterHttp);
 
   private readonly dialog = inject(MatDialog);
-
-  private readonly CLOSING_ANIMATION_DURATION = 6000;
-
-  private readonly closeAnimation$ = new Subject<SubmitSuccessDialog>();
-
-  private readonly closingDialogEffect$ = this.closeAnimation$.pipe(
-    take(1),
-    switchMap(() => timer(this.CLOSING_ANIMATION_DURATION))
-  );
-
-  constructor() {
-    this.closingDialogEffect$.subscribe(() => {
-      this.dialog.closeAll();
-    });
-  }
-
-  openSuccessDialog(data :  SuccessSubmitDialogData): void {
-    const dialogRef = this.dialog.open(SubmitSuccessDialog, {
-      width: "550px",
+  openSuccessDialog(data: SuccessSubmitDialogData) {
+    return this.dialog.open(SubmitSuccessDialog, {
+      width: "580px",
+      maxHeight: "670px",
+      disableClose: true,
       maxWidth: "95vw",
       panelClass: "success-dialog-panel",
       data,
     });
-
-    this.closeAnimation$.next(dialogRef.componentInstance);
   }
 
-  openExpiredDialog() {
+  openExpiredDialog(): void {
     this.dialog.open(ExpiredNoticeDialog, {
       width: "500px",
       disableClose: true,
