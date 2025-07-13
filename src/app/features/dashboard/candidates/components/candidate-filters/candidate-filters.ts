@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from "@angular/animations";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,20 +8,19 @@ import {
   model,
   output,
 } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
+import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
+import { MatIcon } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { FilterState, ActiveFilter } from "./types";
-import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
-import { ViewMode } from "../../candidates";
-import { trigger, transition, style, animate } from "@angular/animations";
-import { CITY_OPTIONS } from "app/features/register/register";
 import { IS_MOBILE } from "@core/tokens/mobile";
+import { CITY_OPTIONS } from "app/features/register/register";
+import { ViewMode } from "../../candidates";
+import { ActiveFilter, FilterState } from "./types";
+import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
 // import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
@@ -29,8 +29,9 @@ import { IS_MOBILE } from "@core/tokens/mobile";
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
+    MatButton,
+    MatIcon,
+    MatIconButton,
     MatChipsModule,
     MatTooltipModule,
     MatButtonToggleModule,

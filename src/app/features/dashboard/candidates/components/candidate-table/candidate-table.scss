@@ -4,6 +4,7 @@
 :host {
   @include mat.table-overrides(
     (
+      background-color: #343135,
       header-container-height: 80px,
       header-headline-size: 24px,
       row-item-container-height: 120px,

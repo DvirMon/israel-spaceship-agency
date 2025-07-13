@@ -59,7 +59,7 @@ export class Analytics {
       icon: "how_to_reg",
       value: this.analyticsService.registerCount(),
       subtitle: `Conversion: ${this.conversionRate()}%`,
-      gradient: "purple",
+      gradient: "orange",
     },
   ]);
 
@@ -86,7 +86,7 @@ export class Analytics {
     name: "customScheme",
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
+    domain: ["#810081", "#a31aa3"],
   };
 
   readonly chartViewState = chartView();

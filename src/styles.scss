@@ -22,6 +22,12 @@ html {
       color: #666,
     )
   );
+  @include mat.button-overrides(
+    (
+      filled-container-color:#810081,
+      filled-label-text-color: white
+    )
+  );
 }
 
 html,
