@@ -17,8 +17,7 @@
           Your registration will be
           <strong>editable for the next 3 days</strong>
 
-          @if(editableUntil()) { (until {{ editableUntil() | date: 'mediumDate'
-          }}) }
+          @if(expiresAt()) { (until {{ expiresAt() | date: 'mediumDate' }}) }
         </span>
       </li>
 
@@ -38,18 +37,17 @@
           business days
         </span>
       </li>
+      } @if (isEditMode()) {
+      <li class="info-item">
+        <mat-checkbox class="example-margin">
+          Don't show this message again</mat-checkbox
+        >
+      </li>
       }
     </ul>
-    @if (isEditMode()) {
-    <mat-checkbox  class="example-margin">
-      Don't show this message again</mat-checkbox
-    >
-    }
   </section>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button matButton="outlined" (click)="closeWithData()">
-    Got it!
-  </button>
+  <button matButton="outlined" (click)="closeWithData()">Got it!</button>
 </mat-dialog-actions>
