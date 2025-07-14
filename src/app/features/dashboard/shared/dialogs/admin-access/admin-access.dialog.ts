@@ -53,7 +53,6 @@ export class AdminAccessDialog {
       (event): event is FormSubmittedEvent =>
         event instanceof FormSubmittedEvent
     ),
-    tap(() => console.log(this.form.controls.password.value)),
     withLatestFrom(this.form.controls.password.statusChanges),
     map(([_, value]) => value)
   );
@@ -67,7 +66,6 @@ export class AdminAccessDialog {
         return;
       }
 
-      console.log(this.attempts());
       this.attempts.update((count) => count + 1);
       this.form.reset();
     });
