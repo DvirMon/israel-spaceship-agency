@@ -23,15 +23,16 @@ import { LoadingOverlayService } from "app/shared/components/loading-overlay/loa
 
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { Subject, switchMap } from "rxjs";
 import {
   SubmitSuccessDialog,
-  SuccessSubmitDialogData,
+  SubmitSuccessDialogData,
 } from "./dialogs/submit-success-dialog/submit-success-dialog";
 import { RegisterHttp } from "./services/register.http";
 import { RegisterService } from "./services/register.service";
 import { RegisterStore } from "./services/register.store";
-import { createCandidateEvent, updateCandidateEvent } from "./utils/effects";
+import { createCandidateEvent, isNothingChangedEvent, updateCandidateEvent } from "./utils/effects";
 import { createRegistrationForm, formSubmitEffect } from "./utils/form";
 
 const importMaterial = [
@@ -44,6 +45,7 @@ const importMaterial = [
   MatCardModule,
   MatSelectModule,
   MatAutocompleteModule,
+  MatSnackBarModule,
 ];
 
 export const CITY_OPTIONS = [
@@ -106,7 +108,7 @@ export class Register {
   readonly registerForm = createRegistrationForm();
   readonly cityOptions = CITY_OPTIONS;
 
-  readonly openSuccessDialog = new Subject<SuccessSubmitDialogData>();
+  readonly openSuccessDialog = new Subject<SubmitSuccessDialogData>();
   readonly dialogCloseSource = new Subject<
     MatDialogRef<SubmitSuccessDialog, boolean>
   >();
@@ -122,6 +124,9 @@ export class Register {
   readonly shouldShowDialog = toSignal(this.dialogClose$, {
     initialValue: false,
   });
+
+
+  readonly shouldShowSnackBar = isNothingChangedEvent(this.registerForm);
 
   readonly submitButtonLabel = computed(() => {
     const candidate = this.registerService.store.candidate();
@@ -156,7 +161,7 @@ export class Register {
     this.registerService.openSuccessDialog({
       fullName: value.fullName,
       mode: "create",
-      editableUntil: value.expiresAt,
+      expiresAt: value.expiresAt,
     });
 
     this.registerForm.markAsPristine();
@@ -176,7 +181,15 @@ export class Register {
     this.openSuccessDialog.next({
       fullName: value.fullName,
       mode: "update",
-      editableUntil: value.expiresAt,
+      expiresAt: value.expiresAt,
     });
+  });
+
+  readonly snackBarEffect = effect(() => {
+    if (this.shouldShowSnackBar()) {
+      this.registerService.openSnackBar(
+        "Nothing to update – you haven’t changed anything yet"
+      );
+    }
   });
 }
