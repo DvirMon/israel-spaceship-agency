@@ -1,0 +1,31 @@
+.mat-mdc-dialog-actions,
+.mat-mdc-dialog-content {
+  background: #1e1e1e;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 8px 24px;
+//   background: #1e1e1e;
+
+  .admin-icon {
+    margin-right: 8px;
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+    color: #bb86fc;
+  }
+}
+
+.mat-mdc-dialog-content {
+  padding: 16px 32px 0px 32px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.mat-mdc-dialog-actions {
+  padding: 0px 24px 16px 24px
+}
