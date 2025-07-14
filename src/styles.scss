@@ -29,6 +29,12 @@ html {
       filled-label-text-color: white
     )
   );
+
+    @include mat.snack-bar-overrides(
+    (
+      supporting-text-size: 18px,
+    )
+  );
 }
 
 html,
