@@ -48,4 +48,17 @@ export class FireStorage {
       switchMap(() => from(getDownloadURL(fileRef)))
     );
   }
+
+  async upload(file: Blob): Promise<string> {
+    const path = this.generateStoragePath("candidates", file, {
+      entityId: "candidateId",
+      prefix: "profile",
+    });
+
+    const fileRef = ref(this.storage, path);
+
+    await uploadBytes(fileRef, file); // upload file
+
+    return getDownloadURL(fileRef); // return download URL
+  }
 }

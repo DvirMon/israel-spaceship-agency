@@ -24,3 +24,8 @@ export function withTimestamps<T>(): OperatorFunction<
       })
     );
 }
+
+
+export function geTimeStamp() {
+
+}

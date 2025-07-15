@@ -5,8 +5,8 @@ import { withTimestamps } from "@shared/operators";
 import { Observable, filter, map, merge, switchMap } from "rxjs";
 import { RegisterService } from "../services/register.service";
 import { CandidateForm } from "../types";
-import { fileToUrl, formSubmitEffect } from "./form";
-import { compareCandidates, withCoordinates, withLogRegister } from "./utils";
+import { fileToUrl, fileToUrlResource, formSubmitEffect } from "./form";
+import { compareCandidates, withCityResource, withCoordinates, withLogRegister } from "./utils";
 import { FormGroup } from "@angular/forms";
 
 export function updateCandidateEvent(
@@ -47,6 +47,31 @@ export function createCandidateEvent(
     withLogRegister()
   );
   return toSignal(event$);
+}
+export function createCandidateEffect(
+  submitEvent$: Observable<Partial<CandidateForm>>
+) {
+  const store = inject(RegisterService).store;
+  const http = inject(RegisterService).http;
+
+  const event = toSignal(submitEvent$, {
+    initialValue: {} as CandidateForm,
+  });
+
+  const fileResource = fileToUrlResource(event, "profileImage");
+
+  const withCoordinates = withCityResource(fileResource.value, "city");
+
+  // const event$ = submitEvent$.pipe(
+  //   filter(() => !store.isUpdateFlow()),
+  //   map((value) => ({ ...value } as CandidateForm)),
+  //   fileToUrl("profileImage"),
+  //   withCoordinates("city"),
+  //   withTimestamps(),
+  //   switchMap((value) => http.createCandidate(value)),
+  //   withLogRegister()
+  // );
+  // return toSignal(event$);
 }
 
 export function isNothingChangedEvent(registerForm: FormGroup) {

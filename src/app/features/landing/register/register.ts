@@ -81,7 +81,6 @@ export const CITY_OPTIONS = [
   "Yavne",
 ];
 
-// const importComponents = [PersonalInfo, AdditionalInfo, ReviewStep];
 @Component({
   selector: "app-register",
   imports: [

@@ -1,8 +1,10 @@
-import { inject } from "@angular/core";
+import { inject, Signal } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
 import { incrementDoc, withGeo } from "@shared/operators";
 import { map, Observable, of } from "rxjs";
 import { CandidateForm } from "../types";
+import { rxResource } from "@angular/core/rxjs-interop";
+import { GeoPoint } from "@angular/fire/firestore";
 
 export function compareCandidates(
   a: Partial<CandidateForm> | null | undefined,
@@ -57,11 +59,36 @@ export function withCoordinates<T, K extends keyof T>(key: K) {
     );
 }
 
+export function withCityResource<T extends object, K extends keyof T>(
+  value: Signal<T>,
+  key: K
+) {
+  const geocode = inject(GeocodingService);
+
+  return rxResource({
+    defaultValue: { ...value(), geo: new GeoPoint(0, 0) },
+    params: () => value(),
+    stream: ({ params: value }) => {
+      const city = value[key];
+      if (typeof city === "string" && city.trim() !== "") {
+        const data$ = geocode.loadCoordinates(city);
+        return data$.pipe(
+          map(({ lat, lng, formatted }) => ({
+            ...value,
+            geo: new GeoPoint(lat, lng),
+          }))
+        );
+      }
+      return of({ ...value, geo: new GeoPoint(0, 0) });
+    },
+  });
+}
+
 export function withLogRegister() {
   return incrementDoc("analytics/register");
 }
 // TODO: mark update as dirty, this should change teh filter flow
-export function withDirty< T>(
+export function withDirty<T>(
   reference: Partial<T>,
   compareFn?: (a: T, b: Partial<T>) => boolean
 ) {

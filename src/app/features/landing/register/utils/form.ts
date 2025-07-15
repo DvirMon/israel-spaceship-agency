@@ -1,4 +1,5 @@
-import { inject } from "@angular/core";
+import { inject, resource, Signal } from "@angular/core";
+import { rxResource } from "@angular/core/rxjs-interop";
 import {
   AbstractControl,
   FormGroup,
@@ -8,7 +9,6 @@ import {
 } from "@angular/forms";
 import { FireStorage } from "@core/services/fire-storage.service";
 import { filter, map, mergeAll, Observable, of, withLatestFrom } from "rxjs";
-
 
 export function createRegistrationForm() {
   const nfb = inject(NonNullableFormBuilder);
@@ -85,4 +85,30 @@ export function fileToUrl<T, K extends keyof T>(
       }),
       mergeAll()
     );
+}
+
+export function fileToUrlResource<T extends object>(
+  value: Signal<T>,
+  key: keyof T
+) {
+  const storage = inject(FireStorage);
+
+  return resource({
+    defaultValue: { ...value(), [key]: "" },
+    params: () => value(),
+    loader: async ({ params: value }) => {
+      const file = value[key];
+      if (typeof file === "string") return value;
+
+      if (file instanceof File) {
+        const imageUrl = storage.upload(value[key] as File);
+        return {
+          ...value,
+          [key]: imageUrl,
+        };
+      }
+
+      return value;
+    },
+  });
 }
