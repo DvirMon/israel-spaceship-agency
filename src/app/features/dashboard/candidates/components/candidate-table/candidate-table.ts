@@ -1,8 +1,14 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
 import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
   output,
   signal,
@@ -12,16 +18,9 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { CandidateStore } from "@core/models/candidate.model";
-import { ViewMode } from "../../candidates";
+import { TimestampToDatePipe } from "@shared/pipes/timestamp-to-date.pipe";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from "@angular/animations";
-import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
+import { ViewMode } from "../../candidates";
 @Component({
   selector: "app-candidate-table",
   imports: [

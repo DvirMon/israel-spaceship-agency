@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable } from "@angular/core";
+import { computed, Injectable } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { FireStore } from "@core/services/fire-store.service";
 

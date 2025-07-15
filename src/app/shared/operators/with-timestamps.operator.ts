@@ -1,19 +1,13 @@
-import { OperatorFunction } from "rxjs";
-import { map } from "rxjs";
-
-export function withTimestamps<T>(): OperatorFunction<
-  T,
-  T & {
-    registeredAt: Date;
-    expiresAt: Date;
-  }
-> {
-  return (source$) =>
+import { Timestamp } from "@angular/fire/firestore";
+import { map, Observable } from "rxjs";
+export function withTimestamps<T>() {
+  return (source$: Observable<T>) =>
     source$.pipe(
       map((value) => {
-        const registeredAt = new Date();
-        const expiresAt = new Date(
-          registeredAt.getTime() + 3 * 24 * 60 * 60 * 1000
+        const now = new Date();
+        const registeredAt = Timestamp.fromDate(now);
+        const expiresAt = Timestamp.fromDate(
+          new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000)
         );
 
         return {

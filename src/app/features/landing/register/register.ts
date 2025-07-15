@@ -161,7 +161,7 @@ export class Register {
     this.registerService.openSuccessDialog({
       fullName: value.fullName,
       mode: "create",
-      expiresAt: value.expiresAt,
+      expiresAt: value.expiresAt.toDate(),
     });
 
     this.registerForm.markAsPristine();
@@ -181,7 +181,7 @@ export class Register {
     this.openSuccessDialog.next({
       fullName: value.fullName,
       mode: "update",
-      expiresAt: value.expiresAt,
+      expiresAt: value.expiresAt.toDate(),
     });
   });
 

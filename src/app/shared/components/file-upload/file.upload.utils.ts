@@ -1,5 +1,4 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
-import { Observable } from "rxjs";
 
 // Format file size for display
 export function formatFileSize(bytes: number): string {
@@ -59,35 +58,6 @@ export function validateImageFile(
 
   return null;
 }
-
-// TODO = ref with ng destroy function
-export function mapFileToDataUrl(): (
-  source$: Observable<File | null>
-) => Observable<string | null> {
-  return (source$) =>
-    new Observable<string | null>((observer) => {
-      const subscription = source$.subscribe({
-        next: (file) => {
-          if (!file) {
-            observer.next(null);
-            return;
-          }
-
-          const reader = new FileReader();
-
-          reader.onload = () => observer.next(reader.result as string);
-          reader.onerror = () => observer.error(new Error("FILE_READ_ERROR"));
-
-          reader.readAsDataURL(file);
-        },
-        error: (err) => observer.error(err),
-        complete: () => observer.complete(),
-      });
-
-      return () => subscription.unsubscribe();
-    });
-}
-
 
 
 export function isFile(value: File | string | null): value is File {

@@ -66,10 +66,9 @@ const sortMap: Record<string, SortFn> = {
   fullName: (a, b) => a.fullName.localeCompare(b.fullName),
   "fullName-desc": (a, b) => b.fullName.localeCompare(a.fullName),
 
-  registeredAt: (a, b) =>
-    new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime(),
-  "date-desc": (a, b) =>
-    new Date(a.registeredAt).getTime() - new Date(b.registeredAt).getTime(),
+  registeredAt: (a, b) => b.registeredAt.toMillis() - a.registeredAt.toMillis(),
+
+  "date-desc": (a, b) => a.registeredAt.toMillis() - b.registeredAt.toMillis(),
 
   age: (a, b) => a.age - b.age,
   "age-desc": (a, b) => b.age - a.age,

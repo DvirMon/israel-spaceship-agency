@@ -35,7 +35,7 @@ export class RegisterStore {
   });
 
   readonly hasEditExpired = computed(() =>
-    isExpired(this.candidate()?.expiresAt)
+    isExpired(this.candidate()?.expiresAt.toDate())
   );
 
   readonly isAllowEdit = computed(

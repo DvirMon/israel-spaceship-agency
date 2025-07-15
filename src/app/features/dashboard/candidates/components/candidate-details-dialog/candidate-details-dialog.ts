@@ -4,7 +4,7 @@ import {
   Component,
   computed,
   inject,
-  linkedSignal
+  linkedSignal,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -12,7 +12,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
-import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
+import { TimestampToDatePipe } from "@shared/pipes/timestamp-to-date.pipe";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
 
 @Component({

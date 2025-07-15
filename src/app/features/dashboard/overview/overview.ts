@@ -3,13 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject
+  inject,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { groupToChartData } from "@core/charts/utils";
 import { CandidateStore } from "@core/models/candidate.model";
 import { NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
-import { DashboardService } from "../dashboard.service";
+import { DashboardStore } from "../dashboard.service";
 import { LocationMap } from "./location-map/location-map";
 import { chartView } from "./utils";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
@@ -22,10 +22,10 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Overview {
-  private readonly dashboardService = inject(DashboardService);
+  private readonly store = inject(DashboardStore);
 
-  readonly candidates = this.dashboardService.candidates;
-  readonly isLoading = this.dashboardService.isLoading;
+  readonly candidates = this.store.candidates;
+  readonly isLoading = this.store.isLoading;
 
   readonly chartViewState = chartView([
     Breakpoints.Medium,

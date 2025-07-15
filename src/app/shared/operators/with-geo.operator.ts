@@ -3,8 +3,8 @@ import { Observable, OperatorFunction, map, switchMap } from "rxjs";
 
 export function withGeo<T>(
   getGeo: (source: T) => Observable<{ lat: number; lng: number }>
-): OperatorFunction<T, T & { geo: { latitude: number; longitude: number } }> {
-  return (source$) =>
+) {
+  return (source$ : Observable<T>) =>
     source$.pipe(
       switchMap((value) =>
         getGeo(value).pipe(
