@@ -1,19 +1,16 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
+import { DASHBOARD_ROUTES } from "./features/dashboard/dashboard.routes";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     loadComponent: () =>
-      import('./features/landing/landing').then(m => m.Landing),
+      import("./features/landing/landing").then((m) => m.Landing),
   },
+  DASHBOARD_ROUTES,
   {
-    path: 'dashboard',
+    path: "**",
     loadComponent: () =>
-      import('./features/dashboard/dashboard').then(m => m.Dashboard),
+      import("./features/not-found/not-found").then((m) => m.NotFound),
   },
-  {
-    path: '**',
-    redirectTo: '/',
-    pathMatch: 'full',
-  }
 ];
