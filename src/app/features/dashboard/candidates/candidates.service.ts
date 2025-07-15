@@ -1,15 +1,15 @@
-import { inject, signal, computed } from "@angular/core";
-import { DashboardService } from "../dashboard.service";
+import { computed, inject, signal } from "@angular/core";
+import { DashboardStore } from "../dashboard.service";
 import {
-  matchesSearch,
-  matchesCity,
   matchesAgeFilter,
+  matchesCity,
   matchesDateFilter,
+  matchesSearch,
 } from "./candidates.utils";
 import { FilterState } from "./components/candidate-filters/types";
 
 export class CandidateService {
-  private readonly dashboardService = inject(DashboardService);
+  readonly store = inject(DashboardStore);
 
   // Filter signals
   readonly searchTerm = signal("");
@@ -17,11 +17,10 @@ export class CandidateService {
   readonly cityFilter = signal("all");
   readonly ageFilter = signal("all");
   readonly dateFilter = signal("all");
-  readonly sortBy = signal("name");
 
-  readonly candidates = this.dashboardService.candidates;
-
-  readonly totalCandidates = this.dashboardService.totalCandidates;
+  readonly loading = this.store.isLoading;
+  readonly candidates = this.store.candidates;
+  readonly totalCandidates = this.store.totalCandidates;
 
   // Computed filter state
   readonly filters = computed(
@@ -31,7 +30,6 @@ export class CandidateService {
       cityFilter: this.cityFilter(),
       ageFilter: this.ageFilter(),
       dateFilter: this.dateFilter(),
-      sortBy: this.sortBy(),
     })
   );
 
@@ -51,7 +49,7 @@ export class CandidateService {
         matchesSearch(candidate, filters.search),
         matchesCity(candidate, filters.city),
         matchesAgeFilter(candidate.age, filters.age),
-        matchesDateFilter(candidate.registeredAt, filters.date),
+        matchesDateFilter(candidate.registeredAt.toDate(), filters.date),
       ];
 
       return conditions.every(Boolean);
@@ -64,6 +62,5 @@ export class CandidateService {
     cityFilter: () => this.cityFilter.set("all"),
     ageFilter: () => this.ageFilter.set("all"),
     dateFilter: () => this.dateFilter.set("all"),
-    sortBy: () => this.sortBy.set("name"),
   };
 }

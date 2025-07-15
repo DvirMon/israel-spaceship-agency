@@ -1,5 +1,6 @@
 import { inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { FormGroup } from "@angular/forms";
 import { CandidateStore } from "@core/models/candidate.model";
 import { withTimestamps } from "@shared/operators";
 import { Observable, filter, map, merge, switchMap } from "rxjs";
@@ -7,7 +8,6 @@ import { RegisterService } from "../services/register.service";
 import { CandidateForm } from "../types";
 import { fileToUrl, formSubmitEffect } from "./form";
 import { compareCandidates, withCoordinates, withLogRegister } from "./utils";
-import { FormGroup } from "@angular/forms";
 
 export function updateCandidateEvent(
   submitEvent$: Observable<Partial<CandidateForm>>

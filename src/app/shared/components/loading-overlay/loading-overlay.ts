@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
       @if(loading()) {
 
       <div class="overlay-spinner">
-        <mat-spinner diameter="40"></mat-spinner>
+        <mat-spinner [diameter]="diameter()"></mat-spinner>
       </div>
       }
     </div>
@@ -35,8 +35,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
   ],
 })
 export class LoadingOverlay {
-  // TODO: try linkedSignal with input and and service data
-  loading = input<boolean>(false);
-
-  // isLoading = link
+  readonly loading = input<boolean>(false);
+  readonly diameter = input<number>(40);
 }

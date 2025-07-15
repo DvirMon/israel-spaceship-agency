@@ -21,7 +21,6 @@ import { CITY_OPTIONS } from "app/features/landing/register/register";
 import { ViewMode } from "../../candidates";
 import { ActiveFilter, FilterState } from "./types";
 import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
-// import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
   selector: "app-candidate-filters",
@@ -113,14 +112,6 @@ export class CandidateFilters {
       });
     }
 
-    if (filters.sortBy !== "name") {
-      active.push({
-        key: "sortBy",
-        label: `Sort: ${getSortLabel(filters.sortBy)}`,
-        icon: "sort",
-      });
-    }
-
     return active;
   });
 
@@ -132,8 +123,7 @@ export class CandidateFilters {
       filters.statusFilter !== "all" ||
       filters.cityFilter !== "all" ||
       filters.ageFilter !== "all" ||
-      filters.dateFilter !== "all" ||
-      filters.sortBy !== "name"
+      filters.dateFilter !== "all"
     );
   });
 

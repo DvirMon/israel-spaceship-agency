@@ -1,4 +1,3 @@
-// location-map.component.ts
 import {
   ChangeDetectionStrategy,
   Component,

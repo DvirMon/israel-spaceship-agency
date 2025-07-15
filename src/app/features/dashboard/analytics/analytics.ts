@@ -12,9 +12,8 @@ import { AnalyticsService } from "./analytics.service";
 import { StatCard } from "./stats-grid/stats-card/types";
 import { StatsGrid } from "./stats-grid/stats-grid";
 import { VisitData } from "./types";
-import { DashboardService } from "../dashboard.service";
+import { DashboardStore } from "../dashboard.service";
 import { chartView } from "../overview/utils";
-import { Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-analytics",
@@ -24,7 +23,7 @@ import { Breakpoints } from "@angular/cdk/layout";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Analytics {
-  private readonly dashboardService = inject(DashboardService);
+  private readonly store = inject(DashboardStore);
   private readonly analyticsService = inject(AnalyticsService);
   readonly visitsData = signal<VisitData[]>(this.getVisitsData());
   readonly statsLoading = signal(false);
@@ -43,7 +42,7 @@ export class Analytics {
     {
       title: "Total Candidates",
       icon: "people",
-      value: this.dashboardService.totalCandidates(),
+      value: this.store.totalCandidates(),
       subtitle: "+12% from last week",
       gradient: "blue",
     },

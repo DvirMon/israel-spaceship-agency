@@ -10,10 +10,9 @@ import {
   Firestore,
   updateDoc,
 } from "@angular/fire/firestore";
-import { from, map, Observable, tap, throwError } from "rxjs";
+import { from, map, Observable, throwError } from "rxjs";
 import { COLLECTION_KEY } from "../tokens/collection.tokens";
 
-// TODO: consult maya about the collection structure and api?
 @Injectable({
   providedIn: "root",
 })

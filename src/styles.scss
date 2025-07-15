@@ -1,8 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use "@angular/material" as mat;
 
-// TODO: refactor with custom palette
 html {
   @include mat.theme(
     (
@@ -60,7 +57,6 @@ mat-form-field input[type="number"] {
   -moz-appearance: textfield;
 }
 
-// end of global input number styles
 
 // global skeleton styles
 .skeleton-container {
@@ -95,5 +91,3 @@ mat-form-field input[type="number"] {
     background-position: 200% 0;
   }
 }
-
-// end of global skeleton styles
