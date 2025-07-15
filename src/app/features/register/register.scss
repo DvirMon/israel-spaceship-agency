@@ -19,12 +19,11 @@
 
   @include mat.form-field-overrides(
     (
-      error-text-color: black,
+      subscript-text-size: 14px,
+      subscript-text-line-height: 32px,
+      error-text-color: white,
     )
   );
-
-  
-
 
   @include mat.button-overrides(
     (
@@ -125,7 +124,7 @@ button.submit-button {
 /* ≥ 768px */
 @media (min-width: 768px) {
   .registration-container {
-    max-width: 900px;
+    max-width: 80vw;
   }
 
   .title {
@@ -143,9 +142,10 @@ button.submit-button {
   }
 }
 
-@media (max-width: 1248px) {
+/* ≥ 1024px */
+@media (min-width: 1024px) {
   .registration-container {
-    padding: 32px;
+    max-width: 800px;
   }
 }
 
@@ -192,3 +192,43 @@ button.submit-button {
     gap: 0.5rem;
   }
 }
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s !important;
+  -webkit-box-shadow: 0 0 0px 40rem red inset;
+}
+
+// ::ng-deep input:-webkit-auto-fill-selected {
+//   background-color: transparent !important;
+//   -webkit-box-shadow: 0 0 0px 40rem red inset;
+// }
+
+// input {
+//   color-scheme: dark;
+// }
+
+// ::ng-deep input {
+//   background-color: none !important;
+//   background: none !important;
+//   -webkit-box-shadow: 0 0 0px 40rem none inset;
+
+  // -webkit-box-shadow: 0 0 0px 40rem #49454e inset;
+  // appearance: menulist-button;
+  // background-image: none !important;
+  // background-color: red($color: #000000) !important;
+  // // background-color: -internal-light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+  // color: fieldtext !important;
+// }
