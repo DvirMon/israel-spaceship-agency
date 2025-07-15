@@ -4,13 +4,13 @@ import {
   effect,
   ElementRef,
   isDevMode,
-  viewChild
+  viewChild,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { map, take, timer } from "rxjs";
-import { Register } from "../register/register";
+import { Register } from "./register/register";
 import { withLogDailyVisit } from "./utils";
 import { Hero } from "./hero/hero";
 
