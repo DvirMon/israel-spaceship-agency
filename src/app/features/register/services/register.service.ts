@@ -39,7 +39,7 @@ export class RegisterService {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message, "Close", {
+    this.snackBar.open(message, "", {
       duration: 3000,
       horizontalPosition: "center",
       verticalPosition: "bottom",
