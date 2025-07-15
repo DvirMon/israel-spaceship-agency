@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   FormControl,
   FormGroup,
@@ -18,7 +19,7 @@ import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
-import { filter, tap, withLatestFrom, map } from "rxjs";
+import { filter, map, withLatestFrom } from "rxjs";
 
 const MAX_ATTEMPTS = 3;
 
@@ -48,7 +49,7 @@ export class AdminAccessDialog {
     ]),
   });
 
-  readonly controlSubmitEffect = this.form.events.pipe(
+  private readonly submitEvent$ = this.form.events.pipe(
     filter(
       (event): event is FormSubmittedEvent =>
         event instanceof FormSubmittedEvent
@@ -57,11 +58,15 @@ export class AdminAccessDialog {
     map(([_, value]) => value)
   );
 
+  private readonly submitValue$ = this.submitEvent$.pipe(
+    map((value) => value === "VALID")
+  );
+
   readonly remainingAttempts = computed(() => MAX_ATTEMPTS - this.attempts());
 
   constructor() {
-    this.controlSubmitEffect.subscribe((value) => {
-      if (value === "VALID") {
+    this.submitValue$.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value) {
         this.dialogRef.close(this.form.controls.password.value);
         return;
       }
