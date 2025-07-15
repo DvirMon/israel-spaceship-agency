@@ -18,10 +18,10 @@ import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
 
 export type SubmitSuccessMode = "create" | "update";
 
-export interface SuccessSubmitDialogData {
+export interface SubmitSuccessDialogData {
   fullName: string;
   mode: SubmitSuccessMode;
-  editableUntil?: Date;
+  expiresAt?: Date;
 }
 @Component({
   selector: "app-submit-success-dialog",
@@ -37,7 +37,8 @@ export interface SuccessSubmitDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubmitSuccessDialog {
-  private readonly data = inject<SuccessSubmitDialogData>(MAT_DIALOG_DATA);
+  private readonly data = inject<SubmitSuccessDialogData>(MAT_DIALOG_DATA);
+
   private readonly dialogRef = inject(MatDialogRef<SubmitSuccessDialog>);
 
   readonly checkbox = viewChild(MatCheckbox);
@@ -48,7 +49,7 @@ export class SubmitSuccessDialog {
   readonly isEditMode = computed(() => this.mode() === "update");
   readonly isCreateMode = computed(() => this.mode() === "create");
 
-  readonly editableUntil = signal(this.data.editableUntil);
+  readonly expiresAt = signal(this.data.expiresAt);
 
   readonly title = computed(() =>
     this.isCreateMode() ? "Registration Successful!" : "Update Saved!"

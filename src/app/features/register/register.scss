@@ -1,12 +1,6 @@
 @use "@angular/material" as mat;
 
 :host {
-  @include mat.form-field-overrides(
-    (
-      error-text-color: black,
-    )
-  );
-
   @media (min-width: 768px) {
     @include mat.form-field-overrides(
       (
@@ -23,6 +17,15 @@
     );
   }
 
+  @include mat.form-field-overrides(
+    (
+      error-text-color: black,
+    )
+  );
+
+  
+
+
   @include mat.button-overrides(
     (
       filled-disabled-container-color: rgba(46, 36, 36, 0.734),
@@ -34,6 +37,8 @@
   min-height: 100vh;
   background: #a31aa3;
   display: flex;
+  flex-direction: column;
+  gap: 16px;
   justify-content: center;
   align-items: flex-start; // Default for mobile
 }
@@ -80,6 +85,21 @@ button.submit-button {
   margin: auto;
 }
 
+.text-wrapper {
+  bottom: 3vh;
+  display: flex;
+  align-self: center;
+  position: absolute;
+}
+
+.text-muted {
+  font-size: 1.5rem;
+  color: var(--mat-sys-secondary);
+  font-weight: 500;
+  margin: 0px;
+  text-align: center;
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -115,6 +135,12 @@ button.submit-button {
   .subtitle {
     font-size: 2rem;
   }
+
+  .text-wrapper {
+    position: absolute;
+
+    height: 64px;
+  }
 }
 
 @media (max-width: 1248px) {
@@ -149,6 +175,10 @@ button.submit-button {
   .form-row:nth-child(2),
   .form-row:nth-child(3) {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .text-muted {
+    font-size: 2.5rem;
   }
 }
 

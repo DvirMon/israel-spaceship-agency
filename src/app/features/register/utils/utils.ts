@@ -5,8 +5,8 @@ import { map, Observable, of } from "rxjs";
 import { CandidateForm } from "../types";
 
 export function compareCandidates(
-  a: Partial<CandidateForm> | null,
-  b: Partial<CandidateForm> | null
+  a: Partial<CandidateForm> | null | undefined,
+  b: Partial<CandidateForm> | null | undefined
 ): boolean {
   if (a === null && b === null) return true;
   if (a === null || b === null) return false;
@@ -21,6 +21,8 @@ export function compareCandidates(
     "motivation",
     "profileImage",
   ];
+
+  if (!a || !b) return false;
 
   const comparisons = fields.map((field) => {
     const equal = a[field] === b[field];
