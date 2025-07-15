@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
 import { GeocodingService } from "@core/services/geocoding.service";
 import { incrementDoc, withGeo } from "@shared/operators";
-import { map, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { CandidateForm } from "../types";
 
 export function compareCandidates(
@@ -33,6 +33,7 @@ export function compareCandidates(
 }
 
 export function isValidDate(value: unknown): value is Date {
+
   return value instanceof Date && !isNaN(value.getTime());
 }
 
@@ -59,31 +60,4 @@ export function withCoordinates<T, K extends keyof T>(key: K) {
 
 export function withLogRegister() {
   return incrementDoc("analytics/register");
-}
-// TODO: mark update as dirty, this should change teh filter flow
-export function withDirty< T>(
-  reference: Partial<T>,
-  compareFn?: (a: T, b: Partial<T>) => boolean
-) {
-  const defaultCompare = (a: T, b: Partial<T>): boolean => {
-    const isPrimitive = (v: any) => v === null || typeof v !== "object";
-    if (isPrimitive(a) && isPrimitive(b)) {
-      return a === b;
-    }
-    try {
-      return JSON.stringify(a) === JSON.stringify(b);
-    } catch {
-      return false;
-    }
-  };
-
-  const actualCompare = compareFn ?? defaultCompare;
-
-  return (source$: Observable<T>) =>
-    source$.pipe(
-      map((value) => ({
-        value,
-        dirty: !actualCompare(value, reference),
-      }))
-    );
 }

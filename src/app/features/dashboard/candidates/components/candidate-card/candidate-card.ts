@@ -3,13 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  output
+  output,
 } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { CandidateStore } from "@core/models/candidate.model";
-import { TimestampToDatePipe } from "@shared/pipes/date-to-timestamp.pipe";
+import { TimestampToDatePipe } from "@shared/pipes/timestamp-to-date.pipe";
 
 @Component({
   selector: "app-candidate-card",

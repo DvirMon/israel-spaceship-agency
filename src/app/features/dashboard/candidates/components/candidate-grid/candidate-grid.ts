@@ -1,16 +1,16 @@
-import { trigger, transition, style, animate } from "@angular/animations";
+import { animate, style, transition, trigger } from "@angular/animations";
 import {
   ChangeDetectionStrategy,
   Component,
   input,
   output,
 } from "@angular/core";
-import { ViewMode } from "../../candidates";
-import { CandidateStore } from "@core/models/candidate.model";
 import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { CandidateCard } from "../candidate-card/candidate-card";
 import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { CandidateStore } from "@core/models/candidate.model";
+import { ViewMode } from "../../candidates";
+import { CandidateCard } from "../candidate-card/candidate-card";
 
 @Component({
   selector: "app-candidate-grid",

@@ -14,7 +14,6 @@ import { StatsGrid } from "./stats-grid/stats-grid";
 import { VisitData } from "./types";
 import { DashboardService } from "../dashboard.service";
 import { chartView } from "../overview/utils";
-import { Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-analytics",
