@@ -13,10 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideCore(),
     provideFirebase(),
-    provideAnalytics(() => getAnalytics()),
-    ScreenTrackingService,
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    provideHttpClient(),
+    provideLeafletMap(),
   ],
 };
