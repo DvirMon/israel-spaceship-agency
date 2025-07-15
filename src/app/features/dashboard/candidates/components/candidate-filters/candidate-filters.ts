@@ -112,14 +112,6 @@ export class CandidateFilters {
       });
     }
 
-    if (filters.sortBy !== "name") {
-      active.push({
-        key: "sortBy",
-        label: `Sort: ${getSortLabel(filters.sortBy)}`,
-        icon: "sort",
-      });
-    }
-
     return active;
   });
 
@@ -131,8 +123,7 @@ export class CandidateFilters {
       filters.statusFilter !== "all" ||
       filters.cityFilter !== "all" ||
       filters.ageFilter !== "all" ||
-      filters.dateFilter !== "all" ||
-      filters.sortBy !== "name"
+      filters.dateFilter !== "all"
     );
   });
 

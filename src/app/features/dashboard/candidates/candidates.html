@@ -22,7 +22,6 @@
       [(cityFilterChange)]="cityFilter"
       [(ageFilterChange)]="ageFilter"
       [(dateFilterChange)]="dateFilter"
-      [(sortChange)]="sortBy"
       (removeFilter)="onRemoveFilter($event)"
       (clearFilters)="clearFilters()"
       (toggleView)="toggleViewMode($event)">
@@ -48,14 +47,6 @@
       </app-candidate-table>
 
       }
-      <!--       
-      @if (filteredCandidates().length === 0) {
-      <div class="empty-state">
-        <mat-icon class="empty-icon">people_outline</mat-icon>
-        <h3>No candidates found</h3>
-        <p>Try adjusting your search or filter criteria</p>
-      </div>
-      } -->
     </mat-card-content>
   </mat-card>
 </div>

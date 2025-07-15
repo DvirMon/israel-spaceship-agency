@@ -4,7 +4,6 @@ export type FilterState = {
   cityFilter: string;
   ageFilter: string;
   dateFilter: string;
-  sortBy: string;
 };
 
 export type ActiveFilter = {
