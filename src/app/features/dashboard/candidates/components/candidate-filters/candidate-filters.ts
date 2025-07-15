@@ -21,7 +21,6 @@ import { CITY_OPTIONS } from "app/features/landing/register/register";
 import { ViewMode } from "../../candidates";
 import { ActiveFilter, FilterState } from "./types";
 import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
-// import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
   selector: "app-candidate-filters",

@@ -11,20 +11,6 @@ export type CandidateStore = {
   hobbies?: string;
   motivation?: string;
   profileImage?: string;
-  geo: { latitude: number; longitude: number };
-  registeredAt: Date;
-  expiresAt: Date;
-};
-export type CandidateFireStore = {
-  id: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  age: number;
-  city: string;
-  hobbies: string;
-  motivation: string;
-  profileImage: string;
   geo: GeoPoint;
   registeredAt: Timestamp;
   expiresAt: Timestamp;

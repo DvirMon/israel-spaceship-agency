@@ -51,7 +51,7 @@ export class CandidateService {
         matchesSearch(candidate, filters.search),
         matchesCity(candidate, filters.city),
         matchesAgeFilter(candidate.age, filters.age),
-        matchesDateFilter(candidate.registeredAt, filters.date),
+        matchesDateFilter(candidate.registeredAt.toDate(), filters.date),
       ];
 
       return conditions.every(Boolean);
