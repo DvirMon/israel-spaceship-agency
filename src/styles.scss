@@ -25,12 +25,12 @@ html {
   );
   @include mat.button-overrides(
     (
-      filled-container-color:#810081,
-      filled-label-text-color: white
+      filled-container-color: #810081,
+      filled-label-text-color: white,
     )
   );
 
-    @include mat.snack-bar-overrides(
+  @include mat.snack-bar-overrides(
     (
       supporting-text-size: 18px,
     )
@@ -46,6 +46,8 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+
+// global input number styles
 mat-form-field input[type="number"] {
   /* Chrome, Safari, Edge, Opera */
   &::-webkit-outer-spin-button,
@@ -58,6 +60,9 @@ mat-form-field input[type="number"] {
   -moz-appearance: textfield;
 }
 
+// end of global input number styles
+
+// global skeleton styles
 .skeleton-container {
   background-color: var(
     --mat-card-elevated-container-color,
@@ -90,3 +95,5 @@ mat-form-field input[type="number"] {
     background-position: 200% 0;
   }
 }
+
+// end of global skeleton styles

@@ -2,3 +2,9 @@ mat-form-field {
   width: 100%;
   height: 100%;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s !important;
+}

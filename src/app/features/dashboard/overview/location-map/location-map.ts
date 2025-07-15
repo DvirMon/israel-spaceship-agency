@@ -1,24 +1,19 @@
+// location-map.component.ts
 import {
   ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
+  inject,
   input,
   viewChild,
 } from "@angular/core";
-import {
-  latLng,
-  Map as LeafletMap,
-  map as leafletMap,
-  marker,
-  Marker,
-  tileLayer,
-} from "leaflet";
+import { LeafletMap, MapController } from "@core/leaflet/leaflet-map.service";
 
 @Component({
   selector: "app-location-map",
   imports: [],
-  template: `<div class="location-map" #mapContainer></div>`,
+  template: `<div class="location-map" #container></div>`,
   styles: [
     `
       :host,
@@ -31,39 +26,23 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationMap {
-  private readonly mapContainer = viewChild("mapContainer", {
+  private controller?: MapController;
+  private readonly container = viewChild("container", {
     read: ElementRef,
   });
-  private readonly defaultCenter = latLng(32.3040272, 34.8620134);
-  private readonly defaultZoom = 8;
+
+  private readonly map = inject(LeafletMap)
   readonly results = input.required<{ lat: number; lng: number }[]>();
-  readonly center = input(this.defaultCenter);
-  readonly zoom = input(this.defaultZoom);
 
-  private map: LeafletMap | null = null;
+  readonly mapEffect = effect(() => {
+    const el = this.container();
+    if (!el) return;
+    this.controller = this.map.configMap(el);
+  });
 
-  constructor() {
-    // TODO: refactor without effect
-    effect(() => {
-      const el = this.mapContainer();
-      if (!el || this.map) return;
-
-      this.map = leafletMap(el.nativeElement).setView(
-        this.center(),
-        this.zoom()
-      );
-
-      const baseMapURl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-
-      tileLayer(baseMapURl, {
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(this.map);
-
-      const points: Marker[] = this.results().map(({ lat, lng }) =>
-        marker([lat, lng])
-      );
-
-      points.forEach((point) => point.addTo(this.map!));
-    });
-  }
+  readonly updateMap = effect(() => {
+    if (!this.controller) return;
+    const points = this.results();
+    this.controller.updateMap(points);
+  });
 }

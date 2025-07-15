@@ -21,13 +21,13 @@ import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { merge } from "rxjs";
 import { map } from "rxjs/operators";
-import { } from "../../../features/register/utils/form";
+import {} from "../../../features/landing/register/utils/form";
 import {
   formatFileSize,
   getFileUploadErrorMessage,
   imageFileValidator,
   isFile,
-  readFileAsDataUrl
+  readFileAsDataUrl,
 } from "./file.upload.utils";
 
 @Component({
@@ -67,7 +67,7 @@ export class FileUpload implements ControlValueAccessor {
   readonly disabled = signal(false);
   readonly selectedFile = computed(() => {
     const value = this.value();
-    return !!value 
+    return !!value;
   });
 
   readonly uploadHintText = computed(() => {
