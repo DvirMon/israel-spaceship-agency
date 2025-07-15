@@ -17,7 +17,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { IS_MOBILE } from "@core/tokens/mobile";
-import { CITY_OPTIONS } from "app/features/register/register";
+import { CITY_OPTIONS } from "app/features/landing/register/register";
 import { ViewMode } from "../../candidates";
 import { ActiveFilter, FilterState } from "./types";
 import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
