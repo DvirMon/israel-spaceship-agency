@@ -12,10 +12,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { map, take, timer } from "rxjs";
 import { Register } from "../register/register";
 import { withLogDailyVisit } from "./utils";
+import { Hero } from "./hero/hero";
 
 const importMaterial = [MatIconModule, MatButtonModule];
 
-const importComponents = [Register];
+const importComponents = [Hero, Register];
 
 @Component({
   selector: "app-landing",
