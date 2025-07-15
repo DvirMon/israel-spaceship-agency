@@ -54,7 +54,6 @@ src/
 │   ├── shared/             # Shared UI components
 │   ├── features/
 │   │   ├── landing/        # Landing page
-│   │   ├── register/       # Register form
 │   │   └── dashboard/      # Admin dashboard
 │   └── app.ts
 ```
