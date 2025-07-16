@@ -41,7 +41,7 @@ export class LeafletMap {
 
     this.setupDefaultIcon(leaflet);
 
-    const { map: leafletMap, tileLayer, marker } = leaflet;
+    // const { map: leafletMap, tileLayer, marker } = leaflet;
 
     const configOptions = {
       ...this.config,
@@ -49,15 +49,15 @@ export class LeafletMap {
     };
     const { center, zoom, tileUrl } = configOptions;
 
-    const map = leafletMap(el.nativeElement).setView(center, zoom);
+    const map = leaflet.map(el.nativeElement).setView(center, zoom);
 
-    tileLayer(tileUrl, {
+    leaflet.tileLayer(tileUrl, {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
     return {
       updateMap(locations) {
-        locations.forEach(({ lat, lng }) => marker([lat, lng]).addTo(map));
+        locations.forEach(({ lat, lng }) => leaflet.marker([lat, lng]).addTo(map));
       },
       setCenter(center, zoom) {
         map.setView(center, zoom ?? map.getZoom());
