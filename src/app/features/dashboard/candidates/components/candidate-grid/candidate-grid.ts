@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from "@angular/animations";
+// Removed Angular animations import
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,17 +18,7 @@ import { CandidateCard } from "../candidate-card/candidate-card";
   templateUrl: "./candidate-grid.html",
   styleUrl: "./candidate-grid.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger("slideIn", [
-      transition(":enter", [
-        style({ opacity: 0, transform: "translateY(20px)" }),
-        animate(
-          "300ms ease-out",
-          style({ opacity: 1, transform: "translateY(0)" })
-        ),
-      ]),
-    ]),
-  ],
+  // Removed animations property
 })
 export class CandidateGrid {
   readonly candidates = input.required<CandidateStore[]>();

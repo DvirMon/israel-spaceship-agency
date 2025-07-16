@@ -7,7 +7,7 @@ import {
   input,
   viewChild,
 } from "@angular/core";
-import { LeafletMap, MapController } from "@core/leaflet/leaflet-map.service";
+import { LeafletMap } from "@core/leaflet/leaflet-map.service";
 
 @Component({
   selector: "app-location-map",
