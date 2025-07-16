@@ -7,7 +7,7 @@ import {
   input,
   viewChild,
 } from "@angular/core";
-import { LeafletMap, MapController } from "@core/leaflet/leaflet-map.service";
+import { LeafletMap } from "@core/leaflet/leaflet-map.service";
 
 @Component({
   selector: "app-location-map",
@@ -25,23 +25,17 @@ import { LeafletMap, MapController } from "@core/leaflet/leaflet-map.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationMap {
-  private controller?: MapController;
-  private readonly container = viewChild("container", {
+  private readonly map = inject(LeafletMap);
+  private readonly container = viewChild.required("container", {
     read: ElementRef,
   });
+  private readonly mapResource = this.map.createResource(this.container);
 
-  private readonly map = inject(LeafletMap)
   readonly results = input.required<{ lat: number; lng: number }[]>();
 
-  readonly mapEffect = effect(() => {
-    const el = this.container();
-    if (!el) return;
-    this.controller = this.map.configMap(el);
-  });
-
   readonly updateMap = effect(() => {
-    if (!this.controller) return;
+    if (this.mapResource.isLoading()) return;
     const points = this.results();
-    this.controller.updateMap(points);
+    this.mapResource.value()?.updateMap(points);
   });
 }

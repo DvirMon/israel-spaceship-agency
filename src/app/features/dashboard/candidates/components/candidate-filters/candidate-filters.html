@@ -37,11 +37,9 @@
       </button>
     </section>
   </div>
-  <!-- Advanced Filters Row -->
-  @if (showAdvancedFilters()) {
-  <div class="advanced-filters" [@slideDown]="'in'">
+
+  <div class="advanced-filters" [class.expanded]="showAdvancedFilters()">
     <mat-form-field appearance="outline" class="full-field">
-      <mat-label>Filter by city</mat-label>
       <mat-select
         [value]="filters().cityFilter"
         (selectionChange)="onCityFilterChange($event.value)"
@@ -56,7 +54,6 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Age Range</mat-label>
       <mat-select
         [value]="filters().ageFilter"
         (selectionChange)="onAgeFilterChange($event.value)"
@@ -70,7 +67,6 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Application Date</mat-label>
       <mat-select
         [value]="filters().dateFilter"
         (selectionChange)="onDateFilterChange($event.value)"
@@ -83,7 +79,6 @@
       </mat-select>
     </mat-form-field>
   </div>
-  }
 
   <div class="active-filters">
     <div class="filters-info">

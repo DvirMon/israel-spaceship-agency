@@ -1,12 +1,11 @@
-// leaflet-map.service.ts
-import { ElementRef, inject, Injectable } from "@angular/core";
 import {
-  LatLngExpression,
-  LatLngLiteral,
-  map as leafletMap,
-  marker,
-  tileLayer,
-} from "leaflet";
+  ElementRef,
+  inject,
+  Injectable,
+  resource,
+  Signal,
+} from "@angular/core";
+import { LatLngExpression, LatLngLiteral } from "leaflet"; // Only types — safe for import
 import {
   LEAFLET_MAP_CONFIG,
   LeafletMapConfig,
@@ -24,7 +23,26 @@ export class LeafletMap {
   private readonly config =
     inject(LEAFLET_MAP_CONFIG, { optional: true }) ?? DEFAULT_CONFIG;
 
-  configMap(el: ElementRef, options?: LeafletMapConfig): MapController {
+  createResource(el: Signal<ElementRef>) {
+    return resource({
+      params: () => el(),
+      loader: async ({ params: el }) => {
+        if(!el) return Promise.resolve(undefined);
+        return this.configMap(el);
+      },
+    });
+  }
+
+  private async configMap(
+    el: ElementRef,
+    options?: LeafletMapConfig
+  ): Promise<MapController> {
+    const leaflet = await import("leaflet");
+
+    this.setupDefaultIcon(leaflet);
+
+    const { map: leafletMap, tileLayer, marker } = leaflet;
+
     const configOptions = {
       ...this.config,
       ...options,
@@ -48,5 +66,16 @@ export class LeafletMap {
         map.remove();
       },
     };
+  }
+
+  private setupDefaultIcon(leaflet: typeof import("leaflet")) {
+    const { icon, Icon, Marker } = leaflet;
+    const defaultIcon = icon({
+      ...Icon.Default.prototype.options,
+      iconUrl: "assets/marker-icon.png",
+      iconRetinaUrl: "assets/marker-icon-2x.png",
+      shadowUrl: "assets/marker-shadow.png",
+    });
+    Marker.prototype.options.icon = defaultIcon;
   }
 }

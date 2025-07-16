@@ -1,12 +1,12 @@
-import { Injectable, inject, signal } from "@angular/core";
+import { Injectable, inject, isDevMode, signal } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable, map, tap } from "rxjs";
+import { Observable, map, of } from "rxjs";
 import { AdminAccessDialog } from "../dialogs/admin-access/admin-access.dialog";
-import { toObservable } from "@angular/core/rxjs-interop";
 
 @Injectable({ providedIn: "root" })
-export class DashboardAuthService {
+export class DashboardAuth {
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
 
@@ -16,6 +16,8 @@ export class DashboardAuthService {
     if (this.isAuthenticated()) {
       return toObservable(this.isAuthenticated);
     }
+
+    if (isDevMode()) return of(true);
 
     return this.dialog
       .open(AdminAccessDialog, { disableClose: true })
