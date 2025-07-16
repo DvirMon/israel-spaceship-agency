@@ -74,13 +74,13 @@ export class LeafletMap {
     const Marker = leaflet.Marker;
 
     // Access Icon.Default directly and safely
-    const DefaultIcon = leaflet.Icon.Default;
+    // const DefaultIcon = leaflet.Icon.Default;
 
     const defaultIcon = icon({
       iconUrl: "assets/marker-icon.png",
       iconRetinaUrl: "assets/marker-icon-2x.png",
       shadowUrl: "assets/marker-shadow.png",
-      ...new DefaultIcon().options, // ✅ safe way to get defaults
+      // ...new DefaultIcon().options, // ✅ safe way to get defaults
     });
 
     Marker.prototype.options.icon = defaultIcon;
