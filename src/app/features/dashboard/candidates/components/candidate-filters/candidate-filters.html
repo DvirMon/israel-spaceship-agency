@@ -39,7 +39,7 @@
   </div>
   <!-- Advanced Filters Row -->
   @if (showAdvancedFilters()) {
-  <div class="advanced-filters" [@slideDown]="'in'">
+  <div class="advanced-filters" [class.expanded]="showAdvancedFilters()">
     <mat-form-field appearance="outline" class="full-field">
       <mat-label>Filter by city</mat-label>
       <mat-select

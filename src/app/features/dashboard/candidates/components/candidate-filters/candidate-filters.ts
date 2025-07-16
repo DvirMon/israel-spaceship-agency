@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from "@angular/animations";
+// Removed Angular animations import
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +20,7 @@ import { IS_MOBILE } from "@core/tokens/mobile";
 import { CITY_OPTIONS } from "app/features/landing/register/register";
 import { ViewMode } from "../../candidates";
 import { ActiveFilter, FilterState } from "./types";
-import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
+import { getCityLabel, getDateLabel } from "./utils";
 
 @Component({
   selector: "app-candidate-filters",
@@ -38,23 +38,7 @@ import { getCityLabel, getDateLabel, getSortLabel } from "./utils";
   templateUrl: "./candidate-filters.html",
   styleUrls: ["./candidate-filters.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger("slideDown", [
-      transition(":enter", [
-        style({ opacity: 0, transform: "translateY(-10px)" }),
-        animate(
-          "200ms ease-out",
-          style({ opacity: 1, transform: "translateY(0)" })
-        ),
-      ]),
-      transition(":leave", [
-        animate(
-          "200ms ease-in",
-          style({ opacity: 0, transform: "translateY(-10px)" })
-        ),
-      ]),
-    ]),
-  ],
+  // Removed animations property
 })
 export class CandidateFilters {
   readonly isMobile = inject(IS_MOBILE);

@@ -20,7 +20,7 @@
   <!-- Data Table -->
   @if (!loading()) {
 
-  <div class="table-container">
+  <div class="table-container slide-in">
     <table
       mat-table
       [dataSource]="candidates()"
@@ -92,8 +92,7 @@
           [attr.colspan]="displayedColumns.length">
           <div
             class="expanded-detail"
-            [@detailExpand]="candidate.id == expandedCandidate()?.id ? 'expanded' : 'collapsed'
-">
+            [class.expanded]="expandedCandidate()?.id === candidate.id">
             <section class="detail-content">
               <article class="detail-section">
                 <h3>Hobbies & Interests</h3>

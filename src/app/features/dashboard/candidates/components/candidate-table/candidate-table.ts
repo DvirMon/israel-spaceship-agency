@@ -1,10 +1,3 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from "@angular/animations";
 import { DatePipe, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
@@ -18,8 +11,8 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { CandidateStore } from "@core/models/candidate.model";
-import { TimestampToDatePipe } from "@shared/pipes/timestamp-to-date.pipe";
 import { DaysAgoPipe } from "@shared/pipes/days-ago.pipe";
+import { TimestampToDatePipe } from "@shared/pipes/timestamp-to-date.pipe";
 import { ViewMode } from "../../candidates";
 @Component({
   selector: "app-candidate-table",
@@ -36,16 +29,6 @@ import { ViewMode } from "../../candidates";
   templateUrl: "./candidate-table.html",
   styleUrl: "./candidate-table.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger("detailExpand", [
-      state("collapsed", style({ height: "0px", minHeight: "0" })),
-      state("expanded", style({ height: "*" })),
-      transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
-      ),
-    ]),
-  ],
 })
 export class CandidateTable {
   readonly candidates = input.required<CandidateStore[]>();

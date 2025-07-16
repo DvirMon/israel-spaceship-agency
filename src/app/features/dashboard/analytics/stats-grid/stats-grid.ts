@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from "@angular/animations";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,17 +15,6 @@ import { StatCard } from "./stats-card/types";
   templateUrl: "./stats-grid.html",
   styleUrl: "./stats-grid.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-    trigger("slideIn", [
-      transition(":enter", [
-        style({ opacity: 0, transform: "translateY(20px)" }),
-        animate(
-          "300ms ease-out",
-          style({ opacity: 1, transform: "translateY(0)" })
-        ),
-      ]),
-    ]),
-  ],
 })
 export class StatsGrid {
   readonly statCards = input.required<StatCard[]>();
