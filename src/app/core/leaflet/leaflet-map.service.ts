@@ -69,11 +69,13 @@ export class LeafletMap {
   }
 
   private setupDefaultIcon(leaflet: typeof import("leaflet")) {
+
+    console.log(leaflet);
     const icon = leaflet.icon;
     const Marker = leaflet.Marker;
 
     // Access Icon.Default directly and safely
-    const DefaultIcon = leaflet.Icon.Default;
+    const DefaultIcon = leaflet.Icon?.Default;
 
     if (DefaultIcon) {
       if (DefaultIcon) {
