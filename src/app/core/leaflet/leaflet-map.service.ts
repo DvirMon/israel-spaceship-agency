@@ -27,7 +27,7 @@ export class LeafletMap {
     return resource({
       params: () => el(),
       loader: async ({ params: el }) => {
-        if(!el) return Promise.resolve(null);
+        if(!el) return Promise.resolve(undefined);
         return this.configMap(el);
       },
     });
