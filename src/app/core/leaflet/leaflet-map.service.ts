@@ -27,7 +27,7 @@ export class LeafletMap {
     return resource({
       params: () => el(),
       loader: async ({ params: el }) => {
-        if(!el) return Promise.resolve(undefined);
+        if (!el) return Promise.resolve(undefined);
         return this.configMap(el);
       },
     });
@@ -69,13 +69,20 @@ export class LeafletMap {
   }
 
   private setupDefaultIcon(leaflet: typeof import("leaflet")) {
-    const { icon, Icon, Marker } = leaflet;
+
+    const icon = leaflet.icon;
+    const Marker = leaflet.Marker;
+
+    // Access Icon.Default directly and safely
+    const DefaultIcon = leaflet.Icon.Default;
+
     const defaultIcon = icon({
-      ...Icon.Default.prototype.options,
       iconUrl: "assets/marker-icon.png",
       iconRetinaUrl: "assets/marker-icon-2x.png",
       shadowUrl: "assets/marker-shadow.png",
+      ...new DefaultIcon().options, // ✅ safe way to get defaults
     });
+
     Marker.prototype.options.icon = defaultIcon;
   }
 }
