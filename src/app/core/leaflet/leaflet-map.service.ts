@@ -37,8 +37,8 @@ export class LeafletMap {
     el: ElementRef,
     options?: LeafletMapConfig
   ): Promise<MapController> {
-    const leaflet = await import("leaflet");
-
+    const leafletModule = await import("leaflet");
+    const leaflet = leafletModule.default || leafletModule;
     this.setupDefaultIcon(leaflet);
 
     // const { map: leafletMap, tileLayer, marker } = leaflet;
@@ -51,13 +51,17 @@ export class LeafletMap {
 
     const map = leaflet.map(el.nativeElement).setView(center, zoom);
 
-    leaflet.tileLayer(tileUrl, {
-      attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
+    leaflet
+      .tileLayer(tileUrl, {
+        attribution: "&copy; OpenStreetMap contributors",
+      })
+      .addTo(map);
 
     return {
       updateMap(locations) {
-        locations.forEach(({ lat, lng }) => leaflet.marker([lat, lng]).addTo(map));
+        locations.forEach(({ lat, lng }) =>
+          leaflet.marker([lat, lng]).addTo(map)
+        );
       },
       setCenter(center, zoom) {
         map.setView(center, zoom ?? map.getZoom());
@@ -69,7 +73,6 @@ export class LeafletMap {
   }
 
   private setupDefaultIcon(leaflet: typeof import("leaflet")) {
-
     console.log(leaflet);
     const icon = leaflet.icon;
     const Marker = leaflet.Marker;
