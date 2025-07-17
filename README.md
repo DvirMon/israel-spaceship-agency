@@ -62,8 +62,6 @@ src/
 
 - **Angular 20** (TypeScript)
 - **Angular Material**
-- **Reactive Forms**
-- **LocalStorage**
 - **Firebase**
 
 ---
@@ -72,7 +70,7 @@ src/
 
 - Fully **zoneless OnPush-based** app
 - Fully **declarative using RxJS and Signals**
-- Full **responsive** design for desktop and mobile
+- Fully **responsive** design for desktop and mobile
 - Real **geolocation querying** via OpenCage API
 - Real **image uploads stored** via Firebase Storage
 
