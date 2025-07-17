@@ -36,60 +36,66 @@ export class LeafletMap {
   private async configMap(
     el: ElementRef,
     options?: LeafletMapConfig
-  ): Promise<MapController> {
-    const leafletModule = await import("leaflet");
-    const leaflet = leafletModule.default || leafletModule;
-    this.setupDefaultIcon(leaflet);
+  ): Promise<MapController | null> {
+    try {
+      const leafletModule = await import("leaflet");
 
-    // const { map: leafletMap, tileLayer, marker } = leaflet;
+      // Handle default vs named export for Leaflet (differs in prod builds)
+      const leaflet = leafletModule.default || leafletModule;
 
-    const configOptions = {
-      ...this.config,
-      ...options,
-    };
-    const { center, zoom, tileUrl } = configOptions;
+      this.setupDefaultIcon(leaflet);
 
-    const map = leaflet.map(el.nativeElement).setView(center, zoom);
+      const configOptions = {
+        ...this.config,
+        ...options,
+      };
+      const { center, zoom, tileUrl } = configOptions;
 
-    leaflet
-      .tileLayer(tileUrl, {
-        attribution: "&copy; OpenStreetMap contributors",
-      })
-      .addTo(map);
+      const map = leaflet.map(el.nativeElement).setView(center, zoom);
 
-    return {
-      updateMap(locations) {
-        locations.forEach(({ lat, lng }) =>
-          leaflet.marker([lat, lng]).addTo(map)
-        );
-      },
-      setCenter(center, zoom) {
-        map.setView(center, zoom ?? map.getZoom());
-      },
-      destroy() {
-        map.remove();
-      },
-    };
+      leaflet
+        .tileLayer(tileUrl, {
+          attribution: "&copy; OpenStreetMap contributors",
+        })
+        .addTo(map);
+
+      return {
+        updateMap(locations) {
+          locations.forEach(({ lat, lng }) =>
+            leaflet.marker([lat, lng]).addTo(map)
+          );
+        },
+        setCenter(center, zoom) {
+          map.setView(center, zoom ?? map.getZoom());
+        },
+        destroy() {
+          map.remove();
+        },
+      };
+    } catch (error) {
+      console.error("[MapService] Failed to configure map:", error);
+      return null;
+    }
   }
 
-  private setupDefaultIcon(leaflet: typeof import("leaflet")) {
-    console.log(leaflet);
-    const icon = leaflet.icon;
-    const Marker = leaflet.Marker;
+  private setupDefaultIcon(leaflet: typeof import("leaflet")): void {
+    try {
+      const icon = leaflet.icon;
+      const Marker = leaflet.Marker;
+      const DefaultIcon = leaflet.Icon?.Default;
 
-    // Access Icon.Default directly and safely
-    const DefaultIcon = leaflet.Icon?.Default;
-
-    if (DefaultIcon) {
       if (DefaultIcon) {
         const defaultIcon = icon({
           iconUrl: "assets/marker-icon.png",
           iconRetinaUrl: "assets/marker-icon-2x.png",
           shadowUrl: "assets/marker-shadow.png",
-          ...new DefaultIcon().options, // ✅ safe way to get defaults
+          ...new DefaultIcon().options,
         });
+
         Marker.prototype.options.icon = defaultIcon;
       }
+    } catch (err) {
+      console.warn("[MapService] Failed to setup default icon:", err);
     }
   }
 }

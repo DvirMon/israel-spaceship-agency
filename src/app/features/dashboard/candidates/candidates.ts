@@ -76,6 +76,7 @@ export class Candidates {
       data: { id: candidate.id, candidates: this.candidates() },
       width: "inherit",
       height: "650px",
+      backdropClass: "details-backdrop",
     });
   }
 }
