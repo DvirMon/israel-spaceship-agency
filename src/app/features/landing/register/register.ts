@@ -108,22 +108,9 @@ export class Register {
   readonly registerForm = createRegistrationForm();
   readonly cityOptions = CITY_OPTIONS;
 
-  readonly openSuccessDialog = new Subject<SubmitSuccessDialogData>();
   readonly dialogCloseSource = new Subject<
     MatDialogRef<SubmitSuccessDialog, boolean>
   >();
-
-  readonly dialogClose$ = this.openSuccessDialog
-    .asObservable()
-    .pipe(
-      switchMap((data) =>
-        this.registerService.openSuccessDialog(data).afterClosed()
-      )
-    );
-
-  readonly shouldShowDialog = toSignal(this.dialogClose$, {
-    initialValue: false,
-  });
 
 
   readonly shouldShowSnackBar = isNothingChangedEvent(this.registerForm);
@@ -176,11 +163,9 @@ export class Register {
 
     this.registerForm.markAsPristine();
 
-    if (this.shouldShowDialog()) return;
-
-    this.openSuccessDialog.next({
+    this.registerService.openSuccessDialog({
       fullName: value.fullName,
-      mode: "update",
+      mode: "create",
       expiresAt: value.expiresAt.toDate(),
     });
   });

@@ -37,17 +37,11 @@
           business days
         </span>
       </li>
-      } @if (isEditMode()) {
-      <li class="info-item">
-        <mat-checkbox class="example-margin">
-          Don't show this message again</mat-checkbox
-        >
-      </li>
       }
     </ul>
   </section>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button matButton="outlined" (click)="closeWithData()">Got it!</button>
+  <button matButton="outlined" mat-dialog-close>Got it!</button>
 </mat-dialog-actions>

@@ -61,10 +61,4 @@ export class SubmitSuccessDialog {
       : "your changes have been saved successfully."
   );
 
-  closeWithData() {
-    const checkbox = this.checkbox();
-    if (checkbox) {
-      this.dialogRef.close(checkbox.checked);
-    }
-  }
 }

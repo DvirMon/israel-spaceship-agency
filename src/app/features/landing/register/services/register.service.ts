@@ -21,7 +21,7 @@ export class RegisterService {
     return this.dialog.open(SubmitSuccessDialog, {
       width: "580px",
       maxHeight: "700px",
-      minHeight: "560px",
+      minHeight: "580px",
       disableClose: true,
       maxWidth: "95vw",
       panelClass: "success-dialog-panel",
