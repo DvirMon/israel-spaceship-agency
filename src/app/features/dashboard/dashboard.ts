@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
@@ -22,5 +22,10 @@ const componentImports = [Candidates, Overview, Analytics];
   templateUrl: "./dashboard.html",
   styleUrl: "./dashboard.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[style.color-scheme]": "colorScheme()",
+  },
 })
-export class Dashboard {}
+export class Dashboard {
+  readonly colorScheme = signal<"dark" | "light">("dark");
+}
