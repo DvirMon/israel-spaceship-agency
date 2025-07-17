@@ -36,7 +36,6 @@
   //   required to hide expand row
   .detail-row {
     height: 0;
-    background-color: rebeccapurple;
 
     > td {
       padding: 0px;
@@ -104,11 +103,12 @@ button.view-button {
 
     .detail-section {
       h3 {
+        font-size: 20px;
         font-weight: 500;
       }
 
       p {
-        font-size: 24px;
+        font-size: 18px;
         line-height: 1.5;
       }
     }
