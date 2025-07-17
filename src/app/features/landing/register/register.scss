@@ -12,7 +12,6 @@
         filled-with-label-container-padding-bottom: 24px,
         subscript-text-line-height: 44px,
         container-text-line-height: 32x,
-        filled-input-text-placeholder-color: rgba(255, 255, 255, 0.5),
       )
     );
   }
@@ -22,6 +21,8 @@
       subscript-text-size: 14px,
       subscript-text-line-height: 32px,
       error-text-color: white,
+      filled-input-text-placeholder-color: rgba(255, 255, 255, 0.5),
+      filled-label-text-color: rgba(255, 255, 255, 0.5),
     )
   );
 
@@ -34,6 +35,7 @@
 
 .registration-section {
   min-height: 100vh;
+  color: white;
   background: #a31aa3;
   display: flex;
   flex-direction: column;
@@ -115,7 +117,7 @@ button.submit-button {
   .registration-section {
     align-items: center;
   }
-  
+
   .registration-container {
     max-width: 90vw;
     padding: 32px;

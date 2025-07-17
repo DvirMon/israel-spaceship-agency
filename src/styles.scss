@@ -1,12 +1,12 @@
 @use "@angular/material" as mat;
 
 html {
+  color-scheme: light dark;
   @include mat.theme(
     (
       color: (
         primary: mat.$violet-palette,
         tertiary: mat.$orange-palette,
-        theme-type: dark,
       ),
       typography: Roboto,
       density: 0,
@@ -43,7 +43,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
 // global input number styles
 mat-form-field input[type="number"] {
   /* Chrome, Safari, Edge, Opera */
@@ -56,7 +55,6 @@ mat-form-field input[type="number"] {
   /* Firefox */
   -moz-appearance: textfield;
 }
-
 
 // global skeleton styles
 .skeleton-container {
@@ -90,4 +88,8 @@ mat-form-field input[type="number"] {
   100% {
     background-position: 200% 0;
   }
+}
+
+.details-backdrop {
+  background-color: rgba(128, 128, 128, 0.5);
 }

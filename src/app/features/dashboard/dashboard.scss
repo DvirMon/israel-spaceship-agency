@@ -1,5 +1,11 @@
 @use "@angular/material" as mat;
 :host {
+  @include mat.icon-overrides(
+    (
+      color: white,
+    )
+  );
+
   @media (min-width: 768px) {
     @include mat.tabs-overrides(
       (
@@ -19,7 +25,6 @@
       (
         label-text-size: 18px,
       )
-
     );
   }
 }
